@@ -1,0 +1,178 @@
+
+/**** react-grid *****/
+
+.react-grid-item {
+  background-color: #fff;
+  border-radius: 2px;
+  cursor: move;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background-color: #586b84;
+}
+
+/***** antd *****/
+
+/* 璋冩暣鍥犻粯璁ゅ瓧浣撳彉澶ч�犳垚鐨勬寜閽彉褰� */
+/* .ant-btn {
+  line-height: 22px;
+} */
+
+/* 璋冩暣 InputGroup 鍚庣紑鎸夐挳鍙樺舰 */
+/* .ant-input-group-wrap .ant-btn-lg {
+  padding-top: 3px;
+  padding-bottom: 3px;
+} */
+
+/* 璋冩暣 Form 涓渾褰㈡寜閽ぇ灏� */
+/* .ant-form .ant-btn-circle {
+  width: 30px;
+  height: 30px;
+  padding-bottom: 0;
+} */
+
+/* 璋冩暣 ModalFooter 涓寜閽枃瀛楀ぇ灏� */
+/* .ant-modal-footer .ant-btn-lg {
+  font-size: 14px;
+}
+
+.ant-form a {
+  line-height: 30px;
+}
+
+.ant-form-item-required:before {
+  line-height: 1;
+}
+
+.no-item-margin .ant-form-item {
+  margin-bottom: 0;
+}
+
+.small-item-margin .ant-form-item {
+  margin-bottom: 10px;
+}
+
+.small-item-margin .ant-radio-button-wrapper-checked {
+  color: #fff !important;
+  background-color: #1B98E0 !important;
+} */
+
+.ant-modal-small > .ant-modal {
+  width: 400px !important;
+}
+
+.ant-modal-medium > .ant-modal {
+  width: 600px !important;
+}
+
+.ant-modal-large > .ant-modal {
+  width: 900px !important;
+}
+
+.ant-modal-xlarge {
+  padding: 20px;
+}
+
+.ant-modal-xlarge > .ant-modal {
+  width: auto !important;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-modal-xlarge > .ant-modal > .ant-modal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;  /* firefox flex overflow issue */
+}
+
+.ant-modal-xlarge > .ant-modal > .ant-modal-content > .ant-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;  /* firefox flex overflow issue */
+}
+
+.ant-modal-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-modal-center > .ant-modal {
+  padding: 0;
+  margin: 0;
+  top: auto;
+  min-height: 0;
+}
+
+/* 瑙ｅ喅 RangePicker 涓庡叾浠杅orm鍏冪礌涓嶅榻� */
+.ant-calendar-range-picker-input {
+  vertical-align: baseline;
+}
+
+/* 鍘绘帀榛樿鍔ㄧ敾鏁堟灉 */
+/* .fade-enter,
+.fade-appear,
+.fade-leave,
+.fade-enter.fade-enter-active,
+.fade-appear.fade-appear-active,
+.fade-leave.fade-leave-active,
+.zoom-enter,
+.zoom-appear,
+.zoom-leave,
+.zoom-enter.zoom-enter-active,
+.zoom-appear.zoom-appear-active,
+.zoom-leave.zoom-leave-active {
+  animation: none;
+} */
+
+@media (max-width: 1200px) {
+  .ant-modal-xlarge {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ant-modal-large > .ant-modal {
+    width: auto !important;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ant-modal-small > .ant-modal,
+  .ant-modal-medium > .ant-modal {
+    width: auto !important;
+  }
+}
+
+/* action 鏍忔寜閽乏鍙抽棿璺� */
+.ant-table-action-column .ant-btn {
+  margin: 0 4px;
+}
+
+/* 缂╁皬榛樿琛岄珮锛坥verride variable锛� */
+/* .ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 10px 8px;
+} */
+
+/* 璋冩暣绌哄垪琛ㄤ笌 BoxBody 涓嬫柟闂磋窛 */
+.ant-table-empty {
+  margin-bottom: 20px;
+}
+
+/* 璋冩暣鍥犲瓧浣撳ぇ灏忛�犳垚鐨� RangePicker input 浣嶇疆涓嶅 */
+.ant-calendar-picker-input {
+  line-height: 1;
+}
+
+.ant-tree.ant-tree-show-line li span.ant-tree-switcher {
+  background: inherit;
+}

@@ -1,0 +1,5 @@
+
+export const GET_USER_PROFILE = 'dq/Profile/GET_USER_PROFILE'
+export const GET_USER_PROFILE_SUCCESS = 'dq/Profile/GET_USER_PROFILE_SUCCESS'
+export const GET_USER_PROFILE_FAILURE = 'dq/Profile/GET_USER_PROFILE_FAILURE'
+

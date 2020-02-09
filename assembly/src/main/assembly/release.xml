@@ -1,0 +1,76 @@
+<assembly>
+    <id>release-beta.4</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.parent.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>README*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>
+                ${project.parent.basedir}/config
+            </directory>
+            <outputDirectory>config</outputDirectory>
+            <includes>
+                <include>datasource_driver.yml.example</include>
+                <include>application.yml.example</include>
+                <include>logback.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>
+                ${project.parent.basedir}/bin
+            </directory>
+            <outputDirectory>bin</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>
+                ${project.parent.basedir}/userfiles
+            </directory>
+            <outputDirectory>userfiles</outputDirectory>
+            <excludes>
+                <exclude>*</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>
+                ${project.parent.basedir}/logs
+            </directory>
+            <outputDirectory>logs</outputDirectory>
+            <excludes>
+                <exclude>*</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>
+                ${project.parent.basedir}/dq-ui
+            </directory>
+            <outputDirectory>dq-ui</outputDirectory>
+        </fileSet>
+
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+    </dependencySets>
+
+    <!--<files>
+        <file>
+            <source>${project.parent.basedir}/server/target/dq-server_2.11-${project.parent.version}-jar-with-dependencies.jar</source>
+            <outputDirectory>plugin</outputDirectory>
+        </file>
+    </files>-->
+</assembly>
