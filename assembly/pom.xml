@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>dq-parent_3.01</artifactId>
+        <artifactId>dq</artifactId>
         <groupId>dq</groupId>
         <version>0.3.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>

@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>dq</groupId>
-        <artifactId>dq-parent_3.01</artifactId>
+        <artifactId>dq</artifactId>
         <version>0.3.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -454,6 +454,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <configuration>
+<!--                    开启这个在idea中报element encoding is not allowed here：https://myclusterbox.com/view/1531 -->
                     <encoding>UTF-8</encoding>
                 </configuration>
                 <executions>
@@ -472,6 +473,7 @@
                         </configuration>
                     </execution>
                 </executions>
+                <version>3.1.1</version>
             </plugin>
             <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
             <plugin>
