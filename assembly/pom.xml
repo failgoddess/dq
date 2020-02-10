@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>dq-assembly_3.0.1</artifactId>
+    <artifactId>dq-assembly</artifactId>
     <packaging>pom</packaging>
 
     <licenses>
@@ -34,7 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>dq</groupId>
-            <artifactId>dq-server_3.01</artifactId>
+            <artifactId>dq-server</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dq</groupId>
-    <artifactId>dq-server_3.01</artifactId>
+    <artifactId>dq-server</artifactId>
     <packaging>pom</packaging>
 
     <parent>
