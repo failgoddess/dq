@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import java.sql.SQLException;
 
@@ -31,6 +31,9 @@ public class DruidConfig {
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
+
+    @Autowired
+    private Environment env;
 
     @Value("${spring.datasource.type}")
     private String type;
@@ -81,6 +84,11 @@ public class DruidConfig {
      */
     @Bean
     public ServletRegistrationBean druidServlet() {
+
+        System.out.println("---------------");
+        System.out.println(env);
+        System.out.println("===============");
+
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
         reg.addUrlMappings("/druid/*");

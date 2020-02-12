@@ -32,11 +32,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>dq</groupId>
-            <artifactId>dq-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>dq</groupId>-->
+<!--            <artifactId>dq-server</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

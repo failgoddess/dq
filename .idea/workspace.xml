@@ -1,7 +1,452 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5414480d-30f9-4220-b64d-28891a9e3f85" name="Default Changelist" comment="" />
+    <list default="true" id="5414480d-30f9-4220-b64d-28891a9e3f85" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assembly/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/assembly/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.yml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.yml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/datasource_driver.yml.example" beforeDir="false" afterPath="$PROJECT_DIR$/config/datasource_driver.yml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/config/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/application_bak.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/banner.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/datasource_driver.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/DavinciServerApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/SwaggerConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/annotation/AuthIgnore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/annotation/AuthShare.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/annotation/CurrentPlatform.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/annotation/CurrentUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/annotation/JsonParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/cache/Caches.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/jdbc/ESDataSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/jdbc/ExtendedJdbcClassLoader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/jdbc/JdbcDataSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/jdbc/QueryTimeOutStatementCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/quartz/QuartzJobExecutor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/quartz/QuartzTriggerListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/common/quartz/ScheduleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/AutowireSpringBeanJobFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/CaffeineCacheConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/DruidConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/PageHelperConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/RedisConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/RedisEnableCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/RestClientConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/config/SchedulerConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/consts/Consts.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/enums/DataTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/enums/HttpCodeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/enums/MailContentTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/enums/SqlTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/enums/TypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/exception/ForbiddenExecption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/exception/NotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/exception/ServerException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/exception/SourceException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/exception/UnAuthorizedExecption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/inteceptor/CurrentPlatformMethodArgumentResolverInterface.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/inteceptor/CurrentUserMethodArgumentResolverInterface.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/inteceptor/RequestJsonHandlerArgumentResolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/BaseSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/CustomDataSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/DBTables.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/Dict.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/JdbcSourceInfo$JdbcSourceInfoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/JdbcSourceInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/MailAttachment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/MailContent$MailContentBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/MailContent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/Paginate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/PaginateWithQueryColumns.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/QueryColumn.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/RecordInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/ScheduleJob.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/TableInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/model/TokenDetail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/AESUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/CollectionUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/CustomDataSourceUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/DateUtils$DATE_FORMAT_ENUM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/DateUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/FileUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/FixSizeLinkedList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/MD5Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/MailUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/PageUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/QuartzHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/RedisUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/ServerUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/SourceUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/SqlUtils$SqlUtilsBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/SqlUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/core/utils/TokenUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/DavinciServerApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/common/controller/BaseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/common/model/BaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/common/model/RelModelCopy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/common/model/ValidList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/common/utils/ScriptUtiils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/CheckController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/CronJobController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/DashboardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/DisplayController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/DownloadController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/OrganizationController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/ProjectController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/RoleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/ShareController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/SourceController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/StarController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/StatisticController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/ViewController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/controller/WidgetController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/common/Constants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/common/ResultMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/DataSourceConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/RedisMessageListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/RestExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/SpringContextHolder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/ThymeleafConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/config/WebMvcConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/ActionEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/CheckEntityEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/CronJobMediaType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/CronJobStatusEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/DownloadTaskStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/DownloadType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/FieldFormatTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/FileTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/LogNameEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/NumericUnitEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/SourceTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/SqlColumnEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/SqlOperatorEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/SqlVariableTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/SqlVariableValueTypeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/UploadModeEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/UserOrgRoleEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/UserPermissionEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/VizEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/enums/VizVisiblityEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/inteceptor/AuthenticationInterceptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/inteceptor/CurrentPlatformMethodArgumentResolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/inteceptor/CurrentUserMethodArgumentResolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/inteceptor/PlatformAuthInterceptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/Criterion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/DataUploadEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/ExcelHeader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldCurrency.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldCustom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldDate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldNumeric.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldPercentage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/FieldScientificNotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/RedisMessageEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/RoleDisableViz.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/SqlEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/SqlFilter$NumericDataType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/SqlFilter$Type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/SqlFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/model/TokenEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/service/AuthenticationService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/service/CheckEntityService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/service/RedisMessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/service/RedisMessageReceiver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/utils/CsvUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/utils/DacChannelUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/utils/ExcelUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/utils/ImageCropUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/core/utils/SqlParseUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/CronJobMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/DashboardMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/DashboardPortalMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/DisplayMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/DisplaySlideMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/DownloadRecordMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/FavoriteMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/MemDashboardWidgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/MemDisplaySlideWidgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/OrganizationMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/PlatformMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/ProjectMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelProjectAdminMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleDashboardMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleDashboardWidgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleDisplayMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleDisplaySlideWidgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRolePortalMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleProjectMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleSlideMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleUserMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelRoleViewMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RelUserOrganizationMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/RoleMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/ShareDownloadRecordMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/SourceMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/StarMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/UserMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/ViewMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dao/WidgetMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/CronJobBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/CronJobConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/CronJobContent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/CronJobInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/CronJobUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/ExcelContent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/cronJobDto/MsgMailExcel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardPortalCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardPortalUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardWithMem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/DashboardWithPortal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/MemDashboardWidgetCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/MemDashboardWidgetDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/PortalInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/dashboardDto/PortalWithProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplayInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplaySlideCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplaySlideInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplaySlideUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplayUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplayWithProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/DisplayWithSlides.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/MemDisplaySlideWidgetCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/MemDisplaySlideWidgetDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/MemDisplaySlideWidgetWithSlide.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/SlideWithDisplayAndProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/displayDto/SlideWithMem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationMember.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationPut.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganizationTransfer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/organizationDto/OrganzationRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/platform/VizTokenDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectCreat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectDetail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectPermission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/ProjectWithCreateBy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/RelProjectAdminDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/projectDto/UserMaxProjectPermission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RelRoleMember.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RelRoleProjectDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleWithOrganization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/RoleWithProjectPermission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/VizPermission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/roleDto/VizVisibility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/shareDto/ShareDashboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/shareDto/ShareDisplay.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/shareDto/ShareDisplaySlide.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/shareDto/ShareInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/shareDto/ShareWidget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/DatasourceType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/DbBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceCatalogInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceDBInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceDataUpload.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceDetail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceTableInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/SourceWithProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/sourceDto/UploadMeta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/starDto/StarUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/statistic/DavinciStatisticDurationInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/statistic/DavinciStatisticTerminalInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/statistic/DavinciStatisticVisitorOperationInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/ChangePassword.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/SendMail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserLogin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserLoginResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserProfile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserPut.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserRegist.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/userDto/UserWithOrgRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/Aggregator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/AuthParamValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/DistinctParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/DownloadViewExecuteParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ExecuteSqlResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/Order.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/Param.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/RelRoleViewDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewExecuteParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewExecuteSql.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewWithProjectAndSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewWithSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/ViewWithSourceBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/viewDto/WhereParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/widgetDto/WidgetCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/widgetDto/WidgetUpdate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/widgetDto/WidgetWithProjectAndView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/dto/widgetDto/WidgetWithRelationDashboardId.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/CronJob.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/DacChannel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Dashboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/DashboardPortal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Display.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/DisplaySlide.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/DownloadRecord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/DownloadRecordBaseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Favorite.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/LdapPerson.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/MemDashboardWidget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/MemDisplaySlideWidget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Organization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Platform.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Project.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelProjectAdmin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleDashboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleDashboardWidget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleDisplay.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleDisplaySlideWidget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRolePortal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleProject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleSlide.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelRoleView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/RelUserOrganization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Role.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/ShareDownloadRecord.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Source.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/SqlVariable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/SqlVariableChannel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Star.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/View.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/model/Widget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/runner/CheckConfigRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/runner/CronJobRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/runner/CustomDataSourceRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/runner/LoadSupportDataSourceRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/schedule/SystemSchedule.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/AuthPlatformService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/BuriedPointsService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/CheckService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/CronJobService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DashboardPortalService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DashboardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DepartmentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DisplayService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DisplaySlideService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/DownloadService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/LdapService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/OrganizationService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/ProjectService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/RoleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/ShareDownloadService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/ShareService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/SourceService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/StarService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/ViewService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/WidgetService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/elastic/ElasticConfigration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/elastic/ElasticOperationService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/AbstractSheetWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/ExecutorUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/MsgNotifier.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/MsgWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/SQLContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/SheetContext$SheetContextBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/SheetContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/SheetWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/WidgetContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/WorkBookContext$WorkBookContextBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/WorkBookContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/excel/WorkbookWorker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/BuriedPointsServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/CheckServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/CronJobMessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/CronJobServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DashboardPortalServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DashboardServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DisplayServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DisplaySlideServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DownloadCommonService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/DownloadServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/EmailScheduleServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/LdapServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/OrganizationServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/ProjectServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/RoleServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/ShareDownloadServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/ShareServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/SourceMessageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/SourceServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/StarServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/ViewServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/VizCommonService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/impl/WidgetServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/screenshot/BrowserEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/screenshot/ImageContent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/edp/davinci/service/screenshot/ScreenshotUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/generator/mybatis-generator.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/CronJobMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/DashboardMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/DashboardPortalMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/DisplayMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/DisplaySlideMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/DownloadRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/FavoriteMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/MemDashboardWidgetMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/MemDisplaySlideWidgetMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/OrganizationMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/ProjectMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelProjectAdminMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleDashboardMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleDashboardWidgetMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleDisplayMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleDisplaySlideWidgetMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRolePortalMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleProjectMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleSlideMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleUserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelRoleViewMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RelUserOrganizationMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/RoleMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/ShareDownloadRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/SourceMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/StarMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/ViewMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mapper/WidgetMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/mybatis/mybatis-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/js/executeParam.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/js/formatCellValue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/mail/emaiDefaultTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/mail/inviteOrgMemberTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/mail/scheduleEmaiTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/mail/userActivateEmailTemplate.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/bin/templates/sql/sqlTemplate.stg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/dq/core/config/DruidConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/dq/core/config/DruidConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/dq/DQServerApplicationTests.java" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/server/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -16,72 +461,12 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="540" column="31" lean-forward="true" selection-start-line="540" selection-start-column="31" selection-end-line="540" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-480">
-              <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assembly/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="77" column="12" lean-forward="true" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="13" lean-forward="true" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/sbt.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="120" column="14" lean-forward="true" selection-start-line="120" selection-start-column="14" selection-end-line="120" selection-end-column="14" />
+            <state relative-caret-position="182">
+              <caret line="453" column="20" selection-start-line="453" selection-start-column="20" selection-end-line="453" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -89,8 +474,79 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+            <state relative-caret-position="225">
+              <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/model/MemDashboardWidget.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-91">
+              <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/resources/banner.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="501" column="19" selection-start-line="501" selection-start-column="19" selection-end-line="501" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="547">
+              <caret line="72" selection-start-line="72" selection-end-line="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/resources/application-local.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="18" column="34" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/resources/logback.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="51" column="24" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/logback.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="395">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/SwaggerConfiguration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="28" column="70" selection-start-line="28" selection-start-column="70" selection-end-line="28" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -99,10 +555,44 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>maven-dependency-plugin</find>
-      <find>getJdbcUrl</find>
-      <find>jdk</find>
+      <find>$PROJECT_DIR$/config/</find>
+      <find>conf</find>
+      <find>$PROJECT_DIR$</find>
+      <find>Spring</find>
+      <find>placeholder</find>
+      <find>type</find>
+      <find>:</find>
+      <find>provide</find>
+      <find>druidConfig</find>
+      <find>dq</find>
+      <find>test</find>
+      <find>spring</find>
+      <find>spring-boot-starter-test</find>
+      <find>jdbc:mysql://62.234.154.206:4401/dq?useUnicode=true&amp;characterEncoding=UTF-8&amp;</find>
+      <find>request-timeout</find>
+      <find>ljc520313@163.com</find>
+      <find>time-between-eviction-runs-millis</find>
+      <find>yml</find>
+      <find>port</find>
+      <find>----</find>
+      <find>mysql</find>
+      <find>===============</find>
+      <find>validation-query</find>
+      <find>resources</find>
+      <find>HOME_IS_UNDEFINED</find>
+      <find>src/main/resources</find>
+      <find>classes</find>
+      <find>bin</find>
+      <find>dq3_HOME</find>
+      <find>Invalid id</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/server</dir>
+      <dir>HOME_IS_UNDEFINED</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -110,12 +600,30 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/server/pom.xml" />
-        <option value="$PROJECT_DIR$/assembly/pom.xml" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/config/datasource_driver.yml" />
+        <option value="$PROJECT_DIR$/config/datasource_driver.yml.example" />
+        <option value="$PROJECT_DIR$/config/application.yml.example" />
+        <option value="$PROJECT_DIR$/config/application.yml" />
+        <option value="$PROJECT_DIR$/server/src/main/resources/META-INF/spring-configuration-metadata.json" />
+        <option value="$PROJECT_DIR$/server/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/server/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java" />
+        <option value="$PROJECT_DIR$/assembly/pom.xml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/dq/core/config/DruidConfig.java" />
+        <option value="$PROJECT_DIR$/server/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/server/src/main/resources/logback.xml" />
+        <option value="$PROJECT_DIR$/config/logback.xml" />
       </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
   <component name="MavenProjectNavigator">
@@ -127,12 +635,26 @@
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dq" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dq-assembly" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dq-assembly" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="dq-server" type="9519ce18:MavenProjectsStructure$ProjectNode" />
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="dq-server" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
         </path>
       </expand>
       <select />
@@ -142,10 +664,10 @@
     <option name="skipTests" value="true" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1789" />
-    <option name="y" value="37" />
-    <option name="width" value="1571" />
-    <option name="height" value="821" />
+    <option name="x" value="1776" />
+    <option name="y" value="64" />
+    <option name="width" value="1920" />
+    <option name="height" value="880" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -153,6 +675,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -163,30 +687,24 @@
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="dq3_HOME_IS_UNDEFINED" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
-              <item name="assembly" type="462c0819:PsiDirectoryNode" />
+              <item name="dq3_HOME_IS_UNDEFINED" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dq" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dq" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
@@ -194,7 +712,6 @@
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
@@ -203,24 +720,43 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dq" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dq" type="b2602c69:ProjectViewProjectNode" />
               <item name="dq" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="dq" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dq" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -228,12 +764,20 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/src/main/resources" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/src/main/resources" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -248,8 +792,8 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="DQServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="dq-server" />
+    <configuration name="DQServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="dq-server_3.01" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="dq.*" />
@@ -257,13 +801,18 @@
         </pattern>
       </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="dq.DQServerApplication" />
+      <option name="VM_PARAMETERS" value="-DDQ_HOME=$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <envs>
+        <env name="SPRING_PROFILES_ACTIVE" value="local" />
+      </envs>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.DQServerApplication" />
+        <item itemvalue="Spring Boot.DQServerApplication (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -280,6 +829,9 @@
       </map>
     </option>
   </component>
+  <component name="SpringBeansView">
+    <option name="showModules" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -292,17 +844,29 @@
       <updated>1581321336721</updated>
       <workItem from="1581321337963" duration="5629000" />
       <workItem from="1581328198237" duration="4589000" />
+      <workItem from="1581388214027" duration="6523000" />
+      <workItem from="1581398711621" duration="17349000" />
+      <workItem from="1581491898844" duration="7447000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10218000" />
+    <option name="totallyTimeSpent" value="41537000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1985" y="37" width="1571" height="821" extended-state="0" />
+    <frame x="1776" y="64" width="1920" height="880" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23348594" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18796591" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -311,23 +875,24 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Learn" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.04674221" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893504" weight="0.3673036" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8051118" visible="true" weight="0.49673203" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6443024" weight="0.6066066" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Spring" order="7" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3286119" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49893504" weight="0.32882884" />
+      <window_info anchor="bottom" id="Spring" order="7" sideWeight="0.49893504" weight="0.32732734" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49946752" weight="0.47297296" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.23512748" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.19488817" side_tool="true" weight="0.544586" />
+      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.65921193" weight="0.15180467" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49946752" weight="0.32938644" />
+      <window_info anchor="bottom" id="TypeScript" order="14" sideWeight="0.49733758" weight="0.32908705" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" visible="true" weight="0.32962722" />
+      <window_info anchor="right" id="Maven" order="3" weight="0.25534758" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="right" id="Database" order="6" />
@@ -335,6 +900,41 @@
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info anchor="right" id="Bean Validation" order="9" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32553476" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Learn" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893504" weight="0.62390673" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8051118" weight="0.5076381" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6443024" weight="0.6066066" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49893504" weight="0.32882884" />
+      <window_info anchor="bottom" id="Spring" order="7" sideWeight="0.49893504" weight="0.32732734" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49946752" weight="0.47297296" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.19488817" side_tool="true" weight="0.544586" />
+      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.65921193" visible="true" weight="0.16803761" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49946752" weight="0.32938644" />
+      <window_info anchor="bottom" id="TypeScript" order="14" sideWeight="0.49733758" weight="0.32908705" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" visible="true" weight="0.25534758" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -348,95 +948,705 @@
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/dq/core/common/jdbc/JdbcDataSource.java</url>
+          <line>95</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/dq/core/common/jdbc/JdbcDataSource.java</url>
+          <line>82</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/dq/core/common/jdbc/JdbcDataSource.java</url>
+          <line>81</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/util/PropertyPlaceholderHelper.class</url>
+          <line>94</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/server/src/main/java/dq/model/MemDashboardWidget.java</url>
+          <line>30</line>
+          <properties field="id" class="dq.model.MemDashboardWidget" />
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dq.iml" />
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/dto/userDto/UserBaseInfo.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="233">
+          <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/SwaggerConfiguration.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.9.1/log4j-api-2.9.1.jar!/org/apache/logging/log4j/spi/AbstractLogger.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        <state relative-caret-position="131">
+          <caret line="1068" selection-start-line="1068" selection-end-line="1068" />
+          <folding>
+            <element signature="e#46711#46712#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/model/Source.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jcl/5.0.8.RELEASE/spring-jcl-5.0.8.RELEASE.jar!/org/apache/commons/logging/LogFactory.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="70" column="15" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="15" />
+        <state relative-caret-position="131">
+          <caret line="496" selection-start-line="496" selection-end-line="496" />
+          <folding>
+            <element signature="e#16693#16694#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/controller/DownloadController.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/core/env/MutablePropertySources.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="e#1249#1250#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/core/env/AbstractEnvironment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="298" selection-start-line="298" selection-end-line="298" />
+          <folding>
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2293#2294#0" expanded="true" />
+            <element signature="e#11407#11408#0" expanded="true" />
+            <element signature="e#12256#12257#0" expanded="true" />
+            <element signature="e#12326#12327#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/core/env/PropertySourcesPropertyResolver.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="e#997#998#0" expanded="true" />
+            <element signature="e#1069#1070#0" expanded="true" />
+            <element signature="e#1293#1294#0" expanded="true" />
+            <element signature="e#1366#1367#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/core/env/PropertySource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#1030#1031#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.4.RELEASE/spring-boot-2.0.4.RELEASE.jar!/org/springframework/boot/context/properties/source/SpringConfigurationPropertySources.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.4.RELEASE/spring-boot-2.0.4.RELEASE.jar!/org/springframework/boot/context/properties/source/SpringConfigurationPropertySource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.4.RELEASE/spring-boot-2.0.4.RELEASE.jar!/org/springframework/boot/context/properties/source/ConfigurationPropertySourcesPropertySource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.4.RELEASE/spring-boot-2.0.4.RELEASE.jar!/org/springframework/boot/context/properties/source/ConfigurationPropertyName.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="360" selection-start-line="360" selection-end-line="360" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot/2.0.4.RELEASE/spring-boot-2.0.4.RELEASE.jar!/org/springframework/boot/context/properties/source/SpringIterableConfigurationPropertySource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/InjectionMetadata.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/AutowiredAnnotationBeanPostProcessor.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="245" selection-start-line="245" selection-end-line="245" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/core/env/AbstractPropertyResolver.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="153" selection-start-line="153" selection-end-line="153" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/support/AbstractBeanFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="600" selection-start-line="600" selection-end-line="600" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/bin/application_bak.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="37" column="4" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/Configurable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/RequiredAnnotationBeanPostProcessor.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/Required.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://MAVEN/dq:dq:0.3.1-SNAPSHOT">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>MAVEN</ID>
+          <OriginalElement>dq:dq:0.3.1-SNAPSHOT</OriginalElement>
+          <nodes>
+            <node x="" y="">dq:dq:0.3.1-SNAPSHOT</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-core:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-core:jar:5.0.8.RELEASE/org.springframework:spring-jcl:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-context:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-context:jar:5.0.8.RELEASE/org.springframework:spring-aop:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-context:jar:5.0.8.RELEASE/org.springframework:spring-beans:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot:jar:2.0.4.RELEASE/org.springframework:spring-context:jar:5.0.8.RELEASE/org.springframework:spring-expression:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-autoconfigure:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/ch.qos.logback:logback-classic:jar:1.2.3</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/ch.qos.logback:logback-classic:jar:1.2.3/ch.qos.logback:logback-core:jar:1.2.3</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/ch.qos.logback:logback-classic:jar:1.2.3/org.slf4j:slf4j-api:jar:1.7.25</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/org.apache.logging.log4j:log4j-to-slf4j:jar:2.10.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/org.apache.logging.log4j:log4j-to-slf4j:jar:2.10.0/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/org.apache.logging.log4j:log4j-to-slf4j:jar:2.10.0/org.apache.logging.log4j:log4j-api:jar:2.10.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/org.slf4j:jul-to-slf4j:jar:1.7.25</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-logging:jar:2.0.4.RELEASE/org.slf4j:jul-to-slf4j:jar:1.7.25/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/javax.annotation:javax.annotation-api:jar:1.3.2</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE/org.yaml:snakeyaml:jar:1.19</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.core:jackson-databind:jar:2.9.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.9.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.9.6/com.fasterxml.jackson.core:jackson-core:jar:2.9.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.9.6/com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.9.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.9.6/com.fasterxml.jackson.core:jackson-annotations:jar:2.9.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.9.6/com.fasterxml.jackson.core:jackson-core:jar:2.8.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.9.6/com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.9.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.9.6/com.fasterxml.jackson.core:jackson-core:jar:2.8.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-json:jar:2.0.4.RELEASE/com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.9.6/com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-tomcat:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-tomcat:jar:2.0.4.RELEASE/org.apache.tomcat.embed:tomcat-embed-core:jar:8.5.32</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-tomcat:jar:2.0.4.RELEASE/org.apache.tomcat.embed:tomcat-embed-el:jar:8.5.32</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-starter-tomcat:jar:2.0.4.RELEASE/org.apache.tomcat.embed:tomcat-embed-websocket:jar:8.5.32</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.hibernate.validator:hibernate-validator:jar:6.0.11.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.hibernate.validator:hibernate-validator:jar:6.0.11.Final/javax.validation:validation-api:jar:2.0.1.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.hibernate.validator:hibernate-validator:jar:6.0.11.Final/org.jboss.logging:jboss-logging:jar:3.3.2.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.hibernate.validator:hibernate-validator:jar:6.0.11.Final/com.fasterxml:classmate:jar:1.3.4</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework:spring-web:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-web:jar:2.0.4.RELEASE/org.springframework:spring-webmvc:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter:jar:1.5.10.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.springframework.boot:spring-boot-starter:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.apache.tomcat:tomcat-jdbc:jar:8.5.27</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.apache.tomcat:tomcat-jdbc:jar:8.5.27/org.apache.tomcat:tomcat-juli:jar:8.5.27</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.springframework:spring-jdbc:jar:4.3.14.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.springframework:spring-jdbc:jar:4.3.14.RELEASE/org.springframework:spring-beans:jar:4.3.14.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.springframework:spring-jdbc:jar:4.3.14.RELEASE/org.springframework:spring-core:jar:4.3.14.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.springframework.boot:spring-boot-starter-jdbc:jar:1.5.10.RELEASE/org.springframework:spring-jdbc:jar:4.3.14.RELEASE/org.springframework:spring-tx:jar:4.3.14.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:jar:1.3.2</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:jar:1.3.2/org.springframework.boot:spring-boot-autoconfigure:jar:1.5.10.RELEASE</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.mybatis:mybatis:jar:3.4.6</node>
+            <node x="" y="">org.mybatis.spring.boot:mybatis-spring-boot-starter:jar:1.3.2/org.mybatis:mybatis-spring:jar:1.3.2</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE/org.springframework.data:spring-data-keyvalue:jar:2.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE/org.springframework.data:spring-data-keyvalue:jar:2.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE/org.springframework:spring-tx:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE/org.springframework:spring-oxm:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/org.springframework.data:spring-data-redis:jar:2.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE/io.projectreactor:reactor-core:jar:3.1.6.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE/io.projectreactor:reactor-core:jar:3.1.6.RELEASE/org.reactivestreams:reactive-streams:jar:1.0.2</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE/io.netty:netty-common:jar:4.1.24.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE/io.netty:netty-transport:jar:4.1.24.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-redis:jar:2.0.4.RELEASE/io.lettuce:lettuce-core:jar:5.0.4.RELEASE/io.netty:netty-handler:jar:4.1.24.Final</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.ldap:spring-ldap-core:jar:2.3.2.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.ldap:spring-ldap-core:jar:2.3.2.RELEASE/org.slf4j:slf4j-api:jar:1.7.21</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.ldap:spring-ldap-core:jar:2.3.2.RELEASE/org.springframework:spring-beans:jar:4.3.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.ldap:spring-ldap-core:jar:2.3.2.RELEASE/org.springframework:spring-core:jar:4.3.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.ldap:spring-ldap-core:jar:2.3.2.RELEASE/org.springframework:spring-tx:jar:4.3.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.data:spring-data-commons:jar:2.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.springframework.data:spring-data-commons:jar:2.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-data-ldap:jar:2.0.4.RELEASE/org.springframework.data:spring-data-ldap:jar:2.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0/com.mchange:c3p0:jar:0.9.5.2</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0/com.mchange:mchange-commons-java:jar:0.2.11</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0/com.zaxxer:HikariCP-java6:jar:2.3.13</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0/com.zaxxer:HikariCP-java6:jar:2.3.13/org.slf4j:slf4j-api:jar:1.7.10</node>
+            <node x="" y="">org.quartz-scheduler:quartz:jar:2.3.0/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.projectlombok:lombok:jar:1.16.22</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE/org.thymeleaf:thymeleaf:jar:3.0.9.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE/org.thymeleaf:thymeleaf:jar:3.0.9.RELEASE/org.attoparser:attoparser:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE/org.thymeleaf:thymeleaf:jar:3.0.9.RELEASE/org.unbescape:unbescape:jar:1.1.5.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE/org.thymeleaf:thymeleaf:jar:3.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf:thymeleaf-spring5:jar:3.0.9.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf.extras:thymeleaf-extras-java8time:jar:3.0.1.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf.extras:thymeleaf-extras-java8time:jar:3.0.1.RELEASE/org.thymeleaf:thymeleaf:jar:3.0.0.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-thymeleaf:jar:2.0.4.RELEASE/org.thymeleaf.extras:thymeleaf-extras-java8time:jar:3.0.1.RELEASE/org.slf4j:slf4j-api:jar:1.6.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-mail:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-mail:jar:2.0.4.RELEASE/org.springframework:spring-context-support:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-mail:jar:2.0.4.RELEASE/com.sun.mail:javax.mail:jar:1.6.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-mail:jar:2.0.4.RELEASE/com.sun.mail:javax.mail:jar:1.6.1/javax.activation:activation:jar:1.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.springframework.boot:spring-boot-test-autoconfigure:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/com.jayway.jsonpath:json-path:jar:2.4.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/com.jayway.jsonpath:json-path:jar:2.4.0/net.minidev:json-smart:jar:2.3</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/com.jayway.jsonpath:json-path:jar:2.4.0/net.minidev:json-smart:jar:2.3/net.minidev:accessors-smart:jar:1.2</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/com.jayway.jsonpath:json-path:jar:2.4.0/net.minidev:json-smart:jar:2.3/net.minidev:accessors-smart:jar:1.2/org.ow2.asm:asm:jar:5.0.4</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/com.jayway.jsonpath:json-path:jar:2.4.0/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/junit:junit:jar:4.12</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.assertj:assertj-core:jar:3.9.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.mockito:mockito-core:jar:2.15.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.mockito:mockito-core:jar:2.15.0/net.bytebuddy:byte-buddy-agent:jar:1.7.9</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.mockito:mockito-core:jar:2.15.0/org.objenesis:objenesis:jar:2.6</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.hamcrest:hamcrest-core:jar:1.3</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.hamcrest:hamcrest-library:jar:1.3</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.skyscreamer:jsonassert:jar:1.5.0</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.skyscreamer:jsonassert:jar:1.5.0/com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.springframework:spring-test:jar:5.0.8.RELEASE</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-test:jar:2.0.4.RELEASE/org.xmlunit:xmlunit-core:jar:2.5.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-test:jar:2.0.4.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.swagger:swagger-annotations:jar:1.5.10</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.swagger:swagger-models:jar:1.5.10</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.swagger:swagger-models:jar:1.5.10/com.fasterxml.jackson.core:jackson-annotations:jar:2.4.5</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.swagger:swagger-models:jar:1.5.10/org.slf4j:slf4j-api:jar:1.6.3</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-spi:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-spi:jar:2.6.1/io.springfox:springfox-core:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-spi:jar:2.6.1/io.springfox:springfox-core:jar:2.6.1/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-schema:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-swagger-common:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-swagger-common:jar:2.6.1/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-spring-web:jar:2.6.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/io.springfox:springfox-spring-web:jar:2.6.1/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/com.fasterxml:classmate:jar:1.3.1</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-core:jar:1.2.0.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-core:jar:1.2.0.RELEASE/org.springframework:spring-beans:jar:4.0.9.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-core:jar:1.2.0.RELEASE/org.springframework:spring-context:jar:4.0.9.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-core:jar:1.2.0.RELEASE/org.springframework:spring-aop:jar:4.0.9.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-core:jar:1.2.0.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-metadata:jar:1.2.0.RELEASE</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.springframework.plugin:spring-plugin-metadata:jar:1.2.0.RELEASE/org.slf4j:slf4j-api:jar:1.7.7</node>
+            <node x="" y="">io.springfox:springfox-swagger2:jar:2.6.1/org.mapstruct:mapstruct:jar:1.0.0.Final</node>
+            <node x="" y="">io.springfox:springfox-swagger-ui:jar:2.6.1</node>
+            <node x="" y="">org.springframework.boot:spring-boot-starter-cache:jar:2.0.4.RELEASE</node>
+            <node x="" y="">org.mindrot:jbcrypt:jar:0.3m</node>
+            <node x="" y="">io.jsonwebtoken:jjwt:jar:0.7.0</node>
+            <node x="" y="">io.jsonwebtoken:jjwt:jar:0.7.0/com.fasterxml.jackson.core:jackson-databind:jar:2.8.2</node>
+            <node x="" y="">org.hibernate.javax.persistence:hibernate-jpa-2.0-api:jar:1.0.1.Final</node>
+            <node x="" y="">mysql:mysql-connector-java:jar:5.1.44</node>
+            <node x="" y="">com.alibaba:druid:jar:1.1.11</node>
+            <node x="" y="">com.github.pagehelper:pagehelper:jar:5.1.4</node>
+            <node x="" y="">com.github.ben-manes.caffeine:caffeine:jar:2.6.2</node>
+            <node x="" y="">com.alibaba:fastjson:jar:1.2.58</node>
+            <node x="" y="">org.antlr:ST4:jar:4.0.8</node>
+            <node x="" y="">org.antlr:ST4:jar:4.0.8/org.antlr:antlr-runtime:jar:3.5.2</node>
+            <node x="" y="">org.apache.poi:poi:jar:3.9</node>
+            <node x="" y="">org.apache.poi:poi:jar:3.9/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9/org.apache.poi:poi-ooxml-schemas:jar:3.9</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9/org.apache.poi:poi-ooxml-schemas:jar:3.9/org.apache.xmlbeans:xmlbeans:jar:2.3.0</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9/org.apache.poi:poi-ooxml-schemas:jar:3.9/org.apache.xmlbeans:xmlbeans:jar:2.3.0/stax:stax-api:jar:1.0.1</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9/dom4j:dom4j:jar:1.6.1</node>
+            <node x="" y="">org.apache.poi:poi-ooxml:jar:3.9/dom4j:dom4j:jar:1.6.1/xml-apis:xml-apis:jar:1.0.b2</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.5.7</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.5.7/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.5.7/commons-logging:commons-logging:jar:1.2</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.5.7/commons-codec:commons-codec:jar:1.11</node>
+            <node x="" y="">org.nlpcn:elasticsearch-sql:jar:5.1.2.0</node>
+            <node x="" y="">org.nlpcn:elasticsearch-sql:jar:5.1.2.0/org.locationtech.spatial4j:spatial4j:jar:0.6</node>
+            <node x="" y="">org.nlpcn:elasticsearch-sql:jar:5.1.2.0/com.vividsolutions:jts:jar:1.13</node>
+            <node x="" y="">org.apache.commons:commons-csv:jar:1.4</node>
+            <node x="" y="">com.github.jsqlparser:jsqlparser:jar:1.2</node>
+            <node x="" y="">org.webjars:jquery:jar:1.11.3</node>
+            <node x="" y="">javax.xml.bind:jaxb-api:jar:2.3.0</node>
+            <node x="" y="">net.jpountz.lz4:lz4:jar:1.3.0</node>
+            <node x="" y="">commons-lang:commons-lang:jar:2.6</node>
+            <node x="" y="">org.apache.curator:curator-framework:jar:2.12.0</node>
+            <node x="" y="">org.apache.curator:curator-framework:jar:2.12.0/org.apache.curator:curator-client:jar:2.12.0</node>
+            <node x="" y="">org.apache.curator:curator-framework:jar:2.12.0/org.apache.curator:curator-client:jar:2.12.0/org.slf4j:slf4j-api:jar:1.7.6</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0/org.apache.zookeeper:zookeeper:jar:3.4.8</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0/org.apache.zookeeper:zookeeper:jar:3.4.8/org.slf4j:slf4j-api:jar:1.6.1</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0/org.apache.zookeeper:zookeeper:jar:3.4.8/log4j:log4j:jar:1.2.16</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0/org.apache.zookeeper:zookeeper:jar:3.4.8/jline:jline:jar:0.9.94</node>
+            <node x="" y="">org.apache.curator:curator-test:jar:2.12.0/org.javassist:javassist:jar:3.18.1-GA</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-api:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-chrome-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-chrome-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.10</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-chrome-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.6</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-edge-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-edge-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-edge-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-firefox-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-firefox-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-firefox-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-ie-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-ie-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-ie-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-opera-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-opera-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-opera-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-remote-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-remote-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-remote-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-safari-driver:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-safari-driver:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-safari-driver:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-support:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-support:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.seleniumhq.selenium:selenium-support:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/net.bytebuddy:byte-buddy:jar:1.7.9</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.apache.commons:commons-exec:jar:1.3</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/com.google.code.gson:gson:jar:2.8.2</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/org.apache.httpcomponents:httpcore:jar:4.4.11</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/com.squareup.okhttp3:okhttp:jar:3.9.1</node>
+            <node x="" y="">org.seleniumhq.selenium:selenium-java:jar:3.9.1/com.squareup.okio:okio:jar:1.13.0</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre/com.google.code.findbugs:jsr305:jar:1.3.9</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre/org.checkerframework:checker-compat-qual:jar:2.0.0</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre/com.google.errorprone:error_prone_annotations:jar:2.1.3</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre/com.google.j2objc:j2objc-annotations:jar:1.1</node>
+            <node x="" y="">com.google.guava:guava:jar:23.6-jre/org.codehaus.mojo:animal-sniffer-annotations:jar:1.14</node>
+            <node x="" y="">com.codeborne:phantomjsdriver:jar:1.4.4</node>
+            <node x="" y="">com.codeborne:phantomjsdriver:jar:1.4.4/org.seleniumhq.selenium:selenium-api:jar:3.8.1</node>
+            <node x="" y="">com.codeborne:phantomjsdriver:jar:1.4.4/org.seleniumhq.selenium:selenium-remote-driver:jar:3.8.1</node>
+            <node x="" y="">org.apache.commons:commons-collections4:jar:4.3</node>
+            <node x="" y="">joda-time:joda-time:jar:2.9.5</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-core:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-analyzers-common:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-backward-codecs:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-grouping:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-highlighter:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-join:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-memory:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-misc:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-queries:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-queryparser:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-sandbox:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-spatial:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-spatial-extras:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-spatial3d:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.lucene:lucene-suggest:jar:6.6.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.elasticsearch:securesm:jar:1.2</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/net.sf.jopt-simple:jopt-simple:jar:5.0.2</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.carrotsearch:hppc:jar:0.7.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.yaml:snakeyaml:jar:1.15</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.fasterxml.jackson.core:jackson-core:jar:2.8.6</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.fasterxml.jackson.dataformat:jackson-dataformat-smile:jar:2.8.6</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.8.6</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:jar:2.8.6</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/com.tdunning:t-digest:jar:3.0</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.hdrhistogram:HdrHistogram:jar:2.1.9</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.apache.logging.log4j:log4j-api:jar:2.9.1</node>
+            <node x="" y="">org.elasticsearch:elasticsearch:jar:5.6.10/org.elasticsearch:jna:jar:4.4.0-1</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:transport-netty3-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:transport-netty3-client:jar:5.6.10/io.netty:netty:jar:3.10.6.Final</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/org.apache.httpcomponents:httpclient:jar:4.5.2</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/org.apache.httpcomponents:httpcore:jar:4.4.5</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/org.apache.httpcomponents:httpasyncclient:jar:4.1.2</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/org.apache.httpcomponents:httpcore-nio:jar:4.4.5</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/commons-codec:commons-codec:jar:1.5</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:reindex-client:jar:5.6.10/org.elasticsearch.client:elasticsearch-rest-client:jar:5.6.10/commons-logging:commons-logging:jar:1.1.3</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:lang-mustache-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:lang-mustache-client:jar:5.6.10/com.github.spullara.mustache.java:compiler:jar:0.9.3</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:percolator-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.client:transport:jar:5.6.10/org.elasticsearch.plugin:parent-join-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.distribution.integ-test-zip:elasticsearch:zip:5.6.10</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-buffer:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-codec:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-codec-http:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-common:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-handler:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-resolver:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/io.netty:netty-transport:jar:4.1.13.Final</node>
+            <node x="" y="">org.elasticsearch.plugin:transport-netty4-client:jar:5.6.10/org.apache.logging.log4j:log4j-core:jar:2.9.1</node>
+            <node x="" y="">com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1</node>
+            <node x="" y="">com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1/com.fasterxml.jackson.core:jackson-annotations:jar:2.9.10</node>
+            <node x="" y="">com.fasterxml.jackson.core:jackson-databind:jar:2.9.10.1/com.fasterxml.jackson.core:jackson-core:jar:2.9.10</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.052768268209184274" x="2376.0" y="5865.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>All</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/src.zip!/java/lang/annotation/RetentionPolicy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="55" column="4" selection-start-line="55" selection-start-column="4" selection-end-line="55" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/annotation/Value.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.8.RELEASE/spring-context-5.0.8.RELEASE.jar!/org/springframework/context/annotation/PropertySource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/bin/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1111">
+          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.8.RELEASE/spring-context-5.0.8.RELEASE.jar!/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+          <folding>
+            <element signature="e#2368#2369#0" expanded="true" />
+            <element signature="e#2466#2467#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/alibaba/druid/1.1.11/druid-1.1.11.jar!/com/alibaba/druid/pool/DruidDataSource.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7590">
+          <caret line="616" selection-start-line="616" selection-end-line="616" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.8.RELEASE/spring-context-5.0.8.RELEASE.jar!/org/springframework/context/annotation/PropertySources.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.0.8.RELEASE/spring-beans-5.0.8.RELEASE.jar!/org/springframework/beans/factory/support/DefaultListableBeanFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="917" selection-start-line="917" selection-end-line="917" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="85" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar!/org/springframework/util/PropertyPlaceholderHelper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
           <caret line="54" selection-start-line="54" selection-end-line="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/core/common/jdbc/JdbcDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="80" column="54" selection-start-line="80" selection-start-column="54" selection-end-line="80" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/core/model/JdbcSourceInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/dto/roleDto/RelRoleMember.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="60">
-            <caret line="4" selection-start-line="4" selection-end-line="4" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="540" column="31" lean-forward="true" selection-start-line="540" selection-start-column="31" selection-end-line="540" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assembly/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="77" column="12" lean-forward="true" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+        <state relative-caret-position="272">
+          <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/core/config/DruidConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/test/java/dq/DQServerApplicationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/application-local.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/sbt.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="534" column="13" selection-start-line="534" selection-start-column="13" selection-end-line="534" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="453" column="20" selection-start-line="453" selection-start-column="20" selection-end-line="453" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/SwaggerConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="28" column="70" selection-start-line="28" selection-start-column="70" selection-end-line="28" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/banner.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/logback.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/logback.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="51" column="24" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="501" column="19" selection-start-line="501" selection-start-column="19" selection-end-line="501" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/resources/application-local.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="18" column="34" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/DQServerApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/dq/model/MemDashboardWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-91">
+          <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -490,10 +1700,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
+          <last-edited>dq-parent_3.01</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -513,6 +1725,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>Maven: ch.qos.logback:logback-classic:1.2.3</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -523,5 +1736,12 @@
         </settings>
       </state>
     </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="clean install package" />
+    <option value="install" />
+    <option value="package" />
+    <option value="clean" />
   </component>
 </project>
