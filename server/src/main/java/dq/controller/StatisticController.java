@@ -5,8 +5,8 @@ import dq.common.model.ValidList;
 import dq.core.common.Constants;
 import dq.core.common.ResultMap;
 import dq.dto.statistic.DqStatisticDurationInfo;
-import dq.dto.statistic.DQStatisticTerminalInfo;
-import dq.dto.statistic.DQStatisticVisitorOperationInfo;
+import dq.dto.statistic.DqStatisticTerminalInfo;
+import dq.dto.statistic.DqStatisticVisitorOperationInfo;
 import dq.service.BuriedPointsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,20 +49,20 @@ public class StatisticController {
 
     @ApiOperation(value = "collect terminal info ")
     @PostMapping(value = "/terminal", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity collectTerminalInfo(@Valid @RequestBody ValidList<DQStatisticTerminalInfo> terminalInfoInfos,
+    public ResponseEntity collectTerminalInfo(@Valid @RequestBody ValidList<DqStatisticTerminalInfo> terminalInfoInfos,
                                               HttpServletRequest request){
 
-        buriedPointsService.insert(terminalInfoInfos, DQStatisticTerminalInfo.class);
+        buriedPointsService.insert(terminalInfoInfos, DqStatisticTerminalInfo.class);
 
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request));
     }
 
     @ApiOperation(value = "collect visitor operation info ")
     @PostMapping(value = "/visitoroperation", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity collectVisitorOperationInfo(@Valid @RequestBody ValidList<DQStatisticVisitorOperationInfo> visitorOperationInfos,
+    public ResponseEntity collectVisitorOperationInfo(@Valid @RequestBody ValidList<DqStatisticVisitorOperationInfo> visitorOperationInfos,
                                               HttpServletRequest request){
 
-        buriedPointsService.insert(visitorOperationInfos, DQStatisticVisitorOperationInfo.class);
+        buriedPointsService.insert(visitorOperationInfos, DqStatisticVisitorOperationInfo.class);
 
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request));
     }

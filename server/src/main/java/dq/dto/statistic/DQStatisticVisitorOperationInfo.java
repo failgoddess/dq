@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @NotNull(message = "visitor operation info cannot be null")
-public class DQStatisticVisitorOperationInfo {
+public class DqStatisticVisitorOperationInfo {
 
     @NotNull
     @Min(value = 1L)

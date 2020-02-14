@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Data
 @NotNull(message = "terminal info cannot be null")
-public class DQStatisticTerminalInfo {
+public class DqStatisticTerminalInfo {
 
     @NotNull
     @Min(value = 1L)
