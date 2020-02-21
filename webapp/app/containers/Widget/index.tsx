@@ -333,7 +333,7 @@ export class WidgetList extends React.Component<IWidgetProps, IWidgetStates> {
             <Col xl={18} lg={16} md={12} sm={24}>
               <Breadcrumb className={utilStyles.breadcrumb}>
                 <Breadcrumb.Item>
-                  <Link to="">Widget</Link>
+                  <Link to="">Rule</Link>
                 </Breadcrumb.Item>
               </Breadcrumb>
             </Col>
@@ -343,7 +343,7 @@ export class WidgetList extends React.Component<IWidgetProps, IWidgetStates> {
         <Box>
             <Box.Header>
               <Box.Title>
-                <Icon type="bars" />Widget List
+                <Icon type="bars" />列表
               </Box.Title>
               <Box.Tools>
                 <Tooltip placement="bottom" title="新增">

@@ -96,7 +96,7 @@ module.exports = options => ({
         test: /\.(jpg|png|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
               // Inline files smaller than 10 kB
               limit: 10 * 1024
@@ -116,9 +116,11 @@ module.exports = options => ({
                 interlaced: false
               },
               optipng: {
+            	enabled: false,
                 optimizationLevel: 7
               },
               pngquant: {
+            	enabled: false,
                 quality: '65-90',
                 speed: 4
               }

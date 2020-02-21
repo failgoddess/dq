@@ -379,6 +379,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             />
             <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
+            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}
               loading={loading.execute}
@@ -386,14 +388,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onSetSqlLimit={onSetSqlLimit}
               onExecuteSql={this.executeSql}
               onStepChange={this.stepChange}
-            />
-            <ViewVariableList variables={variable} />
-            <VariableModal
-              channels={channels}
-              tenants={tenants}
-              bizs={bizs}
-              onLoadDacTenants={onLoadDacTenants}
-              onLoadDacBizs={onLoadDacBizs}
             />
           </EditorContainer>
           <ModelAuth

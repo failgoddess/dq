@@ -272,7 +272,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
               <Col span={24}>
                 <Breadcrumb className={utilStyles.breadcrumb}>
                   <Breadcrumb.Item>
-                    <Link to="">View</Link>
+                    <Link to="">Rule</Link>
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </Col>
@@ -283,7 +283,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
               <Box.Header>
                 <Box.Title>
                   <Icon type="bars" />
-                  View List
+                  列表
                 </Box.Title>
                 <Box.Tools>
                   <Tooltip placement="bottom" title="新增">
