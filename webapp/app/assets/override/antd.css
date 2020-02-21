@@ -23,6 +23,7 @@
 .react-grid-item {
   background-color: #fff;
   border-radius: 2px;
+}
 .react-grid-item.react-grid-placeholder {
   background-color: #586b84;
 }
@@ -101,3 +102,4 @@
 
 .ant-tree.ant-tree-show-line li span.ant-tree-switcher {
   background: inherit;
+}

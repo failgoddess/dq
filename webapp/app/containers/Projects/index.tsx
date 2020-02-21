@@ -904,7 +904,7 @@ export class Projects extends React.PureComponent<IProjectsProps, IProjectsState
             </div>
           </Box>
         </div>
-        <div className={styles.wrap}>
+        <div className={styles.wrap} onClick={this.hideSearchMask}>
           <Row style={{width: '100%'}}>
             <Col
               xxl={18}
@@ -998,7 +998,6 @@ export class Projects extends React.PureComponent<IProjectsProps, IProjectsState
             </Col>
           </Row>
         </div>
-        <div className={maskStyle} onClick={this.hideSearchMask}/>
         <Modal
           title={null}
           footer={null}
