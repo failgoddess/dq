@@ -28,6 +28,7 @@ interface IEditorContainerStates {
   previewHeight: number
   variableModalVisible: boolean
   editingVariable: IViewVariable
+  leftWidth: number
 }
 
 export class EditorContainer extends React.Component<IEditorContainerProps, IEditorContainerStates> {
@@ -35,22 +36,25 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   private editor = React.createRef<HTMLDivElement>()
   public static SiderMinWidth = 250
   public static EditorMinHeight = 100
-  public static DefaultPreviewHeight = 300
 
   public state: Readonly<IEditorContainerStates> = {
     editorHeight: 0,
     siderWidth: EditorContainer.SiderMinWidth,
-    previewHeight: EditorContainer.DefaultPreviewHeight,
+    previewHeight: 0,
     variableModalVisible: false,
-    editingVariable: null
+    editingVariable: null,
+    leftWidth: 0
   }
 
   public componentDidMount () {
     window.addEventListener('resize', this.setEditorHeight, false)
     // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
+    // const editorHeight = this.editor.current.clientHeight + 10
     const editorHeight = this.editor.current.clientHeight + 10
+    const previewHeight = editorHeight - 100
     this.setState({
-      editorHeight
+      editorHeight,
+      previewHeight
     })
   }
 
@@ -130,7 +134,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
 
   private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
     let sourceTable: React.ReactElement<any>
-    let sqlEditor: React.ReactElement<any>
+    let rightSqlEditor: React.ReactElement<any>
+    let leftSqlEditor: React.ReactElement<any>
     let sqlPreview: React.ReactElement<ISqlPreviewProps>
     let editorBottom: React.ReactElement<any>
     let viewVariableList: React.ReactElement<IViewVariableListProps>
@@ -142,7 +147,10 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       if (areComponentsEqual(type, SourceTable)) {
         sourceTable = c
       } else if (areComponentsEqual(type, SqlEditor)) {
-        sqlEditor = c
+        // sqlEditor = c
+        const { leftWidth } = state
+        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSqlEditor" })
+        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSqlEditor" })
       } else if (areComponentsEqual(type, SqlPreview)) {
         const { previewHeight } = state
         sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })
@@ -167,7 +175,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       }
     })
 
-    return { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal }
+    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, viewVariableList, variableModal }
   }
 
   public render () {
@@ -175,7 +183,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     const {
       editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal } = this.getChildren(this.props, this.state)
 
     return (
       <>
@@ -204,8 +212,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                   onResize={this.previewResize}
                 >
                   <div className={Styles.containerVertical}>
-                    {sqlEditor}
-                    {sqlEditor}
+                    {leftSqlEditor}
+                    {rightSqlEditor}
                   </div>
                 </Resizable>
               </div>

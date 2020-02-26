@@ -9,6 +9,7 @@ interface ISqlEditorProps {
     [name: string]: []
   }
   value: string
+  id: string
   onSqlChange: (sql: string) => void
 }
 
@@ -60,7 +61,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
     this.sqlEditor.doc.setValue(value)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-      this.debouncedSqlChange(_.getDoc().getValue())
+      // this.debouncedSqlChange(_.getDoc().getValue())
 
       if (change.origin === '+input'
           && change.text[0] !== ';'
@@ -76,7 +77,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   public render () {
     return (
-      <div className={Styles.sqlEditor}>
+      <div className={Styles.sqlEditor} id={this.props.id}>
         <textarea ref={this.sqlEditorContainer} />
       </div>
     )
