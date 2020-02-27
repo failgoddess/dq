@@ -32,7 +32,7 @@ public class ViewExecuteSql {
     private Long sourceId;
 
     @NotBlank(message = "sql cannot be EMPTY")
-    private String sql;
+    private String[] sql;
 
     private List<SqlVariable> variables;
 

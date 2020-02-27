@@ -407,7 +407,8 @@ public class ViewServiceImpl implements ViewService {
         //结构化Sql
         PaginateWithQueryColumns paginateWithQueryColumns = null;
         try {
-            SqlEntity sqlEntity = sqlParseUtils.parseSql(executeSql.getSql(), executeSql.getVariables(), sqlTempDelimiter);
+        	String leftSql = executeSql.getSql()[0];
+            final SqlEntity sqlEntity = sqlParseUtils.parseSql(leftSql, executeSql.getVariables(), sqlTempDelimiter);
             if (null != sqlUtils && null != sqlEntity) {
                 if (!StringUtils.isEmpty(sqlEntity.getSql())) {
 
@@ -442,6 +443,43 @@ public class ViewServiceImpl implements ViewService {
                     }
                 }
             }
+            
+//            String rightSql = executeSql.getSql()[0];
+//            String sqlEntity = sqlParseUtils.parseSql(rightSql, executeSql.getVariables(), sqlTempDelimiter);
+//            if (null != sqlUtils && null != sqlEntity) {
+//                if (!StringUtils.isEmpty(sqlEntity.getSql())) {
+//
+//                    if (isMaintainer(user, projectDetail)) {
+//                        sqlEntity.setAuthParams(null);
+//                    }
+//
+//                    if (!CollectionUtils.isEmpty(sqlEntity.getQuaryParams())) {
+//                        sqlEntity.getQuaryParams().forEach((k, v) -> {
+//                            if (v instanceof List && ((List) v).size() > 0) {
+//                                v = ((List) v).stream().collect(Collectors.joining(COMMA)).toString();
+//                            }
+//                            sqlEntity.getQuaryParams().put(k, v);
+//                        });
+//                    }
+//
+//                    String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+//
+//                    SqlUtils sqlUtils = this.sqlUtils.init(source);
+//
+//                    List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
+//
+//                    List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
+//
+//                    if (!CollectionUtils.isEmpty(executeSqlList)) {
+//                        executeSqlList.forEach(sql -> sqlUtils.execute(sql));
+//                    }
+//                    if (!CollectionUtils.isEmpty(querySqlList)) {
+//                        for (String sql : querySqlList) {
+//                            paginateWithQueryColumns = sqlUtils.syncQuery4Paginate(sql, null, null, null, executeSql.getLimit(), null);
+//                        }
+//                    }
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServerException(e.getMessage());

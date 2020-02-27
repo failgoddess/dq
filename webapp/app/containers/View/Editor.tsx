@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import memoizeOne from 'memoize-one'
 import Helmet from 'react-helmet'
 import { RouteComponentProps } from 'react-router'
+import { IProject } from '../Projects'
 
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
@@ -71,6 +72,7 @@ interface IViewEditorStateProps {
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
+  currentProject: IProject
 }
 
 interface IViewEditorDispatchProps {
