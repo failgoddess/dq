@@ -125,6 +125,9 @@ export function* copyView (action: ViewActionType) {
 }
 
 export function* executeSql (action: ViewActionType) {
+  console.log("---------------")
+  console.log(action)
+
   if (action.type !== ActionTypes.EXECUTE_SQL) { return }
   const { params } = action.payload
   const { variables, ...rest } = params

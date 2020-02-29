@@ -194,11 +194,13 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private static ExecuteSql = (props: IViewEditorProps) => {
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, sql } = editingView
+    const { sourceId, sql, leftSql, rightSql} = editingView
     const { variable } = editingViewInfo
     const updatedParams: IExecuteSqlParams = {
       sourceId,
       sql,
+      leftSql,
+      rightSql,
       limit: sqlLimit,
       variables: variable
     }

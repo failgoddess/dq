@@ -10,7 +10,7 @@ interface ISqlEditorProps {
   }
   value: string
   id: string
-  onSqlChange: (sql: string) => void
+  onSqlChange: (leftSql: string) => void
 }
 
 export class SqlEditor extends React.PureComponent<ISqlEditorProps> {

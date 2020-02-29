@@ -48,6 +48,8 @@ export interface IViewLoading {
 export interface IExecuteSqlParams {
   sourceId: number
   sql: string
+  leftSql: string
+  rightSql: string
   limit: number
   variables: IViewVariableBase[]
 }
