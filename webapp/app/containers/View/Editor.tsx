@@ -161,11 +161,15 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
           duration: null
         })
       if (sqlValidation.code === 200) {
+        console.log("---------4-----")
+        console.log(editingView)
         lastSuccessExecutedSql = editingView.sql
       }
     }
     if (editingView && editingView.id === +viewId) {
       if (init) {
+        console.log("------5----------")
+        console.log(editingView)
         props.onLoadSourceDatabases(editingView.sourceId)
         lastSuccessExecutedSql = editingView.sql
         return {
@@ -189,6 +193,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private executeSql = () => {
+    console.log("---------7------")
+    console.log(this.props)
     ViewEditor.ExecuteSql(this.props)
   }
 
@@ -275,6 +281,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private sqlChange = (sql: string) => {
+    console.log("--------3-------")
+    console.log(sql)
     this.viewChange('sql', sql)
   }
 
@@ -381,7 +389,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlEditor value="123456789" hints={sqlHints} onSqlChange={this.sqlChange} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}

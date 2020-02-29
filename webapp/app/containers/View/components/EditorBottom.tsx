@@ -19,6 +19,9 @@ const stepChange = (onStepChange: IEditorBottomProps['onStepChange'], step: numb
 }
 
 export const EditorBottom = (props: IEditorBottomProps) => {
+  console.log("~~~~~~~===~~~~~~")
+  console.log(props)
+  
   const { sqlLimit, loading, nextDisabled, onSetSqlLimit, onExecuteSql, onStepChange } = props
 
   return (

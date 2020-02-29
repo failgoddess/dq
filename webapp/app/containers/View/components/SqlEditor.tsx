@@ -22,6 +22,10 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
   constructor (props) {
     super(props)
 
+    console.log('---------8----------')
+    console.log(props)
+    
+
     require([
       'codemirror/lib/codemirror',
       'codemirror/lib/codemirror.css',
@@ -39,6 +43,8 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   public componentDidUpdate () {
     if (this.sqlEditor) {
+      console.log(this.sqlEditor)
+      console.log(this.props)
       const { value } = this.props
       const localValue = this.sqlEditor.doc.getValue()
       if (value !== localValue) {
@@ -59,6 +65,8 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       foldGutter: true
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
+	console.log('---------10----------')
+  	console.log(this.sqlEditor)
     this.sqlEditor.doc.setValue(value)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
       // this.debouncedSqlChange(_.getDoc().getValue())
