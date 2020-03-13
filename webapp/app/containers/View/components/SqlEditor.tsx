@@ -8,23 +8,20 @@ interface ISqlEditorProps {
   hints: {
     [name: string]: []
   }
-  value: string
+  leftValue: string
+  rightValue: string
   id: string
-  onSqlChange: (leftSql: string) => void
+  onSqlChange: (leftSql: string,rightSql:string) => void
 }
 
 export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   private sqlEditorContainer = React.createRef<HTMLTextAreaElement>()
   private sqlEditor
-  private debouncedSqlChange = debounce((val: string) => { this.props.onSqlChange(val) }, 500)
+  private debouncedSqlChange = debounce((leftSql: string,rightSql:string) => { this.props.onSqlChange(leftSql,rightSql) }, 500)
 
   constructor (props) {
     super(props)
-
-    console.log('---------8----------')
-    console.log(props)
-    
 
     require([
       'codemirror/lib/codemirror',
@@ -37,23 +34,25 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       'codemirror/addon/hint/sql-hint',
       'codemirror/addon/display/placeholder'
     ], (CodeMirror) => {
-      this.initEditor(CodeMirror, props.value)
+      this.initEditor(CodeMirror, props.leftValue,props.rightValue)
     })
   }
 
   public componentDidUpdate () {
     if (this.sqlEditor) {
-      console.log(this.sqlEditor)
-      console.log(this.props)
-      const { value } = this.props
-      const localValue = this.sqlEditor.doc.getValue()
-      if (value !== localValue) {
-        this.sqlEditor.doc.setValue(this.props.value)
+      const { leftValue,rightValue } = this.props
+      const leftLocalValue = this.sqlEditor.doc.getValue()
+      const rightLocalValue = this.sqlEditor.doc.getValue()
+      if (leftValue !== leftLocalValue) {
+        this.sqlEditor.doc.setValue(this.props.leftValue)
+      }
+      if (rightValue !== rightLocalValue) {
+        this.sqlEditor.doc.setValue(this.props.rightValue)
       }
     }
   }
 
-  private initEditor = (codeMirror, value: string) => {
+  private initEditor = (codeMirror, leftValue: string,rightValue: string) => {
     const { fromTextArea } = codeMirror
     const config = {
       mode: 'text/x-sql',
@@ -65,12 +64,10 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       foldGutter: true
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
-	console.log('---------10----------')
-  	console.log(this.sqlEditor)
-    this.sqlEditor.doc.setValue(value)
+    this.sqlEditor.doc.setValue(leftValue)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-      // this.debouncedSqlChange(_.getDoc().getValue())
-
+    this.debouncedSqlChange(_.getDoc().getValue())
+    	
       if (change.origin === '+input'
           && change.text[0] !== ';'
           && change.text[0].trim() !== ''

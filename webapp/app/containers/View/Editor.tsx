@@ -271,19 +271,21 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     router.push(`/project/${projectId}/views`)
   }
 
-  private viewChange = (propName: keyof IView, value: string | number) => {
+  private viewChange = (leftPropName: keyof IView, leftValue: string | number,rightPropName: keyof IView, rightValue: string | number) => {
     const { editingView, onUpdateEditingView } = this.props
     const updatedView = {
       ...editingView,
-      [propName]: value
+      [leftPropName]: leftValue,
+      [rightValue]: rightValue
     }
     onUpdateEditingView(updatedView)
   }
 
-  private sqlChange = (sql: string) => {
-    console.log("--------3-------")
-    console.log(sql)
-    this.viewChange('sql', sql)
+  private sqlChange = (leftSql: string,rightSql: string) => {
+    console.log("\-\-\-\-\-\-\-\-3\-\-\-\-\-\-\-")
+    console.log(leftSql)
+    console.log(rightSql)
+    this.viewChange('leftSql',leftSql,'rightSql',rightSql)
   }
 
   private modelChange = (partialModel: IViewModel) => {
@@ -389,7 +391,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor value="123456789" hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlEditor hints={sqlHints} onSqlChange={this.sqlChange} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}

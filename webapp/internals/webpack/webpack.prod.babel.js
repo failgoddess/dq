@@ -95,7 +95,7 @@ module.exports = require('./webpack.base.babel')({
         removeEmptyAttributes: true,
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
-        minifyJS: true,
+        minifyJS: false,
         minifyCSS: true,
         minifyURLs: true
       },
@@ -141,7 +141,7 @@ module.exports = require('./webpack.base.babel')({
       analyzerPort: 5000,
       reportFilename: 'report.html',
       defaultSizes: 'parsed',
-      openAnalyzer: true,
+      openAnalyzer: false,
       generateStatsFile: true,
       statsFilename: '../stats.json',
       statsOptions: null,
