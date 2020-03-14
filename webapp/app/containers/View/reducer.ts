@@ -20,6 +20,8 @@ const emptyView: IView = {
   id: null,
   name: '',
   sql: '',
+  leftSql: '',
+  rightSql: '',
   model: '',
   variable: '',
   roles: [],

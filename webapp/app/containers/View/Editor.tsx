@@ -198,7 +198,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private static ExecuteSql = (props: IViewEditorProps) => {
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, sql } = editingView
+    const { sourceId, sql, leftSql, rightSql } = editingView
     const { variable } = editingViewInfo
     const updatedParams: IExecuteSqlParams = {
       sourceId,
@@ -278,7 +278,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private sqlChange = (sql: string) => {
     console.log("\-\-\-\-\-\-\-\-3\-\-\-\-\-\-\-")
-    console.log(leftSql)
     this.viewChange('sql', sql)
   }
 
@@ -385,7 +384,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}

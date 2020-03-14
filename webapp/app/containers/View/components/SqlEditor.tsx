@@ -56,12 +56,13 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       lineWrapping: false,
       autoCloseBrackets: true,
       matchBrackets: true,
-      foldGutter: true
+      foldGutter: true,
+      name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
     this.sqlEditor.doc.setValue(value)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-    this.debouncedSqlChange(_.getDoc().getValue())
+//      this.debouncedSqlChange(_.getDoc().getValue())
     	
       if (change.origin === '+input'
           && change.text[0] !== ';'
