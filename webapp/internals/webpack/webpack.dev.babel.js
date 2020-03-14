@@ -8,7 +8,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = require('./webpack.base.babel')({
-  mode: 'development',
+  mode: 'production',
 
   // In production, we skip all hot-reloading stuff
   entry: {
@@ -168,5 +168,6 @@ module.exports = require('./webpack.base.babel')({
     }
   },
   devtool: 'inline-source-map'
-
 })
+
+
