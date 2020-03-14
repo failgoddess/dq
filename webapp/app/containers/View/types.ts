@@ -15,8 +15,6 @@ type IViewTemp = Omit<IViewBase, 'sourceName'>
 
 export interface IView extends IViewTemp {
   sql: string
-  leftSql: string
-  rightSql: string
   model: string
   variable: string
   config: string

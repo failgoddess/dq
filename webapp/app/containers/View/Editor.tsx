@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect'
 import memoizeOne from 'memoize-one'
 import Helmet from 'react-helmet'
 import { RouteComponentProps } from 'react-router'
-import { IProject } from '../Projects'
 
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
@@ -72,7 +71,6 @@ interface IViewEditorStateProps {
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
-  currentProject: IProject
 }
 
 interface IViewEditorDispatchProps {
@@ -200,7 +198,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private static ExecuteSql = (props: IViewEditorProps) => {
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, sql} = editingView
+    const { sourceId, sql } = editingView
     const { variable } = editingViewInfo
     const updatedParams: IExecuteSqlParams = {
       sourceId,
