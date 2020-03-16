@@ -10,14 +10,20 @@ interface ISqlEditorProps {
   }
   value: string
   id: string
-  onSqlChange: (sql: string) => void
+  onSqlChange: (leftSql: string,rightSql: string) => void
 }
 
 export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   private sqlEditorContainer = React.createRef<HTMLTextAreaElement>()
   private sqlEditor
-  private debouncedSqlChange = debounce((val: string) => { this.props.onSqlChange(val) }, 500)
+  private debouncedSqlChange = debounce((val: string,name: string) => { 
+  	console.log("=======================");
+  	if(name==="leftValue") 
+  		this.props.onSqlChange(val,""); 
+  	else 
+  		this.props.onSqlChange("",val);
+  	}, 500)
 
   constructor (props) {
     super(props)
@@ -62,7 +68,10 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
     this.sqlEditor.doc.setValue(value)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-      this.debouncedSqlChange(_.getDoc().getValue())
+      console.log("================---------===================")
+      console.log(_.options.name)
+      console.log(_.getDoc().getValue())
+      this.debouncedSqlChange(_.getDoc().getValue(),_.options.name)
     	
       if (change.origin === '+input'
           && change.text[0] !== ';'

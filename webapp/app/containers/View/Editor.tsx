@@ -267,18 +267,19 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     router.push(`/project/${projectId}/views`)
   }
 
-  private viewChange = (propName: keyof IView, value: string | number) => {
+  private viewChange = (leftPropName: keyof IView, leftValue: string | number,rightPropName: keyof IView, rightValue: string | number) => {
     const { editingView, onUpdateEditingView } = this.props
     const updatedView = {
       ...editingView,
-      [propName]: value
+      [leftPropName]: leftValue,
+      [rightPropName]: rightValue
     }
     onUpdateEditingView(updatedView)
   }
 
-  private sqlChange = (sql: string) => {
-    console.log("\-\-\-\-\-\-\-\-3\-\-\-\-\-\-\-")
-    this.viewChange('sql', sql)
+  private sqlChange = (leftSql: string,rightSql: string) => {
+    console.log("-----leftSql:"+leftSql+",rightSql:"+rightSql+"--------")
+    this.viewChange('leftSql', leftSql,'rightSql', leftSql)
   }
 
   private modelChange = (partialModel: IViewModel) => {

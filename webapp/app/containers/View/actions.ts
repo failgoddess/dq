@@ -188,6 +188,7 @@ export const ViewActions = {
   },
 
   updateEditingView (view: IView) {
+  	console.log("--------------actions----------------------")
     return {
       type: ActionTypes.UPDATE_EDITING_VIEW,
       payload: {
