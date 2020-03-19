@@ -21,6 +21,7 @@ package dq.service.excel;
 
 import dq.core.model.QueryColumn;
 import dq.core.utils.SqlUtils;
+import dq.core.model.Dict;
 import dq.core.model.ExcelHeader;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -30,13 +31,6 @@ import org.slf4j.Logger;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- *
- * @Author daemon
- * @Date 19/5/28 18:21
- * To change this template use File | Settings | File Templates.
- */
 @Data
 public class SheetContext implements Serializable {
     private List<String> executeSql;

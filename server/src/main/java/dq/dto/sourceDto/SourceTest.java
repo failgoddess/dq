@@ -39,7 +39,7 @@ public class SourceTest {
 
     private String version;
 
-    private List<Dict> properties;
+    private List<Dict<String,String>> properties;
 
     private boolean isExt;
 }

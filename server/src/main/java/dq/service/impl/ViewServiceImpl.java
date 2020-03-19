@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import dq.core.exception.NotFoundException;
 import dq.core.exception.ServerException;
 import dq.core.exception.UnAuthorizedExecption;
+import dq.core.model.Dict;
 import dq.core.model.Paginate;
 import dq.core.model.PaginateWithQueryColumns;
 import dq.core.utils.CollectionUtils;
@@ -181,7 +182,7 @@ public class ViewServiceImpl implements ViewService {
         if (null == viewWithSource.getSource()) {
             throw new NotFoundException("source is not found");
         }
-        if (StringUtils.isEmpty(viewWithSource.getSql())) {
+        if (StringUtils.isEmpty(viewWithSource.getLeftSql()) && StringUtils.isEmpty(viewWithSource.getRightSql())) {
             throw new NotFoundException("sql is not found");
         }
 
@@ -189,21 +190,32 @@ public class ViewServiceImpl implements ViewService {
         //解析变量
         List<SqlVariable> variables = viewWithSource.getVariables();
         //解析sql
-        SqlEntity sqlEntity = sqlParseUtils.parseSql(viewWithSource.getSql(), variables, sqlTempDelimiter);
+        SqlEntity leftSqlEntity = sqlParseUtils.parseSql(viewWithSource.getLeftSql(), variables, sqlTempDelimiter);
+        SqlEntity rightSqlEntity = sqlParseUtils.parseSql(viewWithSource.getRightSql(), variables, sqlTempDelimiter);
+
         //列权限（只记录被限制访问的字段）
         Set<String> excludeColumns = new HashSet<>();
 
-        packageParams(isMaintainer, viewWithSource.getId(), sqlEntity, variables, executeParam.getParams(), excludeColumns, user);
+        packageParams(isMaintainer, viewWithSource.getId(), leftSqlEntity, variables, executeParam.getParams(), excludeColumns, user);
+        packageParams(isMaintainer, viewWithSource.getId(), rightSqlEntity, variables, executeParam.getParams(), excludeColumns, user);
 
-        String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
-        context.setExecuteSql(sqlParseUtils.getSqls(srcSql, Boolean.FALSE));
 
-        List<String> querySqlList = sqlParseUtils.getSqls(srcSql, Boolean.TRUE);
-        if (!CollectionUtils.isEmpty(querySqlList)) {
+        String leftSrcSql = sqlParseUtils.replaceParams(leftSqlEntity.getSql(), leftSqlEntity.getQuaryParams(), leftSqlEntity.getAuthParams(), sqlTempDelimiter);
+        String rightSrcSql = sqlParseUtils.replaceParams(rightSqlEntity.getSql(), rightSqlEntity.getQuaryParams(), rightSqlEntity.getAuthParams(), sqlTempDelimiter);
+        
+        context.setExecuteSqlDict(new Dict<>(sqlParseUtils.getSqls(leftSrcSql,Boolean.FALSE),sqlParseUtils.getSqls(rightSrcSql,Boolean.FALSE)));
+
+        List<String> leftQuerySqlList = sqlParseUtils.getSqls(leftSrcSql, Boolean.TRUE);
+        List<String> rightQuerySqlList = sqlParseUtils.getSqls(leftSrcSql, Boolean.TRUE);
+        if (!CollectionUtils.isEmpty(leftQuerySqlList) || !CollectionUtils.isEmpty(rightQuerySqlList)) {
             Source source = viewWithSource.getSource();
-            buildQuerySql(querySqlList, source, executeParam);
+            
+            buildQuerySql(leftQuerySqlList, source, executeParam);
+            buildQuerySql(rightQuerySqlList, source, executeParam);
+            
             executeParam.addExcludeColumn(excludeColumns, source.getJdbcUrl(), source.getDbVersion());
-            context.setQuerySql(querySqlList);
+            
+            context.setQuerySqlDict(new Dict<>(leftQuerySqlList,rightQuerySqlList));
             context.setViewExecuteParam(executeParam);
         }
         if (!CollectionUtils.isEmpty(excludeColumns)) {
@@ -388,7 +400,7 @@ public class ViewServiceImpl implements ViewService {
      * @return
      */
     @Override
-    public PaginateWithQueryColumns executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException {
+    public Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException {
 
         Source source = sourceMapper.getById(executeSql.getSourceId());
         if (null == source) {
@@ -405,28 +417,28 @@ public class ViewServiceImpl implements ViewService {
         }
 
         //结构化Sql
-        PaginateWithQueryColumns paginateWithQueryColumns = null;
+        PaginateWithQueryColumns leftPaginateWithQueryColumns = null;
+        PaginateWithQueryColumns rightPaginateWithQueryColumns = null;
         try {
-        	String leftSql = executeSql.getSql();
-            SqlEntity sqlEntity = sqlParseUtils.parseSql(leftSql, executeSql.getVariables(), sqlTempDelimiter);
-            if (null != sqlUtils && null != sqlEntity) {
-                if (!StringUtils.isEmpty(sqlEntity.getSql())) {
+            Dict<SqlEntity,SqlEntity> sqlDictEntity = new Dict<>(sqlParseUtils.parseSql(executeSql.getLeftSql(), executeSql.getVariables(), sqlTempDelimiter),sqlParseUtils.parseSql(executeSql.getRightSql(), executeSql.getVariables(), sqlTempDelimiter));
+            if (null != sqlUtils) {
+                if ((null != sqlDictEntity.getKey() && !StringUtils.isEmpty(sqlDictEntity.getKey().getSql()))) {
 
                     if (isMaintainer(user, projectDetail)) {
-                        sqlEntity.setAuthParams(null);
+                    	sqlDictEntity.getKey().setAuthParams(null);
                     }
 
-                    if (!CollectionUtils.isEmpty(sqlEntity.getQuaryParams())) {
-                        sqlEntity.getQuaryParams().forEach((k, v) -> {
+                    if (!CollectionUtils.isEmpty(sqlDictEntity.getKey().getQuaryParams())) {
+                    	sqlDictEntity.getKey().getQuaryParams().forEach((k, v) -> {
                             if (v instanceof List && ((List) v).size() > 0) {
                                 v = ((List) v).stream().collect(Collectors.joining(COMMA)).toString();
                             }
-                            sqlEntity.getQuaryParams().put(k, v);
+                            sqlDictEntity.getKey().getQuaryParams().put(k, v);
                         });
                     }
 
-                    String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
-
+                    String srcSql = sqlParseUtils.replaceParams(sqlDictEntity.getKey().getSql(), sqlDictEntity.getKey().getQuaryParams(), sqlDictEntity.getKey().getAuthParams(), sqlTempDelimiter);
+                    
                     SqlUtils sqlUtils = this.sqlUtils.init(source);
 
                     List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
@@ -434,11 +446,44 @@ public class ViewServiceImpl implements ViewService {
                     List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
 
                     if (!CollectionUtils.isEmpty(executeSqlList)) {
-                        executeSqlList.forEach(sql -> sqlUtils.execute(sql));
+                        executeSqlList.forEach(dict -> {sqlUtils.execute(dict);});
                     }
                     if (!CollectionUtils.isEmpty(querySqlList)) {
-                        for (String sql : querySqlList) {
-                            paginateWithQueryColumns = sqlUtils.syncQuery4Paginate(sql, null, null, null, executeSql.getLimit(), null);
+                        for (String str : querySqlList) {
+                        	leftPaginateWithQueryColumns = sqlUtils.syncQuery4Paginate(str, null, null, null, executeSql.getLimit(), null);
+                        }
+                    }
+                }
+                
+                if (null != sqlDictEntity.getValue() && StringUtils.isEmpty(sqlDictEntity.getValue().getSql())) {
+
+                    if (isMaintainer(user, projectDetail)) {
+                    	sqlDictEntity.getValue().setAuthParams(null);
+                    }
+
+                    if (!CollectionUtils.isEmpty(sqlDictEntity.getValue().getQuaryParams())) {
+                    	sqlDictEntity.getValue().getQuaryParams().forEach((k, v) -> {
+                            if (v instanceof List && ((List) v).size() > 0) {
+                                v = ((List) v).stream().collect(Collectors.joining(COMMA)).toString();
+                            }
+                            sqlDictEntity.getValue().getQuaryParams().put(k, v);
+                        });
+                    }
+
+                    String srcSql = sqlParseUtils.replaceParams(sqlDictEntity.getValue().getSql(), sqlDictEntity.getValue().getQuaryParams(), sqlDictEntity.getValue().getAuthParams(), sqlTempDelimiter);
+                    
+                    SqlUtils sqlUtils = this.sqlUtils.init(source);
+
+                    List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
+
+                    List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
+
+                    if (!CollectionUtils.isEmpty(executeSqlList)) {
+                        executeSqlList.forEach(dict -> {sqlUtils.execute(dict);});
+                    }
+                    if (!CollectionUtils.isEmpty(querySqlList)) {
+                        for (String str : querySqlList) {
+                        	rightPaginateWithQueryColumns = sqlUtils.syncQuery4Paginate(str, null, null, null, executeSql.getLimit(), null);
                         }
                     }
                 }
@@ -447,7 +492,7 @@ public class ViewServiceImpl implements ViewService {
             e.printStackTrace();
             throw new ServerException(e.getMessage());
         }
-        return paginateWithQueryColumns;
+        return new Dict<>(leftPaginateWithQueryColumns,rightPaginateWithQueryColumns);
     }
 
     private boolean isMaintainer(User user, ProjectDetail projectDetail) {
@@ -496,24 +541,23 @@ public class ViewServiceImpl implements ViewService {
             st.add("groups", executeParam.getGroups());
 
             if (executeParam.isNativeQuery()) {
-                st.add("aggregators", executeParam.getAggregators());
+            	st.add("aggregators", executeParam.getAggregators());
             } else {
-                st.add("aggregators", executeParam.getAggregators(source.getJdbcUrl(), source.getDbVersion()));
+            	st.add("aggregators", executeParam.getAggregators(source.getJdbcUrl(), source.getDbVersion()));
             }
             st.add("orders", executeParam.getOrders(source.getJdbcUrl(), source.getDbVersion()));
             st.add("filters", convertFilters(executeParam.getFilters(), source));
             st.add("keywordPrefix", sqlUtils.getKeywordPrefix(source.getJdbcUrl(), source.getDbVersion()));
             st.add("keywordSuffix", sqlUtils.getKeywordSuffix(source.getJdbcUrl(), source.getDbVersion()));
 
-            for (int i = 0; i < querySqlList.size(); i++) {
-                st.add("sql", querySqlList.get(i));
-                querySqlList.set(i, st.render());
+            for (int i = 0; i < querySqlList.size(); i++) {                                 
+            	st.add("sql", querySqlList.get(i));                     
+            	querySqlList.set(i, st.render());                                                                  
             }
-
         }
     }
 
-    public List<String> convertFilters(List<String> filterStrs, Source source){
+	public List<String> convertFilters(List<String> filterStrs, Source source){
         List<String> whereClauses = new ArrayList<>();
         List<SqlFilter> filters = new ArrayList<>();
         try{
@@ -564,27 +608,26 @@ public class ViewServiceImpl implements ViewService {
         String cacheKey = null;
         try {
 
-            if (!StringUtils.isEmpty(viewWithSource.getSql())) {
+            if (!StringUtils.isEmpty(viewWithSource.getLeftSql())) {
                 //解析变量
                 List<SqlVariable> variables = viewWithSource.getVariables();
                 //解析sql
-                SqlEntity sqlEntity = sqlParseUtils.parseSql(viewWithSource.getSql(), variables, sqlTempDelimiter);
+                SqlEntity sqlEntity = sqlParseUtils.parseSql(viewWithSource.getLeftSql(), variables, sqlTempDelimiter);
                 //列权限（只记录被限制访问的字段）
                 Set<String> excludeColumns = new HashSet<>();
                 packageParams(isMaintainer, viewWithSource.getId(), sqlEntity, variables, executeParam.getParams(), excludeColumns, user);
-                String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+                
+                String leftSrcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+//                String rightSrcSql = sqlParseUtils.replaceParams(sqlEntity.getRightSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
 
                 Source source = viewWithSource.getSource();
 
-                SqlUtils sqlUtils = this.sqlUtils.init(source);
-
-
-                List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
+                List<String> executeSqlList = sqlParseUtils.getSqls(leftSrcSql, false);
                 if (!CollectionUtils.isEmpty(executeSqlList)) {
-                    executeSqlList.forEach(sql -> sqlUtils.execute(sql));
+                    executeSqlList.forEach(dict -> {sqlUtils.execute(dict);});
                 }
 
-                List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
+                List<String> querySqlList = sqlParseUtils.getSqls(leftSrcSql, true);
                 if (!CollectionUtils.isEmpty(querySqlList)) {
                     buildQuerySql(querySqlList, source, executeParam);
                     executeParam.addExcludeColumn(excludeColumns, source.getJdbcUrl(), source.getDbVersion());
@@ -666,45 +709,56 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public List<Map<String, Object>> getDistinctValueData(boolean isMaintainer, ViewWithSource viewWithSource, DistinctParam param, User user) throws ServerException {
-
         try {
-            
-            if(StringUtils.isEmpty(viewWithSource.getSql())) {
+            if(StringUtils.isEmpty(viewWithSource.getLeftSql())) {
                 return null;
             }
             
             List<SqlVariable> variables = viewWithSource.getVariables();
-            SqlEntity sqlEntity = sqlParseUtils.parseSql(viewWithSource.getSql(), variables, sqlTempDelimiter);
+            SqlEntity sqlEntity = sqlParseUtils.parseSql(viewWithSource.getLeftSql(), variables, sqlTempDelimiter);
             packageParams(isMaintainer, viewWithSource.getId(), sqlEntity, variables, param.getParams(), null, user);
 
-            String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
-
+            String leftSrcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+//            String rightSrcSql = sqlParseUtils.replaceParams(sqlEntity.getRightSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+            
             Source source = viewWithSource.getSource();
 
             SqlUtils sqlUtils = this.sqlUtils.init(source);
 
-            List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
+            List<String> executeSqlList = sqlParseUtils.getSqls(leftSrcSql, false);
             if (!CollectionUtils.isEmpty(executeSqlList)) {
-                executeSqlList.forEach(sql -> sqlUtils.execute(sql));
+                executeSqlList.forEach(dict -> {sqlUtils.execute(dict);});
             }
 
-            List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
+            List<String> querySqlList = sqlParseUtils.getSqls(leftSrcSql, true);
             if (!CollectionUtils.isEmpty(querySqlList)) {
                 String cacheKey = null;
                 if (null != param) {
                     STGroup stg = new STGroupFile(Constants.SQL_TEMPLATE);
-                    ST st = stg.getInstanceOf("queryDistinctSql");
-                    st.add("columns", param.getColumns());
-                    st.add("filters", convertFilters(param.getFilters(), source));
-                    st.add("sql", querySqlList.get(querySqlList.size() - 1));
-                    st.add("keywordPrefix", SqlUtils.getKeywordPrefix(source.getJdbcUrl(), source.getDbVersion()));
-                    st.add("keywordSuffix", SqlUtils.getKeywordSuffix(source.getJdbcUrl(), source.getDbVersion()));
+                    ST leftST = stg.getInstanceOf("queryDistinctSql");
+                    leftST.add("columns", param.getColumns());
+                    leftST.add("filters", convertFilters(param.getFilters(), source));
+                    leftST.add("sql", querySqlList.get(querySqlList.size() - 1));
+                    leftST.add("keywordPrefix", SqlUtils.getKeywordPrefix(source.getJdbcUrl(), source.getDbVersion()));
+                    leftST.add("keywordSuffix", SqlUtils.getKeywordSuffix(source.getJdbcUrl(), source.getDbVersion()));
+                    
+//                    ST rightST = stg.getInstanceOf("queryDistinctSql");
+//                    rightST.add("columns", param.getColumns());
+//                    rightST.add("filters", convertFilters(param.getFilters(), source));
+//                    rightST.add("sql", querySqlList.get(querySqlList.size() - 1).getValue());
+//                    rightST.add("keywordPrefix", SqlUtils.getKeywordPrefix(source.getJdbcUrl(), source.getDbVersion()));
+//                    rightST.add("keywordSuffix", SqlUtils.getKeywordSuffix(source.getJdbcUrl(), source.getDbVersion()));
 
-                    String sql = st.render();
-                    querySqlList.set(querySqlList.size() - 1, sql);
+//                    String sql = st.render();
+//                    querySqlList.get(querySqlList.size() - 1).setKey(leftST);
+//                    querySqlList.set(querySqlList.size() - 1, sql);
+                    String leftSql = leftST.render();
+//                    String rightSql = rightST.render();
+                    querySqlList.set(querySqlList.size() - 1,leftSql);
+//                    querySqlList.get(querySqlList.size() - 1).setValue(rightSql);
 
                     if (null != param.getCache() && param.getCache() && param.getExpired().longValue() > 0L) {
-                        cacheKey = MD5Util.getMD5("DISTINCI" + sql, true, 32);
+                        cacheKey = MD5Util.getMD5("DISTINCI" + querySqlList.get(querySqlList.size() - 1), true, 32);
 
                         try {
                             Object object = redisUtils.get(cacheKey);

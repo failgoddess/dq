@@ -30,6 +30,7 @@ import dq.core.utils.SourceUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static dq.core.consts.Consts.JDBC_DATASOURCE_DEFAULT_VERSION;
@@ -162,17 +163,20 @@ public class Source extends BaseSource {
     }
 
     @JSONField(serialize = false)
-    public List<Dict> getProperties() {
+    public List<Dict<String,String>> getProperties() {
         if (null == config) {
             return null;
         }
-        List<Dict> dicts = null;
+        List<Dict<String, String>> dicts = new ArrayList<>();
         try {
             JSONObject configObject = JSONObject.parseObject(this.config);
             if (configObject != null && configObject.containsKey("properties")) {
                 JSONArray jsonArray = configObject.getJSONArray("properties");
                 if (jsonArray != null && !jsonArray.isEmpty()) {
-                    dicts = jsonArray.toJavaList(Dict.class);
+                	List<Dict> tempDicts = jsonArray.toJavaList(Dict.class);
+                	for(Dict dict : tempDicts) {
+                		dicts.add(dict);
+                	}
                 }
             }
         } catch (Exception e) {

@@ -16,11 +16,11 @@ public class JdbcSourceInfo {
 
     private String dbVersion;
 
-    private List<Dict> properties;
+    private List<Dict<String,String>> properties;
 
     private boolean ext;
 
-    private JdbcSourceInfo(String jdbcUrl, String username, String password, String database, String dbVersion, List<Dict> properties, boolean ext) {
+    private JdbcSourceInfo(String jdbcUrl, String username, String password, String database, String dbVersion, List<Dict<String,String>> properties, boolean ext) {
         this.jdbcUrl = jdbcUrl;
         this.username = username;
         this.password = password;
@@ -37,7 +37,7 @@ public class JdbcSourceInfo {
         private String password;
         private String database;
         private String dbVersion;
-        private List<Dict> properties;
+        private List<Dict<String,String>> properties;
         private boolean ext;
 
         private JdbcSourceInfoBuilder() {
@@ -72,7 +72,7 @@ public class JdbcSourceInfo {
             return this;
         }
 
-        public JdbcSourceInfoBuilder withProperties(List<Dict> dicts) {
+        public JdbcSourceInfoBuilder withProperties(List<Dict<String,String>> dicts) {
             this.properties = dicts;
             return this;
         }

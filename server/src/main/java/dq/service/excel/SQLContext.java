@@ -19,24 +19,23 @@
 
 package dq.service.excel;
 
+import dq.core.model.Dict;
 import dq.core.model.QueryColumn;
 import dq.dto.viewDto.ViewExecuteParam;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- *
- * @Author daemon
- * @Date 19/5/29 15:28
- * To change this template use File | Settings | File Templates.
- */
 public class SQLContext implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private List<String> executeSql;
+	private List<String> executeSql;
+    
+    private Dict<List<String>,List<String>> executeSqlDict;
 
     private List<String> querySql;
+    
+    private Dict<List<String>,List<String>> querySqlDict;
 
     private List<QueryColumn> queryColumns;
 
@@ -84,4 +83,21 @@ public class SQLContext implements Serializable {
     public void setExcludeColumns(List<String> excludeColumns) {
         this.excludeColumns = excludeColumns;
     }
+
+	public Dict<List<String>, List<String>> getExecuteSqlDict() {
+		return executeSqlDict;
+	}
+
+	public void setExecuteSqlDict(Dict<List<String>, List<String>> executeSqlDict) {
+		this.executeSqlDict = executeSqlDict;
+	}
+
+	public Dict<List<String>, List<String>> getQuerySqlDict() {
+		return querySqlDict;
+	}
+
+	public void setQuerySqlDict(Dict<List<String>, List<String>> querySqlDict) {
+		this.querySqlDict = querySqlDict;
+	}
+    
 }

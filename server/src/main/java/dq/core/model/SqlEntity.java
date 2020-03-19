@@ -27,7 +27,7 @@ import java.util.Map;
 @Data
 public class SqlEntity {
 
-    //查询sql
+    // 查询sql
     private String sql;
 
     private Map<String, Object> quaryParams;

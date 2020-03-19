@@ -22,6 +22,7 @@ package dq.service;
 import dq.core.exception.NotFoundException;
 import dq.core.exception.ServerException;
 import dq.core.exception.UnAuthorizedExecption;
+import dq.core.model.Dict;
 import dq.core.model.Paginate;
 import dq.core.model.PaginateWithQueryColumns;
 import dq.core.service.CheckEntityService;
@@ -43,7 +44,7 @@ public interface ViewService extends CheckEntityService {
 
     boolean deleteView(Long id, User user) throws NotFoundException, UnAuthorizedExecption, ServerException;
 
-    PaginateWithQueryColumns executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException;
+    Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException;
 
     Paginate<Map<String, Object>> getData(Long id, ViewExecuteParam executeParam, User user) throws NotFoundException, UnAuthorizedExecption, ServerException, SQLException;
 

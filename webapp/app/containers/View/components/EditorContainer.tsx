@@ -149,8 +149,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       } else if (areComponentsEqual(type, SqlEditor)) {
         // sqlEditor = c
         const { leftWidth } = state
-        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftValue",name:"leftValue" })
-        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightValue",name:"rightValue" })
+        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql" })
+        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql" })
       } else if (areComponentsEqual(type, SqlPreview)) {
         const { previewHeight } = state
         sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })

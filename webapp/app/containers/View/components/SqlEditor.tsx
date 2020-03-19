@@ -8,7 +8,8 @@ interface ISqlEditorProps {
   hints: {
     [name: string]: []
   }
-  value: string
+  leftSql: string
+  rightSql: string
   id: string
   onSqlChange: (leftSql: string,rightSql: string) => void
 }
@@ -18,11 +19,10 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
   private sqlEditorContainer = React.createRef<HTMLTextAreaElement>()
   private sqlEditor
   private debouncedSqlChange = debounce((val: string,name: string) => { 
-  	console.log("=======================");
-  	if(name==="leftValue") 
-  		this.props.onSqlChange(val,""); 
+  	if(name==="leftSql") 
+  		this.props.onSqlChange(val,null); 
   	else 
-  		this.props.onSqlChange("",val);
+  		this.props.onSqlChange(null,val);
   	}, 500)
 
   constructor (props) {
@@ -39,21 +39,25 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       'codemirror/addon/hint/sql-hint',
       'codemirror/addon/display/placeholder'
     ], (CodeMirror) => {
-      this.initEditor(CodeMirror, props.value)
+      this.initEditor(CodeMirror, props.leftSql,props.rightSql)
     })
   }
 
   public componentDidUpdate () {
     if (this.sqlEditor) {
-      const { value } = this.props
+      const { leftSql, rightSql } = this.props
       const localValue = this.sqlEditor.doc.getValue()
-      if (value !== localValue) {
-        this.sqlEditor.doc.setValue(this.props.value)
+      const name = this.sqlEditor.options.name
+      if (name==="leftSql" && leftSql != null && leftSql !== localValue) {
+        this.sqlEditor.doc.setValue(this.props.leftSql)
+      }
+      if (name==="rightSql" && rightSql !=null && rightSql !== localValue) {
+        this.sqlEditor.doc.setValue(this.props.rightSql)
       }
     }
   }
 
-  private initEditor = (codeMirror, value: string) => {
+  private initEditor = (codeMirror, leftSql: string,rightSql: string) => {
     const { fromTextArea } = codeMirror
     const config = {
       mode: 'text/x-sql',
@@ -66,7 +70,13 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
-    this.sqlEditor.doc.setValue(value)
+    const name = this.sqlEditor.options.name
+    if (name==="leftSql" && leftSql != null) {
+      this.sqlEditor.doc.setValue(leftSql)
+    }
+    if (name==="rightSql" && rightSql != null) {
+      this.sqlEditor.doc.setValue(rightSql)
+    }
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
       console.log("================---------===================")
       console.log(_.options.name)

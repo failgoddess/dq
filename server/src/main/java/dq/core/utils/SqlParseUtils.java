@@ -28,6 +28,7 @@ import dq.core.common.Constants;
 import dq.core.enums.SqlOperatorEnum;
 import dq.core.enums.SqlVariableTypeEnum;
 import dq.core.enums.SqlVariableValueTypeEnum;
+import dq.core.model.Dict;
 import dq.core.model.SqlEntity;
 import dq.model.SqlVariable;
 import dq.model.SqlVariableChannel;
@@ -220,18 +221,18 @@ public class SqlParseUtils {
 
     public List<String> getSqls(String sql, boolean isQuery) {
 
-        sql = sql.trim();
+    	sql = sql.trim();
 
         if (StringUtils.isEmpty(sql)) {
             return null;
         }
 
         if (sql.startsWith(SEMICOLON)) {
-            sql = sql.substring(1);
+        	sql = sql.substring(1);
         }
 
         if (sql.endsWith(SEMICOLON)) {
-            sql = sql.substring(0, sql.length() - 1);
+        	sql = sql.substring(0, sql.length() - 1);
         }
 
         List<String> list = null;
@@ -240,17 +241,17 @@ public class SqlParseUtils {
         if (split.length > 0) {
             list = new ArrayList<>();
             for (String sqlStr : split) {
-                sqlStr = sqlStr.trim();
-                boolean select = sqlStr.toLowerCase().startsWith(SELECT) || sqlStr.toLowerCase().startsWith(WITH);
-                if (isQuery) {
-                    if (select) {
-                        list.add(sqlStr);
-                    }
-                } else {
-                    if (!select) {
-                        list.add(sqlStr);
-                    }
-                }
+            	sqlStr = sqlStr.trim();
+            	boolean select = sqlStr.toLowerCase().startsWith(SELECT) || sqlStr.toLowerCase().startsWith(WITH);
+            	if (isQuery) {
+            		if (select) {
+            			list.add(sqlStr);
+            		}
+            	} else {
+            		if (!select) {
+            			list.add(sqlStr);
+            		}
+            	}
             }
         }
         return list;

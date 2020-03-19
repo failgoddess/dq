@@ -21,6 +21,8 @@ package dq.service.excel;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
+
+import dq.core.model.Dict;
 import dq.core.model.QueryColumn;
 import dq.core.utils.CollectionUtils;
 import dq.core.utils.SqlUtils;
@@ -116,22 +118,22 @@ public class SheetWorker<T> extends AbstractSheetWriter implements Callable {
         return (T) rst;
     }
 
-
+    @Deprecated
     private void propertiesSet(JdbcTemplate template) {
-        if (!CollectionUtils.isEmpty(context.getExecuteSql())) {
-            context.getExecuteSql().stream().filter(x -> x != null).forEach(x -> {
-                String sql = SqlUtils.filterAnnotate(x);
-                SqlUtils.checkSensitiveSql(sql);
-                template.execute(sql);
-            });
-        }
-        if (!CollectionUtils.isEmpty(context.getQuerySql())) {
-            for (int i = 0; i < context.getQuerySql().size() - 1; i++) {
-                String sql = SqlUtils.filterAnnotate(context.getQuerySql().get(i));
-                SqlUtils.checkSensitiveSql(sql);
-                template.execute(sql);
-            }
-        }
+//        if (!CollectionUtils.isEmpty(context.getExecuteSql())) {
+//            context.getExecuteSql().stream().filter(x -> x != null).forEach(x -> {
+//                String sql = SqlUtils.filterAnnotate(x);
+//                SqlUtils.checkSensitiveSql(sql);
+//                template.execute(sql);
+//            });
+//        }
+//        if (!CollectionUtils.isEmpty(context.getQuerySql())) {
+//            for (int i = 0; i < context.getQuerySql().size() - 1; i++) {
+//                String sql = SqlUtils.filterAnnotate(context.getQuerySql().get(i));
+//                SqlUtils.checkSensitiveSql(sql);
+//                template.execute(sql);
+//            }
+//        }
     }
 
     private void buildQueryColumn(JdbcTemplate template) {

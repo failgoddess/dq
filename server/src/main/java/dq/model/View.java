@@ -39,7 +39,9 @@ public class View extends RecordInfo<View> {
 
     private Long sourceId;
 
-    private String sql;
+    private String leftSql;
+    
+    private String rightSql;
 
     private String model;
 
@@ -55,7 +57,8 @@ public class View extends RecordInfo<View> {
                 ", description='" + description + '\'' +
                 ", projectId=" + projectId +
                 ", sourceId=" + sourceId +
-                ", sql='" + sql + '\'' +
+                ", leftSql='" + leftSql + '\'' +
+                ", rightSql='" + rightSql + '\'' +
                 ", model='" + model + '\'' +
                 ", variable='" + variable + '\'' +
                 ", config='" + config + '\'' +
@@ -65,7 +68,7 @@ public class View extends RecordInfo<View> {
 
     @JSONField(serialize = false)
     public List<SqlVariable> getVariables() {
-        if (StringUtils.isEmpty(variable) || StringUtils.isEmpty(sql)) {
+        if (StringUtils.isEmpty(variable) || StringUtils.isEmpty(leftSql)) {
             return null;
         }
 

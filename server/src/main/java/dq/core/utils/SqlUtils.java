@@ -82,7 +82,7 @@ public class SqlUtils {
                 .build();
     }
 
-    public SqlUtils init(String jdbcUrl, String username, String password, String dbVersion, List<Dict> properties, boolean ext) {
+    public SqlUtils init(String jdbcUrl, String username, String password, String dbVersion, List<Dict<String,String>> properties, boolean ext) {
         return SqlUtilsBuilder
                 .getBuilder()
                 .withJdbcUrl(jdbcUrl)
@@ -187,8 +187,7 @@ public class SqlUtils {
             final int startRow = (pageNo - 1) * pageSize;
 
             if (pageNo == 1 || totalCount == 0) {
-                Object o = jdbcTemplate.queryForObject(getCountSql(sql), Object.class);
-                totalCount = Integer.parseInt(String.valueOf(o));
+            	totalCount = Integer.parseInt(String.valueOf(jdbcTemplate.queryForObject(getCountSql(sql), Object.class)));
             }
             if (limit > 0) {
                 limit = limit > resultLimit ? resultLimit : limit;
@@ -821,8 +820,7 @@ public class SqlUtils {
      * @return
      */
     public static String filterAnnotate(String sql) {
-        sql = PATTERN_SQL_ANNOTATE.matcher(sql).replaceAll("$1");
-        sql = sql.replaceAll(NEW_LINE_CHAR, SPACE).replaceAll("(;+\\s*)+", SEMICOLON);
+        sql = PATTERN_SQL_ANNOTATE.matcher(sql).replaceAll("$1").replaceAll(NEW_LINE_CHAR, SPACE).replaceAll("(;+\\s*)+", SEMICOLON);
         return sql;
     }
 
@@ -888,7 +886,7 @@ public class SqlUtils {
         private String jdbcUrl;
         private String username;
         private String password;
-        private List<Dict> properties;
+        private List<Dict<String,String>> properties;
         private String dbVersion;
         private boolean isExt;
 
@@ -930,7 +928,7 @@ public class SqlUtils {
             return this;
         }
 
-        SqlUtilsBuilder withProperties(List<Dict> properties) {
+        SqlUtilsBuilder withProperties(List<Dict<String,String>> properties) {
             this.properties = properties;
             return this;
         }

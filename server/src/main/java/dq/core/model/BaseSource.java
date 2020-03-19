@@ -18,7 +18,7 @@ public abstract class BaseSource extends RecordInfo<Source> {
 
     public abstract String getDbVersion();
 
-    public abstract List<Dict> getProperties();
+    public abstract List<Dict<String,String>> getProperties();
 
     public abstract boolean isExt();
 }

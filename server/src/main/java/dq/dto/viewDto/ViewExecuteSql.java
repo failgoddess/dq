@@ -31,8 +31,11 @@ public class ViewExecuteSql {
     @Min(value = 1L, message = "Invalid Source Id")
     private Long sourceId;
 
-    @NotBlank(message = "sql cannot be EMPTY")
-    private String sql;
+    @NotBlank(message = "leftSql cannot be EMPTY")
+    private String leftSql;
+    
+    @NotBlank(message = "rightSql cannot be EMPTY")
+    private String rightSql;
 
     private List<SqlVariable> variables;
 

@@ -1,6 +1,7 @@
 package dq.controller;
 
 import dq.core.annotation.CurrentUser;
+import dq.core.model.Dict;
 import dq.core.model.Paginate;
 import dq.core.model.PaginateWithQueryColumns;
 import dq.common.controller.BaseController;
@@ -197,8 +198,8 @@ public class ViewController extends BaseController {
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
 
-        PaginateWithQueryColumns paginateWithQueryColumns = viewService.executeSql(executeSql, user);
-        return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(paginateWithQueryColumns));
+        Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> paginateWithQueryColumns = viewService.executeSql(executeSql, user);
+        return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(paginateWithQueryColumns.getKey()));
     }
 
 

@@ -198,11 +198,12 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private static ExecuteSql = (props: IViewEditorProps) => {
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, sql, leftSql, rightSql } = editingView
+    const { sourceId, leftSql, rightSql } = editingView
     const { variable } = editingViewInfo
     const updatedParams: IExecuteSqlParams = {
       sourceId,
-      sql,
+      leftSql,
+      rightSql,
       limit: sqlLimit,
       variables: variable
     }
@@ -267,19 +268,25 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     router.push(`/project/${projectId}/views`)
   }
 
-  private viewChange = (leftPropName: keyof IView, leftValue: string | number,rightPropName: keyof IView, rightValue: string | number) => {
+  private viewChange = (leftPropName: keyof IView, leftSql: string | number,rightPropName: keyof IView, rightSql: string | number) => {
     const { editingView, onUpdateEditingView } = this.props
+    if(leftSql==null){
+    	leftSql = editingView.leftSql
+    }
+    if(rightSql==null){
+    	rightSql = editingView.rightSql
+    }
     const updatedView = {
       ...editingView,
-      [leftPropName]: leftValue,
-      [rightPropName]: rightValue
+      [leftPropName]: leftSql,
+      [rightPropName]: rightSql
     }
     onUpdateEditingView(updatedView)
   }
 
   private sqlChange = (leftSql: string,rightSql: string) => {
     console.log("-----leftSql:"+leftSql+",rightSql:"+rightSql+"--------")
-    this.viewChange('leftSql', leftSql,'rightSql', leftSql)
+    this.viewChange('leftSql', leftSql,'rightSql', rightSql)
   }
 
   private modelChange = (partialModel: IViewModel) => {
@@ -385,7 +392,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlChange={this.sqlChange} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}
