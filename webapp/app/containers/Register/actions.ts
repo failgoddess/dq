@@ -33,10 +33,11 @@ export function signupError () {
   }
 }
 
-export function sendMailAgain (email, resolve) {
+export function sendMailAgain (username, email, resolve) {
   return {
     type: SEND_MAIL_AGAIN,
     payload: {
+      username,
       email,
       resolve
     }

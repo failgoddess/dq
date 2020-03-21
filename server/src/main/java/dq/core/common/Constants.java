@@ -32,7 +32,7 @@ public class Constants extends Consts {
     /**
      * 用户激活 / 重发激活邮件主题
      */
-    public static final String USER_ACTIVATE_EMAIL_SUBJECT = "[dq] 用户激活";
+    public static final String USER_ACTIVATE_EMAIL_SUBJECT = "[DQ] 用户激活";
 
     /**
      * 用户默认Organization描述

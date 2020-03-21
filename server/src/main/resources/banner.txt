@@ -3,5 +3,5 @@
  | |) || (_) |  
  |___/  \__\_\  
  
- dq version: 0.3
+ DQ version: 0.3
  Spring Boot version: 2.0.4.RELEASE

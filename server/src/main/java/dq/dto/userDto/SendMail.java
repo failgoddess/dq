@@ -29,7 +29,8 @@ import javax.validation.constraints.Pattern;
 @Data
 @NotNull(message = "email address cannot be null")
 public class SendMail {
-
+    private String username;
+    
     @NotBlank(message = "email address cannot be EMPTY")
     @Pattern(regexp = Constants.REG_EMAIL_FORMAT, message = "invalid email format")
     private String email;

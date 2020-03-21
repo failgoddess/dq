@@ -126,6 +126,7 @@ public class UserController extends BaseController {
      * @return
      */
     @ApiOperation(value = "user active sendmail")
+    @AuthIgnore
     @PostMapping(value = "/sendmail", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity sendMail(@Valid @RequestBody SendMail sendMail,
                                    @ApiIgnore BindingResult bindingResult,
@@ -137,8 +138,13 @@ public class UserController extends BaseController {
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
 
+        if(user == null) {
+        	user = new User();
+        	BeanUtils.copyProperties(sendMail, user);
+        }
+        
         userService.sendMail(sendMail.getEmail(), user);
-        return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request));
+        return ResponseEntity.ok(new ResultMap(tokenUtils).success());
     }
 
     /**
