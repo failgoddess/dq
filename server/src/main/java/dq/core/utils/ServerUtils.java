@@ -47,14 +47,21 @@ public class ServerUtils {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(pro).append(PROTOCOL_SEPARATOR).append(accAddress);
+        sb.append(pro).append(PROTOCOL_SEPARATOR);
+        if(accAddress.startsWith(sb.toString())){
+        	sb.append(accAddress.substring(sb.length()));
+        }else{
+        	sb.append(accAddress);
+        }
         if (!StringUtils.isEmpty(accPort)) {
             sb.append(":" + accPort);
         }
 
         if (!StringUtils.isEmpty(contextPath)) {
             contextPath = contextPath.replaceAll(Consts.SLASH, EMPTY);
-            sb.append(Consts.SLASH);
+            if(!sb.toString().endsWith(Consts.SLASH)){
+            	sb.append(Consts.SLASH);
+            }
             sb.append(contextPath);
         }
 

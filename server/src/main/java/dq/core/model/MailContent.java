@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-@Setter(value = AccessLevel.PRIVATE)
+@Setter
+// (value = AccessLevel.PRIVATE)
 public class MailContent {
     private String from;
     private String nickName;

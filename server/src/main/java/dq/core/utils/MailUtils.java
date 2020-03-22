@@ -68,6 +68,8 @@ public class MailUtils {
                 throw new ServerException("Unknown email sending address: " + mailContent.getFrom());
             }
             from = mailContent.getFrom();
+        }else{
+        	mailContent.setFrom(from);
         }
 
         if (!StringUtils.isEmpty(mailContent.getNickName())) {
