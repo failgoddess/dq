@@ -217,8 +217,9 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       return
     }
     const { editingView } = this.props
-    const { name, sourceId, sql } = editingView
-    const errorMessages = ['名称不能为空', '请选择数据源', 'sql 不能为空']
+    const { name, sourceId, leftSql, rightSql } = editingView
+    const errorMessages = ['名称不能为空', '请选择数据源', 'sql不能同时为空']
+    const sql = leftSql || rightSql
     const fieldsValue = [name, sourceId, sql]
     const hasError = fieldsValue.some((val, idx) => {
       if (!val) {

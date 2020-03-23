@@ -31,8 +31,11 @@
             <if test="description != null">
                 description,
             </if>
-            <if test="sql != null">
-                `sql`,
+            <if test="leftSql != null">
+                `leftSql`,
+            </if>
+            <if test="rightSql != null">
+                `rightSql`,
             </if>
             <if test="model != null">
                 `model`,
@@ -53,8 +56,11 @@
             <if test="description != null">
                 #{description,jdbcType=VARCHAR},
             </if>
-            <if test="sql != null">
-                #{sql,jdbcType=LONGVARCHAR},
+            <if test="leftSql != null">
+                #{leftSql,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="rightSql != null">
+                #{rightSql,jdbcType=LONGVARCHAR},
             </if>
             <if test="model != null">
                 #{model,jdbcType=LONGVARCHAR},

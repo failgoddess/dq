@@ -41,7 +41,9 @@ public class ViewUpdate {
     @Min(value = 1L, message = "Invalid source Id")
     private Long sourceId;
 
-    private String sql;
+    private String leftSql;
+    
+    private String rightSql;
 
     private String model;
 

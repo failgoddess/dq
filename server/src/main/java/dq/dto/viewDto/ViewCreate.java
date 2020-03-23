@@ -40,8 +40,10 @@ public class ViewCreate {
 
     @Min(value = 1, message = "Invalid source Id")
     private Long sourceId;
-
-    private String sql;
+    
+    private String leftSql;
+    
+    private String rightSql;
 
     private String model;
 
