@@ -40,8 +40,8 @@ const makeSelectSqlValidation = () => createSelector(
 )
 
 const makeSelectSqlDataSource = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.sqlDataSource
+	selectView,
+	(viewState: IViewState) => viewState.sqlDataSource
 )
 
 const makeSelectSqlLimit = () => createSelector(

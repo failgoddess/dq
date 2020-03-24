@@ -51,9 +51,16 @@ const initialState: IViewState = {
     message: null
   },
   sqlDataSource: {
-    columns: [],
-    totalCount: 0,
-    resultList: []
+  	key: {
+      columns: [],
+      totalCount: 0,
+      resultList: []
+  	},
+  	value:{
+  	  columns: [],
+      totalCount: 0,
+      resultList: []
+  	}
   },
   sqlLimit: DEFAULT_SQL_LIMIT,
   loading: {

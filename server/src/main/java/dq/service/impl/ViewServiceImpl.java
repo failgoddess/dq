@@ -454,8 +454,8 @@ public class ViewServiceImpl implements ViewService {
                         }
                     }
                 }
-                
-                if (null != sqlDictEntity.getValue() && StringUtils.isEmpty(sqlDictEntity.getValue().getSql())) {
+                                
+                if (null != sqlDictEntity.getValue() && !StringUtils.isEmpty(sqlDictEntity.getValue().getSql())) {
 
                     if (isMaintainer(user, projectDetail)) {
                     	sqlDictEntity.getValue().setAuthParams(null);

@@ -36,18 +36,38 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[]) => {
+  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[]) => {
     const rowKey = `rowKey_${new Date().getTime()}`
-    resultList.forEach((record, idx) => record[rowKey] = Object.values(record).join('_') + idx)
-
-    const tableColumns = columns.map<ColumnProps<any>>((col) => {
-      const width = SqlPreview.computeColumnWidth(resultList, col.name)
-      return {
-        title: col.name,
-        dataIndex: col.name,
-        width
-      }
-    })
+	resultList.forEach((record, idx) => record[rowKey] = Object.values(record).join('_') + idx)
+	
+	var tableColumns = columns.map<ColumnProps<any>>((col) => {
+  	const width = SqlPreview.computeColumnWidth(resultList, col.name)
+  	return {
+    	title: 'left.'+col.name,
+    	dataIndex: col.name,
+    	width
+  		}
+	})
+    
+    if(rightResultList){
+    	rightResultList.forEach((record, idx) => record[rowKey] = Object.values(record).join('_') + idx)
+    	
+    	const rightTableColumns = rightColumns.map<ColumnProps<any>>((col) => {
+      		const width = SqlPreview.computeColumnWidth(rightResultList, col.name)
+      		return {
+        		title: 'right.'+col.name,
+        		dataIndex: col.name,
+        		width
+      		}
+    	})
+    	
+    	if(tableColumns){
+    		tableColumns = tableColumns.concat(rightTableColumns)
+    	}else{
+    		tableColumns = rightTableColumns
+    	}
+    }
+    
     return { tableColumns, rowKey }
   })
 
@@ -94,13 +114,19 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
   public render () {
     const { loading, response, size } = this.props
-    const { totalCount, columns, resultList } = response
+    const { key, value } = response
+    const { columns, resultList } = key
+    
+    var totalCount = key.totalCount
+    if(value.totalCount > totalCount){
+    	totalCount = value.totalCount
+    }
+    
     const paginationConfig: PaginationConfig = {
       ...SqlPreview.basePagination,
       total: totalCount
-
     }
-    const { tableColumns, rowKey } = this.prepareTable(columns, resultList)
+    const { tableColumns, rowKey } = this.prepareTable(columns, resultList ,value.columns, value.resultList)
     const scroll: TableProps<any>['scroll'] = {
       x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight

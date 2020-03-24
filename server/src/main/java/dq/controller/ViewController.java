@@ -199,7 +199,7 @@ public class ViewController extends BaseController {
         }
 
         Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> paginateWithQueryColumns = viewService.executeSql(executeSql, user);
-        return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(paginateWithQueryColumns.getKey()));
+        return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(paginateWithQueryColumns));
     }
 
 

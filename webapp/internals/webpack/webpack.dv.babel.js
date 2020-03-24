@@ -150,20 +150,20 @@ module.exports = require('./webpack.base.babel')({
       hashFunction: 'sha256',
       hashDigest: 'hex',
       hashDigestLength: 20
-    }),
-
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'server',
-      analyzerHost: 'localhost',
-      analyzerPort: 5000,
-      reportFilename: 'report.html',
-      defaultSizes: 'parsed',
-      openAnalyzer: false,
-      generateStatsFile: true,
-      statsFilename: '../stats.json',
-      statsOptions: null,
-      logLevel: 'info'
     })
+
+    // ,new BundleAnalyzerPlugin({
+    //   analyzerMode: 'server',
+    //   analyzerHost: 'localhost',
+    //   analyzerPort: 5000,
+    //   reportFilename: 'report.html',
+    //   defaultSizes: 'parsed',
+    //   openAnalyzer: false,
+    //   generateStatsFile: true,
+    //   statsFilename: '../stats.json',
+    //   statsOptions: null,
+    //   logLevel: 'info'
+    // })
   ],
 
   performance: {

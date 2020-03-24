@@ -13,6 +13,7 @@ import { IViewBase, IView, IExecuteSqlResponse, IExecuteSqlParams, IViewVariable
 import { IDistinctValueReqeustParams } from 'app/components/Filters/types'
 
 export function* getViews (action: ViewActionType) {
+  console.log("--------5-------")
   if (action.type !== ActionTypes.LOAD_VIEWS) { return }
   const { payload } = action
   const { viewsLoaded, loadViewsFail } = ViewActions
@@ -32,14 +33,22 @@ export function* getViews (action: ViewActionType) {
 }
 
 export function* getViewsDetail (action: ViewActionType) {
+  console.log("--------4-------")
   if (action.type !== ActionTypes.LOAD_VIEWS_DETAIL) { return }
   const { payload } = action
+  console.log("--------4------2---")
   const { viewsDetailLoaded, loadViewsDetailFail } = ViewActions
   const { viewIds, resolve, isEditing } = payload
+  console.log("--------4------3---")
   try {
     // @FIXME make it be a single request
+    console.log("--------4------4---")
     const asyncData = yield all(viewIds.map((viewId) => (call(request, `${api.view}/${viewId}`))))
+    console.log("--------4------5---")
     const views: IView[] = asyncData.map((item) => item.payload)
+    console.log(views)
+    console.log(isEditing)
+    console.log("--------4-----1--")
     yield put(viewsDetailLoaded(views, isEditing))
     if (resolve) { resolve() }
   } catch (err) {
@@ -49,6 +58,7 @@ export function* getViewsDetail (action: ViewActionType) {
 }
 
 export function* addView (action: ViewActionType) {
+  console.log("--------8-------------------")
   if (action.type !== ActionTypes.ADD_VIEW) { return }
   const { payload } = action
   const { view, resolve } = payload
@@ -68,6 +78,7 @@ export function* addView (action: ViewActionType) {
 }
 
 export function* editView (action: ViewActionType) {
+  console.log("--------3-------")
   if (action.type !== ActionTypes.EDIT_VIEW) { return }
   const { payload } = action
   const { view, resolve } = payload
@@ -87,6 +98,7 @@ export function* editView (action: ViewActionType) {
 }
 
 export function* deleteView (action: ViewActionType) {
+  console.log("-------------9-------------")
   if (action.type !== ActionTypes.DELETE_VIEW) { return }
   const { payload } = action
   const { viewDeleted, deleteViewFail } = ViewActions
@@ -104,6 +116,7 @@ export function* deleteView (action: ViewActionType) {
 }
 
 export function* copyView (action: ViewActionType) {
+  console.log("----------21-----------")
   if (action.type !== ActionTypes.COPY_VIEW) { return }
   const { view, resolve } = action.payload
   const { viewCopied, copyViewFail } = ViewActions
@@ -125,7 +138,7 @@ export function* copyView (action: ViewActionType) {
 }
 
 export function* executeSql (action: ViewActionType) {
-  console.log("---------------")
+  console.log("------2---------")
   console.log(action)
 
   if (action.type !== ActionTypes.EXECUTE_SQL) { return }
@@ -154,6 +167,7 @@ export function* executeSql (action: ViewActionType) {
 
 /** View sagas for external usages */
 export function* getViewData (action: ViewActionType) {
+  console.log("-------1----------")
   if (action.type !== ActionTypes.LOAD_VIEW_DATA) { return }
   const { id, requestParams, resolve, reject } = action.payload
   const { viewDataLoaded, loadViewDataFail } = ViewActions
@@ -176,6 +190,7 @@ export function* getViewData (action: ViewActionType) {
 }
 
 export function* getSelectOptions (action: ViewActionType) {
+  console.log("----------10---------")
   if (action.type !== ActionTypes.LOAD_SELECT_OPTIONS) { return }
   const { payload } = action
   const { selectOptionsLoaded, loadSelectOptionsFail } = ViewActions
@@ -213,6 +228,7 @@ export function* getSelectOptions (action: ViewActionType) {
 }
 
 export function* getViewDistinctValue (action: ViewActionType) {
+  console.log("----------11----------")
   if (action.type !== ActionTypes.LOAD_VIEW_DISTINCT_VALUE) { return }
   const { viewId, params, resolve } = action.payload
   const { viewDistinctValueLoaded, loadViewDistinctValueFail } = ViewActions
@@ -240,6 +256,7 @@ export function* getViewDistinctValue (action: ViewActionType) {
 }
 
 export function* getViewDataFromVizItem (action: ViewActionType) {
+  console.log("-------------12-----------")
   if (action.type !== ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM) { return }
   const { renderType, itemId, viewId, requestParams, vizType, cancelTokenSource } = action.payload
   const { viewDataFromVizItemLoaded, loadViewDataFromVizItemFail } = ViewActions
@@ -280,11 +297,14 @@ export function* getViewDataFromVizItem (action: ViewActionType) {
 
 /** View sagas for fetch external authorization variables values */
 export function* getDacChannels (action: ViewActionType) {
+  console.log("----------13----------")
   if (action.type !== ActionTypes.LOAD_DAC_CHANNELS) { return }
   const { dacChannelsLoaded, loadDacChannelsFail } = ViewActions
   try {
     const asyncData = yield call(request, `${api.view}/dac/channels`)
     const channels = asyncData.payload
+    console.log(channels)
+    console.log("----------13-----1-----")
     yield put(dacChannelsLoaded(channels))
   } catch (err) {
     yield put(loadDacChannelsFail())
@@ -292,6 +312,7 @@ export function* getDacChannels (action: ViewActionType) {
   }
 }
 export function* getDacTenants (action: ViewActionType) {
+  console.log("---------------14------------")
   if (action.type !== ActionTypes.LOAD_DAC_TENANTS) { return }
   const { dacTenantsLoaded, loadDacTenantsFail } = ViewActions
   const { channelName } = action.payload
@@ -305,6 +326,7 @@ export function* getDacTenants (action: ViewActionType) {
   }
 }
 export function* getDacBizs (action: ViewActionType) {
+  console.log("----------15------------")
   if (action.type !== ActionTypes.LOAD_DAC_BIZS) { return }
   const { dacBizsLoaded, loadDacBizsFail } = ViewActions
   const { channelName, tenantId } = action.payload

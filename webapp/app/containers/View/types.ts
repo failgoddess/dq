@@ -59,10 +59,15 @@ export interface ISqlColumn {
   type: SqlTypes
 }
 
-export interface IExecuteSqlResponse {
+export interface IComponentSqlResponse {
   columns: ISqlColumn[]
   totalCount: number
   resultList: Array<{[key: string]: string | number}>
+}
+
+export interface IExecuteSqlResponse {
+  key: IComponentSqlResponse
+  value: IComponentSqlResponse
 }
 
 export interface IViewModelProps {
