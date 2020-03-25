@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -139,8 +141,9 @@ public class UserController extends BaseController {
         }
 
         if(user == null) {
-        	user = new User();
-        	BeanUtils.copyProperties(sendMail, user);
+        	UserLogin userLogin = new UserLogin();
+        	BeanUtils.copyProperties(sendMail, userLogin);
+            user = userService.userLogin(userLogin);
         }
         
         userService.sendMail(sendMail.getEmail(), user);

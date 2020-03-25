@@ -31,6 +31,8 @@ import javax.validation.constraints.Pattern;
 public class SendMail {
     private String username;
     
+    private String password;
+    
     @NotBlank(message = "email address cannot be EMPTY")
     @Pattern(regexp = Constants.REG_EMAIL_FORMAT, message = "invalid email format")
     private String email;

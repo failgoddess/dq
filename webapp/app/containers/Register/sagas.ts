@@ -27,14 +27,15 @@ export function* signup (action): IterableIterator<any> {
   }
 }
 export function* sendMailAgain (action): IterableIterator<any> {
-  const {username, email, resolve} = action.payload
+  const {username, email, password, resolve} = action.payload
   try {
     const asyncData = yield call(request, {
       method: 'post',
       url: `${api.signup}/sendmail`,
       data: {
       	username,
-        email
+        email,
+        password
       }
     })
     const msg = asyncData.header.msg

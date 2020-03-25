@@ -238,6 +238,7 @@ public class TokenUtils {
         TokenDetail user = (TokenDetail) tokenDetail;
         String username = getUsername(token);
         String password = getPassword(token);
+        
         return (username.equals(user.getUsername()) && password.equals(user.getPassword()) && !(isExpired(token)));
     }
 

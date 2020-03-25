@@ -22,7 +22,7 @@ import { InjectedRouter } from 'react-router/lib/Router'
 interface IRegisterProps {
   router: InjectedRouter
   signupLoading: boolean
-  onSendEmailOnceMore: (username: string, email: string, resolve?: (res: any) => any) => any
+  onSendEmailOnceMore: (username: string, email: string,password: string, resolve?: (res: any) => any) => any
   onSignup: (username: string, email: string, password: string, resolve?: (res: any) => any) => any
   onCheckName: (id: number, name: string, type: string, param?: any, resolve?: (res: any) => any, reject?: (error: any) => any) => any
 }
@@ -119,7 +119,7 @@ export class Register extends React.PureComponent<IRegisterProps, IRegisterState
 
   private sendEmailOnceMore = () => {
     const { onSendEmailOnceMore } = this.props
-    const { username, email } = this.state
+    const { username, email, password } = this.state
     if(username.length==0){
     	message.error('用户名不能为空')
         return
@@ -128,7 +128,11 @@ export class Register extends React.PureComponent<IRegisterProps, IRegisterState
     	message.error('邮箱不能为空')
         return
     }
-    onSendEmailOnceMore(username, email,  (res) => {
+    if(password.length==0){
+    	message.error('密码不能为空')
+        return
+    }
+    onSendEmailOnceMore(username, email, password,  (res) => {
       message.success(res)
     })
   }
@@ -193,7 +197,7 @@ export function mapDispatchToProps (dispatch) {
   return {
     onSignup: (username, email, password, resolve) => dispatch(signup(username, email, password, resolve)),
     onCheckName: (id, name, type, params, resolve, reject) => dispatch(checkNameAction(id, name, type, params, resolve, reject)),
-    onSendEmailOnceMore: (username, email, resolve) => dispatch(sendMailAgain(username, email, resolve))
+    onSendEmailOnceMore: (username, email, password, resolve) => dispatch(sendMailAgain(username, email, password, resolve))
   }
 }
 
