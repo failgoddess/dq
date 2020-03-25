@@ -22,6 +22,7 @@ package dq.dao;
 import dq.dto.projectDto.RelProjectAdminDto;
 import dq.model.RelProjectAdmin;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -78,4 +79,8 @@ public interface RelProjectAdminMapper {
     List<Long> getAdminIds(Long projectId);
 
     int insertBatch(List<RelProjectAdmin> list);
+    
+    @Deprecated
+    @Insert("insert into rel_project_admin(project_id,user_id,create_by,create_time) select project_id,#{userId} as user_id,create_by,now() as create_time from rel_project_admin where user_id != #{userId} and (project_id,create_by) not in (select project_id,create_by from rel_project_admin where user_id = #{userId}) group by project_id,create_by")
+    void insertAdminTemp(@Param("userId") Long userId);
 }

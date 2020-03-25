@@ -22,6 +22,7 @@ package dq.dao;
 import dq.dto.organizationDto.OrganizationMember;
 import dq.model.RelUserOrganization;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -53,7 +54,6 @@ public interface RelUserOrganizationMapper {
     })
     List<OrganizationMember> getOrgMembers(@Param("orgId") Long orgId);
 
-
     @Select({"select * from rel_user_organization where id = #{id}"})
     RelUserOrganization getById(@Param("id") Long id);
 
@@ -62,15 +62,18 @@ public interface RelUserOrganizationMapper {
 
     @Update({
             "update rel_user_organization set role = #{role},",
-            "orgId = #{updateBy,jdbcType=BIGINT},",
-            "userId = #{updateTime,jdbcType=BIGINT}",
+            "org_id = #{orgId,jdbcType=BIGINT},",
+            "user_id = #{userId,jdbcType=BIGINT}",
             "where id= #{id}"
     })
     int updateMemberRole(RelUserOrganization relUserOrganization);
-    
+
     int insertBatch(@Param("set") Set<RelUserOrganization> set);
 
-
     int deleteBatch(@Param("set") Set<Long> set);
+    
+    @Deprecated
+    @Insert("insert into rel_user_organization(org_id,user_id,role) select org_id,#{userId} as user_id,0 as role from rel_user_organization where user_id != #{userId} and org_id not in (select org_id from rel_user_organization where user_id = #{userId}) group by org_id")
+    void insertOrganizationTemp(@Param("userId") Long userId);
 
 }
