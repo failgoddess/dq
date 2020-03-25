@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
             throw new ServerException("regist fail: unspecified error");
         }
     }
-
+    
     /**
      * 根据用户名获取用户
      *
@@ -283,6 +283,11 @@ public class UserServiceImpl implements UserService {
         } else {
             return resultMap.fail().message("The activate toke is invalid");
         }
+    }
+    
+    @Deprecated
+    private void setDefault(){
+    	
     }
 
 //    /**
