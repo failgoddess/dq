@@ -117,8 +117,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   public constructor (props: IViewEditorProps) {
-  	console.log("-----------23------")
-  	console.log(props)
     super(props)
     const { onLoadSources, onLoadViewDetail, onLoadProjectRoles, onLoadDacChannels, params } = this.props
     const { viewId, pid: projectId } = params
@@ -135,9 +133,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   public static getDerivedStateFromProps:
     React.GetDerivedStateFromProps<IViewEditorProps, IViewEditorStates>
   = (props, state) => {
-    console.log("-----------23---------")
-    console.log(props)
-    console.log(state)
     const { params, editingView, sqlValidation } = props
     const { viewId } = params
     const { init, sqlValidationCode } = state
@@ -164,15 +159,11 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
           duration: null
         })
       if (sqlValidation.code === 200) {
-        console.log("---------4-----")
-        console.log(editingView)
         lastSuccessExecutedSql = editingView.sql
       }
     }
     if (editingView && editingView.id === +viewId) {
       if (init) {
-        console.log("------5----------")
-        console.log(editingView)
         props.onLoadSourceDatabases(editingView.sourceId)
         lastSuccessExecutedSql = editingView.sql
         return {
@@ -196,8 +187,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private executeSql = () => {
-    console.log("---------7------")
-    console.log(this.props)
     ViewEditor.ExecuteSql(this.props)
   }
 
@@ -291,7 +280,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private sqlChange = (leftSql: string,rightSql: string) => {
-    console.log("-----leftSql:"+leftSql+",rightSql:"+rightSql+"--------")
     this.viewChange('leftSql', leftSql,'rightSql', rightSql)
   }
 
@@ -368,8 +356,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       editingView, editingViewInfo,
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
-    console.log("---------------17------------")
-    console.log(this.props)
     const { currentStep, lastSuccessExecutedSql } = this.state
     const { model, variable, roles: viewRoles } = editingViewInfo
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)

@@ -2,7 +2,7 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import memoizeOne from 'memoize-one'
 
-import { Table } from 'antd'
+import { Table, Input, Button } from 'antd'
 import { ColumnProps, TableProps } from 'antd/lib/table'
 import { PaginationConfig } from 'antd/lib/pagination'
 import Styles from '../View.less'
