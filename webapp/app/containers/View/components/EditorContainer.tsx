@@ -10,6 +10,7 @@ import SourceTable from './SourceTable'
 import SqlEditor from './SqlEditor'
 import SqlButton, { ISqlButtonProps } from './SqlButton'
 import VariableModal, { IVariableModalProps } from './VariableModal'
+import ToolboxModal, { IToolboxModalProps } from './ToolboxModal'
 import SqlPreview, { ISqlPreviewProps } from './SqlPreview'
 import EditorBottom from './EditorBottom'
 
@@ -51,7 +52,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
     // const editorHeight = this.editor.current.clientHeight + 10
     const editorHeight = this.editor.current.clientHeight + 10
-    const previewHeight = editorHeight - 100
+    const previewHeight = editorHeight - 80
     this.setState({
       editorHeight,
       previewHeight
@@ -140,6 +141,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     let editorBottom: React.ReactElement<any>
     let sqlButton: React.ReactElement<ISqlButtonProps>
     let variableModal: React.ReactElement<IVariableModalProps>
+    let toolboxModal: React.ReactElement<IToolboxModalProps>
 
     React.Children.forEach(props.children, (child) => {
       const c = child as React.ReactElement<any>
@@ -172,18 +174,24 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           onCancel: this.closeVariableModal,
           onSave: this.saveVariable
         })
+      } else if (areComponentsEqual(type, ToolboxModal)) {
+        toolboxModal = React.cloneElement<IToolboxModalProps>(c, {
+          nameValidator: this.variableNameValidate,
+          onAdd: this.addVariable,
+          onCancel: this.closeVariableModal,
+          onSave: this.saveVariable
+        })
       }
     })
 
-    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal }
+    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal }
   }
 
   public render () {
     const { visible } = this.props
-    const {
-      editorHeight, siderWidth, previewHeight } = this.state
+    const { editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal ,toolboxModal } = this.getChildren(this.props, this.state)
 
     return (
       <>
@@ -217,6 +225,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                   </div>
                 </Resizable>
               </div>
+              <div className={Styles.toolbox}>{toolboxModal}</div>
               <div className={Styles.preview} style={{height: previewHeight}}>
                   {sqlPreview}
               </div>
@@ -224,7 +233,6 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
             {editorBottom}
           </div>
         </div>
-        {variableModal}
       </>
     )
   }

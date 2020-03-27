@@ -1,4 +1,13 @@
-# dq
-    Idea deployment may encounter the following problems:
-    1、element encoding is not allowed here：https://myclusterbox.com/view/1531
-    2、idea does not recognize @Slf4j ,@Getter ,@Setter：https://myclusterbox.com/view/1532
+# DQ
+
+## Difference Check
+[![](doc/differenceCheck.JPG)]
+
+    Difference Check开发计划：
+    1、左右编辑器之间的关系
+    2、sql代码生成器
+    3、全部、差异、相同等视图
+    4、编辑类型与权限，还缺少动作配置
+
+    其他开发计划：
+    1、升级通知等

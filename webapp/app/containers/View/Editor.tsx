@@ -54,6 +54,7 @@ import SqlPreview from './components/SqlPreview'
 import EditorBottom from './components/EditorBottom'
 import ViewVariableList from './components/ViewVariableList'
 import VariableModal from './components/VariableModal'
+import ToolboxModal from './components/ToolboxModal'
 
 import Styles from './View.less'
 
@@ -387,6 +388,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onTableSelect={onLoadTableColumns}
             />
             <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <ToolboxModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}

@@ -69,7 +69,7 @@
 
     :global(.react-resizable-handle) {
       position: absolute;
-      height: 16px;
+      height: 3px;
       width: 100%;
       padding: 0;
       bottom: 0;
@@ -80,7 +80,7 @@
 
   .sqlEditor {
     flex: 1;
-    padding: 16px;
+    padding: 16px 16px 3px 16px;
     border-right: 1px solid @border-color-base;
     min-height: 0;
     min-width: 0;
@@ -89,6 +89,12 @@
   .preview {
     padding: 0 16px;
     overflow: hidden;
+  }
+  
+  .toolbox {
+    height:20px;
+    margin:3px 16px 0px 16px;
+    border: 0;
   }
 
   .authTab {

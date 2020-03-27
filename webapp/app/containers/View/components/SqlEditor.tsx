@@ -78,9 +78,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       this.sqlEditor.doc.setValue(rightSql)
     }
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-      console.log("================---------===================")
-      console.log(_.options.name)
-      console.log(_.getDoc().getValue())
       this.debouncedSqlChange(_.getDoc().getValue(),_.options.name)
     	
       if (change.origin === '+input'
