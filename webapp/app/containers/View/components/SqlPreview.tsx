@@ -36,39 +36,48 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[]) => {
+  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount) => {
     const rowKey = `rowKey_${new Date().getTime()}`
-	resultList.forEach((record, idx) => record[rowKey] = Object.values(record).join('_') + idx)
+    
+    for(var i=0;i<totalCount;i++){
+    	var record = []
+    	if (typeof(resultList[i]) != "undefined") {
+			for(var key in resultList[i]){
+    			record['left.'+key] = resultList[i][key];
+    		}
+		} 
+    	if (typeof(rightResultList[i]) != "undefined") {
+			for(var key in rightResultList[i]){
+    			record['right.'+key] = rightResultList[i][key];
+    		}
+		} 
+		record[rowKey] = Object.values(record).join('_') + i;
+    }
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
-  	const width = SqlPreview.computeColumnWidth(resultList, col.name)
-  	return {
-    	title: 'left.'+col.name,
-    	dataIndex: col.name,
-    	width
-  		}
-	})
+	    var colName = "left."+col.name
+  		const width = SqlPreview.computeColumnWidth(resultList, colName)
+  		return {
+    		title: colName,
+    		dataIndex: colName,
+    		width
+  			}
+		}
+	)
+	
+	tableColumns = tableColumns.concat(rightColumns.map<ColumnProps<any>>((col) => {
+		var coiNmae = "right."+col.name
+  		const width = SqlPreview.computeColumnWidth(resultList, coiNmae)
+  		col.name = col.name
+  		return {
+    		title: coiNmae,
+    		dataIndex: coiNmae,
+    		width
+  			}
+		}
+	))
     
-    if(rightResultList){
-    	rightResultList.forEach((record, idx) => record[rowKey] = Object.values(record).join('_') + idx)
-    	
-    	const rightTableColumns = rightColumns.map<ColumnProps<any>>((col) => {
-      		const width = SqlPreview.computeColumnWidth(rightResultList, col.name)
-      		return {
-        		title: 'right.'+col.name,
-        		dataIndex: col.name,
-        		width
-      		}
-    	})
-    	
-    	if(tableColumns){
-    		tableColumns = tableColumns.concat(rightTableColumns)
-    	}else{
-    		tableColumns = rightTableColumns
-    	}
-    }
-    
-    return { tableColumns, rowKey }
+    return { tableColumns, rowKey, resultList }
   })
 
   private static computeColumnWidth = (resultList: any[], columnName: string) => {
@@ -115,18 +124,21 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   public render () {
     const { loading, response, size } = this.props
     const { key, value } = response
-    const { columns, resultList } = key
     
+    console.log("-----------------------------------")
     var totalCount = key.totalCount
     if(value.totalCount > totalCount){
     	totalCount = value.totalCount
     }
-    
+    console.log(totalCount)
     const paginationConfig: PaginationConfig = {
       ...SqlPreview.basePagination,
       total: totalCount
     }
-    const { tableColumns, rowKey } = this.prepareTable(columns, resultList ,value.columns, value.resultList)
+    const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount)
+    console.log(tableColumns)
+    console.log(rowKey)
+    console.log(resultList)
     const scroll: TableProps<any>['scroll'] = {
       x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight
