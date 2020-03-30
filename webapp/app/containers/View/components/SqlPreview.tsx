@@ -40,18 +40,19 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     const rowKey = `rowKey_${new Date().getTime()}`
     
     for(var i=0;i<totalCount;i++){
-    	var record = []
+    	var record = {}
     	if (typeof(resultList[i]) != "undefined") {
 			for(var key in resultList[i]){
     			record['left.'+key] = resultList[i][key];
     		}
-		} 
+		}
     	if (typeof(rightResultList[i]) != "undefined") {
 			for(var key in rightResultList[i]){
     			record['right.'+key] = rightResultList[i][key];
     		}
 		} 
 		record[rowKey] = Object.values(record).join('_') + i;
+		resultList[i]=record;
     }
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
