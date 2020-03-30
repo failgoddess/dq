@@ -417,8 +417,8 @@ public class ViewServiceImpl implements ViewService {
         }
 
         //结构化Sql
-        PaginateWithQueryColumns leftPaginateWithQueryColumns = null;
-        PaginateWithQueryColumns rightPaginateWithQueryColumns = null;
+        PaginateWithQueryColumns leftPaginateWithQueryColumns = new PaginateWithQueryColumns();
+        PaginateWithQueryColumns rightPaginateWithQueryColumns = new PaginateWithQueryColumns();
         try {
             Dict<SqlEntity,SqlEntity> sqlDictEntity = new Dict<>(sqlParseUtils.parseSql(executeSql.getLeftSql(), executeSql.getVariables(), sqlTempDelimiter),sqlParseUtils.parseSql(executeSql.getRightSql(), executeSql.getVariables(), sqlTempDelimiter));
             if (null != sqlUtils) {

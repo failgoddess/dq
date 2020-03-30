@@ -19,11 +19,8 @@ const stepChange = (onStepChange: IEditorBottomProps['onStepChange'], step: numb
 }
 
 export const EditorBottom = (props: IEditorBottomProps) => {
-  console.log("~~~~~~~=16==~~~~~~")
-  console.log(props)
   
   const { sqlLimit, loading, nextDisabled, onSetSqlLimit, onExecuteSql, onStepChange } = props
-  console.log("~~~~~~~=16==~~~1~~~")
   return (
     <Row className={Styles.bottom} type="flex" align="middle" justify="start">
     <Col span={12} className={Styles.previewInput}>

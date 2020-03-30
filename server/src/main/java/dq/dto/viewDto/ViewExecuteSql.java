@@ -23,18 +23,20 @@ import dq.model.SqlVariable;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.ScriptAssert;
+
 import java.util.List;
 
 @Data
+@ScriptAssert(lang="javascript",alias = "_",script="_.leftSql !=null || _.rightSql !=null ",message = "at least one of sql is not empty")
 public class ViewExecuteSql {
     @Min(value = 1L, message = "Invalid Source Id")
     private Long sourceId;
 
-    @NotBlank(message = "leftSql cannot be EMPTY")
     private String leftSql;
     
-    @NotBlank(message = "rightSql cannot be EMPTY")
     private String rightSql;
 
     private List<SqlVariable> variables;
@@ -42,4 +44,11 @@ public class ViewExecuteSql {
     private int limit = 0;
     private int pageNo = -1;
     private int pageSize = -1;
+    
+    public boolean checkSql(String leftSql,String rightSql) {
+    	if(StringUtils.isNotBlank(leftSql) || StringUtils.isNotBlank(rightSql)) {
+    		return true;
+    	}
+    	return false;
+    }
 }

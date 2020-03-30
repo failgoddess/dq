@@ -126,7 +126,6 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     const { loading, response, size } = this.props
     const { key, value } = response
     
-    console.log("-----------------------------------")
     var totalCount = key.totalCount
     if(value.totalCount > totalCount){
     	totalCount = value.totalCount
@@ -136,6 +135,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       ...SqlPreview.basePagination,
       total: totalCount
     }
+    console.log("-------123456789-----------")
+    console.log(typeof(key))
+    console.log(typeof(value))
     const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount)
     console.log(tableColumns)
     console.log(rowKey)
