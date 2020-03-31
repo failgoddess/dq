@@ -162,16 +162,17 @@ public class FileUtils {
      * @return
      */
     public static void deleteDir(File dir) {
-
-        if (dir.isFile() || dir.list().length == 0) {
-            dir.delete();
-        }
-        else {
-            for (File f : dir.listFiles()) {
-                deleteDir(f);
+    	if(dir != null){
+    		if (dir.isFile() || dir.list().length == 0) {
+                dir.delete();
             }
-            dir.delete();
-        }
+            else {
+                for (File f : dir.listFiles()) {
+                    deleteDir(f);
+                }
+                dir.delete();
+            }
+    	}
     }
 
     /**

@@ -1,8 +1,9 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
+import Highlighter from 'react-highlight-words';
 import memoizeOne from 'memoize-one'
 
-import { Table, Input, Button } from 'antd'
+import { Table, Input, Button, Icon } from 'antd'
 import { ColumnProps, TableProps } from 'antd/lib/table'
 import { PaginationConfig } from 'antd/lib/pagination'
 import Styles from '../View.less'
@@ -35,7 +36,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showQuickJumper: true,
     showSizeChanger: true
   }
-
+  
   private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     
@@ -61,18 +62,23 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   		return {
     		title: colName,
     		dataIndex: colName,
+    		sorter: (a, b) => this.sortColumn(a,b,colName),
+    		sortDirections: ['descend', 'ascend'],
+    		...this.getColumnSearchProps(colName),
     		width
-  			}
-		}
-	)
+  		}
+	})
 	
 	tableColumns = tableColumns.concat(rightColumns.map<ColumnProps<any>>((col) => {
-		var coiNmae = "right."+col.name
-  		const width = SqlPreview.computeColumnWidth(resultList, coiNmae)
+		var colName = "right."+col.name
+  		const width = SqlPreview.computeColumnWidth(resultList, colName)
   		col.name = col.name
   		return {
-    		title: coiNmae,
-    		dataIndex: coiNmae,
+    		title: colName,
+    		dataIndex: colName,
+    		sorter: (a, b) => this.sortColumn(a,b,colName),
+    		sortDirections: ['descend', 'ascend'],
+    		...this.getColumnSearchProps(colName),
     		width
   			}
 		}
@@ -91,6 +97,17 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     maxWidth = Math.min(maxWidth, SqlPreview.TableCellMaxWidth)
     return maxWidth
   }
+  
+  private distinct(a, b) {
+    let arr = a.concat(b)
+    arr = arr.sort()
+    let result = [arr[0]]
+
+    for (let i=1, len=arr.length; i<len; i++) {
+        arr[i] !== arr[i-1] && result.push(arr[i])
+    }
+    return result
+}
 
   private table = React.createRef<Table<any>>()
   public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0 }
@@ -121,6 +138,77 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     const tableBodyHeight = this.props.height - excludeElemsHeight
     return tableBodyHeight
   }
+  
+  sortColumn = (a:any,b:any,colName) => {
+  	return a[colName] - b[colName]
+  }
+  
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div >
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          icon={ <Icon type="search" />}
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => <Icon type="search" title="搜索" style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) => {
+      if(typeof(record[dataIndex]) != "undefined"){
+      	record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase())
+      }
+    },
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: text =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={typeof(text) == "undefined" ? "" :text.toString()}
+        />
+      ) : (
+        text
+      ),
+  });
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
 
   public render () {
     const { loading, response, size } = this.props
@@ -135,13 +223,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       ...SqlPreview.basePagination,
       total: totalCount
     }
-    console.log("-------123456789-----------")
-    console.log(typeof(key))
-    console.log(typeof(value))
+    
     const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount)
-    console.log(tableColumns)
-    console.log(rowKey)
-    console.log(resultList)
+    
     const scroll: TableProps<any>['scroll'] = {
       x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight
