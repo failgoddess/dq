@@ -1,4 +1,3 @@
-
 import React from 'react'
 import debounce from 'lodash/debounce'
 
@@ -94,7 +93,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   public render () {
     return (
-      <div className={Styles.sqlEditor} id={this.props.id}>
+      <div className={Styles.sqlEditor} id={this.props.id} style={this.props.styleDict}>
         <textarea ref={this.sqlEditorContainer} />
       </div>
     )

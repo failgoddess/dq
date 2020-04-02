@@ -19,10 +19,7 @@ export class ToolboxModal extends React.Component<IToolboxModalProps> {
   private onAdd = () => {
   	console.log("------------100---------")
   	console.log(this)
-    this.setState({
-      editingVariable: null,
-      variableModalVisible: true
-    })
+    
   }
 
   public render () {
@@ -30,7 +27,7 @@ export class ToolboxModal extends React.Component<IToolboxModalProps> {
     console.log("-----------90---")
     console.log(this.props)
      return (
-      <span>  <Icon type="filter" onClick={this.onAdd} title="过滤" /></span>
+      <span>  <Icon type="filter"  title="过滤" /></span>
     )
   }
 

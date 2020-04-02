@@ -141,7 +141,12 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   }
   
   sortColumn = (a:any,b:any,colName) => {
-  	return a[colName] - b[colName]
+    if(typeof(a[colName])=="string"){
+    	return a[colName]> b[colName] ? 1 : a[colName] < b[colName] ? -1 : 0;
+    }else if(typeof(a[colName])=="number"){
+    	return a[colName] - b[colName];
+    }
+    return 0;
   }
   
   getColumnSearchProps = dataIndex => ({

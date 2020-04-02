@@ -9,8 +9,8 @@ import SourceTable from './SourceTable'
 import SqlEditor from './SqlEditor'
 import SqlButton, { ISqlButtonProps } from './SqlButton'
 import VariableModal, { IVariableModalProps } from './VariableModal'
-import ToolboxModal, { IToolboxModalProps } from './ToolboxModal'
 import SpacebarModal, { ISpacebarModalProps } from './SpacebarModal'
+import ToolboxModal, { IToolboxModalProps } from './ToolboxModal'
 import SqlPreview, { ISqlPreviewProps } from './SqlPreview'
 import EditorBottom from './EditorBottom'
 
@@ -152,8 +152,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       } else if (areComponentsEqual(type, SqlEditor)) {
         // sqlEditor = c
         const { leftWidth } = state
-        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql" })
-        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql" })
+        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql",styleDict: {"padding":"16px 3px 3px 16px"} })
+        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql",styleDict: {"padding":"16px 16px 3px 3px"} })
       } else if (areComponentsEqual(type, SqlPreview)) {
         const { previewHeight } = state
         sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })
@@ -175,31 +175,32 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           onCancel: this.closeVariableModal,
           onSave: this.saveVariable
         })
-      } else if (areComponentsEqual(type, SpacebarModal)) {
+       } else if (areComponentsEqual(type, SpacebarModal)) {
         spacebarModal = React.cloneElement<ISpacebarModalProps>(c, {
-          nameValidator: this.variableNameValidate,
+          className: Styles.viewVariable,
           onAdd: this.addVariable,
-          onCancel: this.closeVariableModal,
-          onSave: this.saveVariable
+          onDelete: this.deleteVariable,
+          onEdit: this.editVariable
         })
       } else if (areComponentsEqual(type, ToolboxModal)) {
+      	const { variableModalVisible, editingVariable } = this.state
         toolboxModal = React.cloneElement<IToolboxModalProps>(c, {
-          nameValidator: this.variableNameValidate,
+          className: Styles.viewVariable,
           onAdd: this.addVariable,
-          onCancel: this.closeVariableModal,
-          onSave: this.saveVariable
+          onDelete: this.deleteVariable,
+          onEdit: this.editVariable
         })
       }
     })
 
-    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal , spacebarModal }
+    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal, spacebarModal }
   }
 
   public render () {
     const { visible } = this.props
     const { editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal, spacebarModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal,spacebarModal } = this.getChildren(this.props, this.state)
 
     return (
       <>
@@ -209,7 +210,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
               axis="x"
               width={siderWidth}
               height={0}
-              minConstraints={[EditorContainer.SiderMinWidth, 0]}
+              minConstraints={0}
               maxConstraints={[EditorContainer.SiderMinWidth * 2, 0]}
               onResize={this.siderResize}
             >
@@ -242,6 +243,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
             {editorBottom}
           </div>
         </div>
+        {variableModal}
       </>
     )
   }

@@ -175,6 +175,7 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
   }
 
   public render () {
+    console.log("------------variableModal--------------")
     const {
       visible, variable, onCancel, form,
       channels, tenants, bizs,
