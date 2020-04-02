@@ -36,7 +36,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showQuickJumper: true,
     showSizeChanger: true
   }
-  
+
   private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     
@@ -58,28 +58,29 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
 	    var colName = "left."+col.name
-  		const width = SqlPreview.computeColumnWidth(resultList, colName)
+  		const leftWidth = SqlPreview.computeColumnWidth(resultList, colName)
   		return {
     		title: colName,
     		dataIndex: colName,
     		sorter: (a, b) => this.sortColumn(a,b,colName),
     		sortDirections: ['descend', 'ascend'],
-    		...this.getColumnSearchProps(colName),
-    		width
+    		width: leftWidth,
+    		...this.getColumnSearchProps(colName)
+    		
   		}
 	})
 	
 	tableColumns = tableColumns.concat(rightColumns.map<ColumnProps<any>>((col) => {
 		var colName = "right."+col.name
-  		const width = SqlPreview.computeColumnWidth(resultList, colName)
+  		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
   		col.name = col.name
   		return {
     		title: colName,
     		dataIndex: colName,
     		sorter: (a, b) => this.sortColumn(a,b,colName),
     		sortDirections: ['descend', 'ascend'],
-    		...this.getColumnSearchProps(colName),
-    		width
+    		width: rightWidth,
+    		...this.getColumnSearchProps(colName)
   			}
 		}
 	))
@@ -110,7 +111,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 }
 
   private table = React.createRef<Table<any>>()
-  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0 }
+  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '' }
 
   public componentDidMount () {
     const tableBodyHeight = this.computeTableBody()
@@ -171,14 +172,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       </div>
     ),
     filterIcon: filtered => <Icon type="search" title="搜索" style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => {
-      if(typeof(record[dataIndex]) != "undefined"){
-      	record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase())
-      }
-    },
+    onFilter: (value, record) => typeof(record[dataIndex]) != "undefined" ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : false,
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => this.searchInput.select());
@@ -199,9 +193,10 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
+    
     this.setState({
       searchText: selectedKeys[0],
-      searchedColumn: dataIndex,
+      searchedColumn: dataIndex
     });
   };
 
@@ -218,19 +213,18 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     if(value.totalCount > totalCount){
     	totalCount = value.totalCount
     }
-    console.log(totalCount)
+
     const paginationConfig: PaginationConfig = {
       ...SqlPreview.basePagination,
       total: totalCount
     }
-    
+	
     const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount)
-    
     const scroll: TableProps<any>['scroll'] = {
       x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight
     }
-
+    
     return (
       <Table
         ref={this.table}

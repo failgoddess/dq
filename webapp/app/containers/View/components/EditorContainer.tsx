@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { areComponentsEqual } from 'react-hot-loader'
 
@@ -11,6 +10,7 @@ import SqlEditor from './SqlEditor'
 import SqlButton, { ISqlButtonProps } from './SqlButton'
 import VariableModal, { IVariableModalProps } from './VariableModal'
 import ToolboxModal, { IToolboxModalProps } from './ToolboxModal'
+import SpacebarModal, { ISpacebarModalProps } from './SpacebarModal'
 import SqlPreview, { ISqlPreviewProps } from './SqlPreview'
 import EditorBottom from './EditorBottom'
 
@@ -141,6 +141,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     let editorBottom: React.ReactElement<any>
     let sqlButton: React.ReactElement<ISqlButtonProps>
     let variableModal: React.ReactElement<IVariableModalProps>
+    let spacebarModal: React.ReactElement<ISpacebarModalProps>
     let toolboxModal: React.ReactElement<IToolboxModalProps>
 
     React.Children.forEach(props.children, (child) => {
@@ -174,6 +175,13 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           onCancel: this.closeVariableModal,
           onSave: this.saveVariable
         })
+      } else if (areComponentsEqual(type, SpacebarModal)) {
+        spacebarModal = React.cloneElement<ISpacebarModalProps>(c, {
+          nameValidator: this.variableNameValidate,
+          onAdd: this.addVariable,
+          onCancel: this.closeVariableModal,
+          onSave: this.saveVariable
+        })
       } else if (areComponentsEqual(type, ToolboxModal)) {
         toolboxModal = React.cloneElement<IToolboxModalProps>(c, {
           nameValidator: this.variableNameValidate,
@@ -184,14 +192,14 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       }
     })
 
-    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal }
+    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal , spacebarModal }
   }
 
   public render () {
     const { visible } = this.props
     const { editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal ,toolboxModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal, toolboxModal, spacebarModal } = this.getChildren(this.props, this.state)
 
     return (
       <>
@@ -221,6 +229,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                 >
                   <div className={Styles.containerVertical}>
                     {leftSqlEditor}
+                    {spacebarModal}
                     {rightSqlEditor}
                   </div>
                 </Resizable>
