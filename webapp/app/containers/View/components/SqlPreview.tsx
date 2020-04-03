@@ -17,6 +17,7 @@ export interface ISqlPreviewProps {
   response: IExecuteSqlResponse
   height?: number
   size: TableProps<any>['size']
+  correlation: IViewCorrelation
 }
 
 interface ISqlPreviewStates {
@@ -37,7 +38,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount) => {
+  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation:IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     
     for(var i=0;i<totalCount;i++){
@@ -211,7 +212,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   };
 
   public render () {
-    const { loading, response, size } = this.props
+    console.log("-------------sqlPreview---------------")
+    console.log(this.props)
+    const { loading, response, size, correlation} = this.props
     const { key, value } = response
     
     var totalCount = key.totalCount
@@ -224,7 +227,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       total: totalCount
     }
 	
-    const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount)
+    const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
     const scroll: TableProps<any>['scroll'] = {
       x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight

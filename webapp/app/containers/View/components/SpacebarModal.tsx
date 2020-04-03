@@ -7,7 +7,7 @@ import { ViewVariableTypes } from '../constants'
 import Styles from '../View.less'
 
 export interface ISpacebarModalProps {
-  variables: IViewVariable[]
+  correlation: IViewCorrelation
   className?: string
   onAdd?: () => void
   onDelete?: (key: string) => void

@@ -54,6 +54,7 @@ import SqlPreview from './components/SqlPreview'
 import EditorBottom from './components/EditorBottom'
 import ViewVariableList from './components/ViewVariableList'
 import VariableModal from './components/VariableModal'
+import CorrelationModal from './components/CorrelationModal'
 import ToolboxModal from './components/ToolboxModal'
 import SpacebarModal from './components/SpacebarModal'
 
@@ -73,6 +74,8 @@ interface IViewEditorStateProps {
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
+  
+  correlation: IViewCorrelation
 }
 
 interface IViewEditorDispatchProps {
@@ -351,6 +354,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   })
 
   public render () {
+    console.log("------------------Editor-------------------")
+    console.log(this.props)
     const {
       sources, schema,
       sqlDataSource, sqlLimit, loading, projectRoles,
@@ -359,7 +364,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
     const { currentStep, lastSuccessExecutedSql } = this.state
-    const { model, variable, roles: viewRoles } = editingViewInfo
+    const { model, variable, roles: viewRoles, correlation } = editingViewInfo
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
@@ -378,6 +383,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             visible={containerVisible}
             variable={variable}
             onVariableChange={this.variableChange}
+            correlation={correlation} 
           >
             <SourceTable
               view={editingView}
@@ -389,10 +395,11 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onTableSelect={onLoadTableColumns}
             />
             <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlChange={this.sqlChange} />
-            <SpacebarModal variables={variable} />
-            <ToolboxModal variables={variable} />
+            <SpacebarModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
+            <CorrelationModal correlation={correlation} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
+            <ToolboxModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <VariableModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
+            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} />
             <EditorBottom
               sqlLimit={sqlLimit}
               loading={loading.execute}

@@ -102,6 +102,13 @@ export interface IViewVariable extends IViewVariableBase {
   fromService: boolean
 }
 
+export interface IViewCorrelation {
+  key: string
+  alias: string
+  fromService: boolean
+  expression: string
+}
+
 export interface IViewRoleRaw {
   roleId: number
   columnAuth: string
@@ -135,6 +142,7 @@ export interface IViewInfo {
   model: IViewModel
   variable: IViewVariable[]
   roles: IViewRole[]
+  correlation: IViewCorrelation
 }
 
 export interface IFormedViews {
