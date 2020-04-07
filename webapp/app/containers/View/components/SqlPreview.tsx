@@ -8,16 +8,17 @@ import { ColumnProps, TableProps } from 'antd/lib/table'
 import { PaginationConfig } from 'antd/lib/pagination'
 import Styles from '../View.less'
 
-import { IExecuteSqlResponse, ISqlColumn } from '../types'
+import { IExecuteSqlResponse, ISqlColumn, IViewCorrelation } from '../types'
 import { DEFAULT_SQL_PREVIEW_PAGE_SIZE, SQL_PREVIEW_PAGE_SIZE_OPTIONS } from '../constants'
 import { getTextWidth } from 'utils/util'
+import evaluate from 'simple-evaluate';
 
 export interface ISqlPreviewProps {
   loading: boolean
   response: IExecuteSqlResponse
   height?: number
   size: TableProps<any>['size']
-  correlation: IViewCorrelation
+  updatedCorrelation: IViewCorrelation
 }
 
 interface ISqlPreviewStates {
@@ -38,7 +39,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation:IViewCorrelation) => {
+  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     
     for(var i=0;i<totalCount;i++){
@@ -53,9 +54,16 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     			record['right.'+key] = rightResultList[i][key];
     		}
 		} 
+		
+		for(var key in correlation['expressionPair']){
+			record[key] = evaluate(record,correlation['expressionPair'][key]);
+		}
 		record[rowKey] = Object.values(record).join('_') + i;
 		resultList[i]=record;
     }
+    
+    console.log("-------------sqlPreview---------------")
+    console.log(correlation)
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
 	    var colName = "left."+col.name
@@ -67,14 +75,12 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     		sortDirections: ['descend', 'ascend'],
     		width: leftWidth,
     		...this.getColumnSearchProps(colName)
-    		
   		}
 	})
 	
 	tableColumns = tableColumns.concat(rightColumns.map<ColumnProps<any>>((col) => {
 		var colName = "right."+col.name
   		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
-  		col.name = col.name
   		return {
     		title: colName,
     		dataIndex: colName,
@@ -85,7 +91,21 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   			}
 		}
 	))
-    
+	
+	var expressionArr = []
+	for(var colName in correlation['expressionPair']){
+		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+		expressionArr.unshift({
+			title: colName,
+			dataIndex: colName,
+			sorter: (a, b) => this.sortColumn(a,b,colName),
+			sortDirections: ['descend', 'ascend'],
+			width: rightWidth,
+			...this.getColumnSearchProps(colName)
+		})
+	}
+	tableColumns = tableColumns.concat(expressionArr)
+	
     return { tableColumns, rowKey, resultList }
   })
 
@@ -212,10 +232,14 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   };
 
   public render () {
-    console.log("-------------sqlPreview---------------")
-    console.log(this.props)
-    const { loading, response, size, correlation} = this.props
+    console.log("---------------")
+    const { loading, response, size,updatedCorrelation} = this.props
     const { key, value } = response
+    
+    var correlation = this.props.correlation
+    if(updatedCorrelation){
+    	correlation = updatedCorrelation
+    }
     
     var totalCount = key.totalCount
     if(value.totalCount > totalCount){

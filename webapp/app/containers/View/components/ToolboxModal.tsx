@@ -24,8 +24,6 @@ export class ToolboxModal extends React.Component<IToolboxModalProps> {
 
   public render () {
     const { className, onAdd } = this.props
-    console.log("-----------90---")
-    console.log(this.props)
      return (
       <span>  <Icon type="filter"  title="过滤" /></span>
     )

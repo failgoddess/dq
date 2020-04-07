@@ -10,12 +10,11 @@ import {
   IViewCorrelation,
   IDacChannel, IDacTenant, IDacBiz
 } from 'containers/View/types'
-import OperatorTypes from 'utils/operatorTypes'
-import { ViewVariableTypes, ViewVariableTypesLocale, ViewVariableValueTypes, ViewVariableValueTypesLocale } from 'containers/View/constants'
+import { ViewCorrelationValueTypes } from 'containers/View/constants'
 
 export interface ICorrelationModalProps {
   visible?: boolean
-  correlation?: IViewCorrelation
+  correlation: IViewCorrelation
 
   channels: IDacChannel[]
   tenants: IDacTenant[]
@@ -29,24 +28,17 @@ export interface ICorrelationModalProps {
 }
 
 interface ICorrelationModalStates {
-  operatorType: OperatorTypes
-  selectedType: ViewVariableTypes
-  selectedValueType: ViewVariableValueTypes
-  defaultValues: ConditionValueTypes[]
-  isUdf: boolean
-  isFromService: boolean
+  expression: ViewCorrelationValueTypes
 }
 
 const defaultCorrelation: IViewCorrelation = {
   key: '',
   name: '',
   alias: '',
-  type: ViewVariableTypes.Query,
-  valueType: ViewVariableValueTypes.String,
-  defaultValues: [],
-  udf: false,
-  fromService: false,
-  expression: ''
+  correlation:{
+  	expression:'',
+    expressionPair:{}
+  }
 }
 
 export class CorrelationModal extends React.Component<ICorrelationModalProps & FormComponentProps, ICorrelationModalStates> {
@@ -57,38 +49,23 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   }
 
   public state: Readonly<ICorrelationModalStates> = {
-    operatorType: OperatorTypes.In,
-    selectedType: ViewVariableTypes.Query,
-    selectedValueType: ViewVariableValueTypes.String,
-    defaultValues: [],
-    isUdf: false,
-    isFromService: false
+    expression: ViewCorrelationValueTypes.String
   }
 
   public componentDidUpdate (prevProps: ICorrelationModalProps & FormComponentProps) {
-    const { form, variable, visible, channels } = this.props
-    if (variable !== prevProps.variable || visible !== prevProps.visible) {
-      const { type, valueType, defaultValues, udf, fromService, channel } = variable || defaultCorrelation
-      if (channel && visible) {
-        const { name: channelName, tenantId } = channel
-        const { onLoadDacTenants, onLoadDacBizs } = this.props
-        onLoadDacTenants(channelName)
-        onLoadDacBizs(channelName, tenantId)
-      }
+    const { form, visible, channels, correlation } = this.props
+    if (visible !== prevProps.visible || correlation !== prevProps.correlation) {
+      const { expression } = correlation || defaultCorrelation
       this.setState({
-        selectedType: type,
-        selectedValueType: valueType,
-        defaultValues: defaultValues || [],
-        isUdf: udf,
-        isFromService: fromService && channels.length > 0
+        expression: expression
       }, () => {
-        form.setFieldsValue(variable || defaultCorrelation)
+        form.setFieldsValue(correlation || defaultCorrelation)
       })
     }
   }
   
   private singleExpressionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ expression: e.target.value })
+    this.setState({"expression":e.target.value})
   }
 
   private clearFieldsValue = () => {
@@ -101,20 +78,32 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
       if (!err) {
         const correlation = fieldsValue as IViewCorrelation
         correlation["expression"] = this.state.expression
+        correlation["expressionPair"] = this.strToPair(this.state.expression)
         onSave(correlation)
       }
     })
   }
+  
+  private strToPair = (expression: string) => {
+  	var expressionPair = {}
+  	if (typeof(expression) != "undefined") {
+  		var expressionArr = expression.split(",")
+		for(var i in expressionArr){
+    		var pa = expressionArr[i].split(/ +as +/)
+    		if(pa.length>1){
+    			expressionPair[pa[1].trim()] =  pa[0].trim()
+    		}else{
+    			expressionPair[pa[0].trim()] =  pa[0].trim()
+    		}
+    	}
+	}
+	return expressionPair
+  }
 
   public render () {
-    console.log("------------CorrelationModal--------------")
-    const {
-      visible, variable, onCancel, form,
-      channels, tenants, bizs,
-      onLoadDacTenants
-    } = this.props
-    const { getFieldDecorator } = form
-    const { operatorType, selectedType, selectedValueType, defaultValues, isUdf, isFromService,expression } = this.state
+  	console.log("--------------------")
+    const { visible, onCancel, form, channels, tenants, bizs, onLoadDacTenants,correlation } = this.props
+    const { isFromService,expression } = this.state
 
     const modalButtons = [(
       <Button
@@ -137,7 +126,7 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
 
     return (
       <Modal
-        title={`${variable && variable.key ? '修改' : '新增'}关联关系`}
+        title={`${correlation && correlation.key ? '修改' : '新增'}关联关系`}
         wrapClassName="ant-modal-small"
         maskClosable={false}
         visible={visible}
@@ -153,7 +142,6 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
       </Modal>
     )
   }
-
 }
 
 export default Form.create<ICorrelationModalProps & FormComponentProps>()(CorrelationModal)

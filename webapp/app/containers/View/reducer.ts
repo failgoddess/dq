@@ -28,7 +28,8 @@ const emptyView: IView = {
   config: '',
   description: '',
   projectId: null,
-  sourceId: null
+  sourceId: null,
+  correlation: null
 }
 
 const initialState: IViewState = {
@@ -38,7 +39,11 @@ const initialState: IViewState = {
   editingViewInfo: {
     model: {},
     variable: [],
-    roles: []
+    roles: [],
+    correlation:{
+  	  expression:'',
+  	  expressionPair:{}
+    }
   },
   sources: [],
   schema: {
@@ -70,7 +75,6 @@ const initialState: IViewState = {
     execute: false,
     copy: false
   },
-
   channels: [],
   tenants: [],
   bizs: [],
@@ -97,15 +101,16 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles'])
+          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation'])
         }
         draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles } = getFormedView(view)
+          const { id, model, variable, roles, correlation } = getFormedView(view)
           acc[id] = {
             ...view,
             model,
             variable,
-            roles
+            roles,
+            correlation
           }
           return acc
         }, draft.formedViews)
@@ -207,6 +212,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         return initialState
         break
       case LOAD_WIDGET_DETAIL_SUCCESS:
+        console.log("--------------reducer.ts--------------")
         const widgetView = action.payload.view
         draft.formedViews[widgetView.id] = {
           ...widgetView,
@@ -216,6 +222,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
       case DisplayActionTypes.LOAD_DISPLAY_DETAIL_SUCCESS:
+        console.log("--------------reducer.ts--------------")
         const updatedViews: IFormedViews = (action.payload.views || []).reduce((obj, view) => {
           obj[view.id] = {
             ...view,

@@ -90,6 +90,14 @@ export enum ViewVariableValueTypes {
   SqlExpression = 'sql'
 }
 
+export enum ViewCorrelationValueTypes {
+  String = 'string',
+  Number = 'number',
+  Boolean = 'boolean',
+  Date = 'date',
+  SqlExpression = 'sql'
+}
+
 export const ViewVariableValueTypesLocale = {
   [ViewVariableValueTypes.String]: '字符串',
   [ViewVariableValueTypes.Number]: '数字',

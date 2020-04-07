@@ -31,7 +31,8 @@ import {
 
   makeSelectChannels,
   makeSelectTenants,
-  makeSelectBizs
+  makeSelectBizs,
+  makeSelectCorrelation
 } from './selectors'
 
 import { loadProjectRoles } from 'containers/Organizations/actions'
@@ -183,7 +184,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   public componentDidMount () {
     this.props.onHideNavigator()
-
   }
 
   public componentWillUnmount () {
@@ -237,7 +237,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   private saveView = () => {
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles } = editingViewInfo
+    const { model, variable, roles, correlation } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
     const updatedView: IView = {
@@ -245,6 +245,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       projectId: +projectId,
       model: JSON.stringify(model),
       variable: JSON.stringify(variable),
+      correlation: JSON.stringify(correlation),
       roles: validRoles.map<IViewRoleRaw>(({ roleId, columnAuth, rowAuth }) => {
         const validColumnAuth = columnAuth.filter((c) => !!model[c])
         const validRowAuth = rowAuth.filter((r) => {
@@ -306,6 +307,16 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     }
     onUpdateEditingViewInfo(updatedViewInfo)
   }
+  
+  private correlationChange = (updatedCorrelation: IViewCorrelation) => {
+    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
+    const updatedViewInfo: IViewInfo = {
+      ...editingViewInfo,
+      correlation: updatedCorrelation
+    }
+    console.log(updatedViewInfo)
+    onUpdateEditingViewInfo(updatedViewInfo)
+  }
 
   private viewRoleChange = (viewRole: IViewRole) => {
     const { editingViewInfo, onUpdateEditingViewInfo } = this.props
@@ -354,8 +365,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   })
 
   public render () {
-    console.log("------------------Editor-------------------")
-    console.log(this.props)
     const {
       sources, schema,
       sqlDataSource, sqlLimit, loading, projectRoles,
@@ -369,7 +378,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
-
+	console.log("-------------------")
     return (
       <>
         <Helmet title="View" />
@@ -384,6 +393,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             variable={variable}
             onVariableChange={this.variableChange}
             correlation={correlation} 
+            onCorrelationChange={this.correlationChange}
           >
             <SourceTable
               view={editingView}
@@ -459,6 +469,8 @@ const mapStateToProps = createStructuredSelector({
   sqlValidation: makeSelectSqlValidation(),
   loading: makeSelectLoading(),
   projectRoles: makeSelectProjectRoles(),
+
+  correlation: makeSelectCorrelation(),
 
   channels: makeSelectChannels(),
   tenants: makeSelectTenants(),

@@ -48,6 +48,8 @@ public class View extends RecordInfo<View> {
     private String variable;
 
     private String config;
+    
+    private String correlation;
 
     @Override
     public String toString() {

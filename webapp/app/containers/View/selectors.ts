@@ -67,6 +67,11 @@ const makeSelectBizs = () => createSelector(
   (viewState: IViewState) => viewState.bizs
 )
 
+const makeSelectCorrelation = () => createSelector(
+  selectView,
+  (viewState: IViewState) => viewState.correlation
+)
+
 export {
   selectView,
   makeSelectViews,
@@ -82,5 +87,7 @@ export {
 
   makeSelectChannels,
   makeSelectTenants,
-  makeSelectBizs
+  makeSelectBizs,
+  
+  makeSelectCorrelation
 }

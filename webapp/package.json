@@ -121,6 +121,7 @@
     "redux-undo": "1.0.0-beta9-9-7",
     "reselect": "4.0.0",
     "resolve": "^1.15.1",
+    "simple-evaluate": "^1.4.0",
     "terminal-link": "^2.1.1",
     "three": "^0.101.1",
     "ua-parser-js": "^0.7.21",

@@ -64,6 +64,7 @@ export const ViewActions = {
   },
 
   addView (view: IView, resolve: () => void) {
+    console.log("-----2------------")
     return {
       type: ActionTypes.ADD_VIEW,
       payload: {
@@ -88,6 +89,7 @@ export const ViewActions = {
   },
 
   editView (view: IView, resolve: () => void) {
+    console.log("-------1-------------")
     return {
       type: ActionTypes.EDIT_VIEW,
       payload: {
@@ -161,8 +163,6 @@ export const ViewActions = {
   },
 
   executeSql (params: IExecuteSqlParams) {
-  	console.log("---1---")
-  	console.log(params)
     return {
       type: ActionTypes.EXECUTE_SQL,
       payload: {

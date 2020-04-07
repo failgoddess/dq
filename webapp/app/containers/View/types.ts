@@ -107,6 +107,7 @@ export interface IViewCorrelation {
   alias: string
   fromService: boolean
   expression: string
+  expressionPair: Array<{[key: string]: string | number}>
 }
 
 export interface IViewRoleRaw {

@@ -4,11 +4,13 @@ import { SqlTypes } from 'app/globalConstants'
 import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, ViewModelVisualTypes, ViewModelTypes } from './constants'
 
 export function getFormedView (view: IView): IFormedView {
-  const { model, variable, roles } = view
+  console.log("--------------util.ts--------------")
+  const { model, variable, roles,correlation } = view
   const formedView = {
     ...view,
     model: JSON.parse((model || '{}')),
     variable: JSON.parse((variable || '[]')),
+    correlation: JSON.parse((correlation || '{}')),
     roles: (roles as IViewRoleRaw[]).map<IViewRole>(({ roleId, columnAuth, rowAuth }) => ({
       roleId,
       columnAuth: JSON.parse(columnAuth || '[]'),
