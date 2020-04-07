@@ -61,9 +61,6 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 		record[rowKey] = Object.values(record).join('_') + i;
 		resultList[i]=record;
     }
-    
-    console.log("-------------sqlPreview---------------")
-    console.log(correlation)
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
 	    var colName = "left."+col.name
@@ -104,7 +101,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 			...this.getColumnSearchProps(colName)
 		})
 	}
-	tableColumns = tableColumns.concat(expressionArr)
+	tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
 	
     return { tableColumns, rowKey, resultList }
   })
