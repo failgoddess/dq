@@ -1,7 +1,7 @@
 # DQ
 
 ## Difference Check
-    doc/differenceCheck.png
+    ![avatar](doc/differenceCheck.png)
 
     Difference Check开发计划：
     1、左右编辑器之间的关系
