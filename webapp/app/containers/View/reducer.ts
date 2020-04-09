@@ -29,7 +29,8 @@ const emptyView: IView = {
   description: '',
   projectId: null,
   sourceId: null,
-  correlation: null
+  correlation: null,
+  toolbox: null
 }
 
 const initialState: IViewState = {
@@ -43,6 +44,9 @@ const initialState: IViewState = {
     correlation:{
   	  expression:'',
   	  expressionPair:{}
+    },
+    toolbox:{
+    	slide:'combine'
     }
   },
   sources: [],
@@ -101,16 +105,17 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation'])
+          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox'])
         }
         draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles, correlation } = getFormedView(view)
+          const { id, model, variable, roles, correlation,toolbox } = getFormedView(view)
           acc[id] = {
             ...view,
             model,
             variable,
             roles,
-            correlation
+            correlation,
+            toolbox
           }
           return acc
         }, draft.formedViews)

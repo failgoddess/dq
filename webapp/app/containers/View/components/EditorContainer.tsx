@@ -21,9 +21,11 @@ interface IEditorContainerProps {
   visible: boolean
   variable: IViewVariable[]
   correlation: IViewCorrelation
+  toolbox: IViewToolbox
   children?: React.ReactNode
   onVariableChange: (variable: IViewVariable[]) => void
   onCorrelationChange: (variable: IViewCorrelation) => void
+  onToolboxChange: (variable: IViewCorrelation) => void
 }
 
 interface IEditorContainerStates {
@@ -105,11 +107,13 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   }
   
   private saveCorrelation = (updatedCorrelation: IViewCorrelation) => {
-  	const { correlation, onCorrelationChange } = this.props
+  	const { onCorrelationChange } = this.props
+  	if (!updatedCorrelation.key) {
+      updatedCorrelation.key = uuid(5)
+    } 
     onCorrelationChange(updatedCorrelation)
     this.setState({
-      correlationModalVisible: false,
-      updatedCorrelation: updatedCorrelation
+      correlationModalVisible: false    
     })
   }
 
@@ -159,6 +163,14 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   private closeCorrelationModal = () => {
     this.setState({ correlationModalVisible: false })
   }
+  
+  private onToolboxChange = (updatedToolbox: IViewVariable) => {
+  	const { onToolboxChange } = this.props
+  	if (!updatedToolbox.key) {
+      updatedToolbox.key = uuid(5)
+    } 
+    onToolboxChange(updatedToolbox)
+  }
 
   private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
     let sourceTable: React.ReactElement<any>
@@ -173,6 +185,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     let toolboxModal: React.ReactElement<IToolboxModalProps>
 
     React.Children.forEach(props.children, (child) => {
+      console.log("----------------")
       const c = child as React.ReactElement<any>
       const type = c.type as React.ComponentClass<any>
       if (areComponentsEqual(type, SourceTable)) {
@@ -183,8 +196,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
         leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql",styleDict: {"padding":"16px 3px 3px 16px"} })
         rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql",styleDict: {"padding":"16px 16px 3px 3px"} })
       } else if (areComponentsEqual(type, SqlPreview)) {
-        const { previewHeight, updatedCorrelation } = state
-        sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight,updatedCorrelation: updatedCorrelation })
+        const { previewHeight } = state
+        sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })
       } else if (areComponentsEqual(type, EditorBottom)) {
         editorBottom = c
       } else if (areComponentsEqual(type, SqlButton)) {
@@ -218,12 +231,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           onSave: this.saveCorrelation
         })
        } else if (areComponentsEqual(type, ToolboxModal)) {
-      	const { variableModalVisible, editingVariable } = this.state
         toolboxModal = React.cloneElement<IToolboxModalProps>(c, {
-          className: Styles.viewVariable,
-          onAdd: this.addVariable,
-          onDelete: this.deleteVariable,
-          onEdit: this.editVariable
+          onChange: this.onToolboxChange
         })
       }
     })
@@ -236,7 +245,6 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     const { editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
     const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal, correlationModal , toolboxModal,spacebarModal } = this.getChildren(this.props, this.state)
-	console.log("--------------EditorContainer----------------")
     return (
       <>
         <div className={Styles.containerVertical} style={style}>

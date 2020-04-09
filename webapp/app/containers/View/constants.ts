@@ -98,6 +98,13 @@ export enum ViewCorrelationValueTypes {
   SqlExpression = 'sql'
 }
 
+export enum ViewToolboxValueTypes {
+  String = 'string',
+  Number = 'number',
+  Boolean = 'boolean',
+  Date = 'date'
+}
+
 export const ViewVariableValueTypesLocale = {
   [ViewVariableValueTypes.String]: '字符串',
   [ViewVariableValueTypes.Number]: '数字',

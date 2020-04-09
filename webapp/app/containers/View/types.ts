@@ -110,6 +110,12 @@ export interface IViewCorrelation {
   expressionPair: Array<{[key: string]: string | number}>
 }
 
+export interface IViewToolbox {
+  key: string
+  alias: string
+  slide: string
+}
+
 export interface IViewRoleRaw {
   roleId: number
   columnAuth: string
@@ -144,6 +150,7 @@ export interface IViewInfo {
   variable: IViewVariable[]
   roles: IViewRole[]
   correlation: IViewCorrelation
+  toolbox: IViewToolbox
 }
 
 export interface IFormedViews {

@@ -32,7 +32,8 @@ import {
   makeSelectChannels,
   makeSelectTenants,
   makeSelectBizs,
-  makeSelectCorrelation
+  makeSelectCorrelation,
+  makeSelectToolbox
 } from './selectors'
 
 import { loadProjectRoles } from 'containers/Organizations/actions'
@@ -77,6 +78,7 @@ interface IViewEditorStateProps {
   bizs: IDacBiz[]
   
   correlation: IViewCorrelation
+  toolbox: IViewToolbox
 }
 
 interface IViewEditorDispatchProps {
@@ -237,7 +239,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   private saveView = () => {
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation } = editingViewInfo
+    const { model, variable, roles, correlation,toolbox } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
     const updatedView: IView = {
@@ -246,6 +248,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       model: JSON.stringify(model),
       variable: JSON.stringify(variable),
       correlation: JSON.stringify(correlation),
+      toolbox: JSON.stringify(toolbox),
       roles: validRoles.map<IViewRoleRaw>(({ roleId, columnAuth, rowAuth }) => {
         const validColumnAuth = columnAuth.filter((c) => !!model[c])
         const validRowAuth = rowAuth.filter((r) => {
@@ -314,7 +317,15 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       ...editingViewInfo,
       correlation: updatedCorrelation
     }
-    console.log(updatedViewInfo)
+    onUpdateEditingViewInfo(updatedViewInfo)
+  }
+  
+  private toolboxChange = (updatedToolbox: IViewToolbox) => {
+  	const { editingViewInfo, onUpdateEditingViewInfo } = this.props
+    const updatedViewInfo: IViewInfo = {
+      ...editingViewInfo,
+      toolbox: updatedToolbox
+    }
     onUpdateEditingViewInfo(updatedViewInfo)
   }
 
@@ -373,12 +384,12 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
     const { currentStep, lastSuccessExecutedSql } = this.state
-    const { model, variable, roles: viewRoles, correlation } = editingViewInfo
+    const { model, variable, roles: viewRoles, correlation, toolbox } = editingViewInfo
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
-	console.log("-------------------")
+    console.log("-------------------")
     return (
       <>
         <Helmet title="View" />
@@ -394,6 +405,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             onVariableChange={this.variableChange}
             correlation={correlation} 
             onCorrelationChange={this.correlationChange}
+            toolbox={toolbox} 
+            onToolboxChange={this.toolboxChange}
           >
             <SourceTable
               view={editingView}
@@ -407,9 +420,9 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlChange={this.sqlChange} />
             <SpacebarModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <CorrelationModal correlation={correlation} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <ToolboxModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
+            <ToolboxModal toolbox={toolbox} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <VariableModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} />
+            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} toolbox={toolbox} />
             <EditorBottom
               sqlLimit={sqlLimit}
               loading={loading.execute}
@@ -471,7 +484,7 @@ const mapStateToProps = createStructuredSelector({
   projectRoles: makeSelectProjectRoles(),
 
   correlation: makeSelectCorrelation(),
-
+  toolbox: makeSelectToolbox(),
   channels: makeSelectChannels(),
   tenants: makeSelectTenants(),
   bizs: makeSelectBizs()

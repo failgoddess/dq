@@ -39,7 +39,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+  private prepareListTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     
     for(var i=0;i<totalCount;i++){
@@ -105,6 +105,77 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	
     return { tableColumns, rowKey, resultList }
   })
+  
+  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+    const rowKey = `rowKey_${new Date().getTime()}`
+    
+    for(var i=0;i<totalCount;i++){
+    	var record = {}
+    	if (typeof(resultList[i]) != "undefined") {
+			for(var key in resultList[i]){
+    			record['left.'+key] = resultList[i][key];
+    		}
+		}
+    	if (typeof(rightResultList[i]) != "undefined") {
+			for(var key in rightResultList[i]){
+    			record['right.'+key] = rightResultList[i][key];
+    		}
+		} 
+		
+		for(var key in correlation['expressionPair']){
+			record[key] = evaluate(record,correlation['expressionPair'][key]);
+		}
+		record[rowKey] = Object.values(record).join('_') + i;
+		resultList[i]=record;
+    }
+	
+	columns = this.distinct(columns,rightColumns)
+    
+    var tableColumns = columns.map<ColumnProps<any>>((col) => {
+		var leftColName = "left."+col.name
+     	const leftWidth = SqlPreview.computeColumnWidth(resultList, leftColName)
+     	var rightColName = "right."+col.name
+     	const rightWidth = SqlPreview.computeColumnWidth(resultList, rightColName)
+     	return {
+      		title: col.name,
+      		width: leftWidth+rightWidth,
+       		children: [
+         	{
+           		title: "left",
+           		dataIndex: leftColName,
+           		key: leftColName,
+           		sorter: (a, b) => this.sortColumn(a,b,leftColName),
+           		sortDirections: ['descend', 'ascend'],
+           		...this.getColumnSearchProps(leftColName)
+         	},
+         	{
+           		title: "right",
+           		dataIndex: rightColName,
+           		key: rightColName,
+           		sorter: (a, b) => this.sortColumn(a,b,rightColName),
+           		sortDirections: ['descend', 'ascend'],
+           		...this.getColumnSearchProps(rightColName)
+         	}]
+    	}
+ 	})
+ 	
+ 	var expressionArr = []
+	for(var colName in correlation['expressionPair']){
+		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+		expressionArr.unshift({
+			title: colName,
+			dataIndex: colName,
+			key: colName,
+			sorter: (a, b) => this.sortColumn(a,b,colName),
+			sortDirections: ['descend', 'ascend'],
+			width: rightWidth,
+			...this.getColumnSearchProps(colName)
+		})
+	}
+	tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
+		
+    return { tableColumns, rowKey, resultList }
+  })
 
   private static computeColumnWidth = (resultList: any[], columnName: string) => {
     let textList = resultList.map((item) => item[columnName])
@@ -117,16 +188,25 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     return maxWidth
   }
   
-  private distinct(a, b) {
-    let arr = a.concat(b)
-    arr = arr.sort()
-    let result = [arr[0]]
-
-    for (let i=1, len=arr.length; i<len; i++) {
-        arr[i] !== arr[i-1] && result.push(arr[i])
+  private distinct(a: ISqlColumn[], b: ISqlColumn[]) {
+    let d:any[] = []
+    let f:any[] = []
+    for(let i of a){
+    	if(!f.includes(i.name)){
+    		d.unshift(i)
+    		f.unshift(i.name)
+    	}
     }
-    return result
-}
+    
+    for(let i of b){
+    	if(!f.includes(i.name)){
+    		d.unshift(i)
+    		f.unshift(i.name)
+    	}
+    }
+    
+    return d
+  }
 
   private table = React.createRef<Table<any>>()
   public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '' }
@@ -230,7 +310,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
   public render () {
     console.log("---------------")
-    const { loading, response, size,updatedCorrelation} = this.props
+    const { loading, response, size,updatedCorrelation,toolbox } = this.props
     const { key, value } = response
     
     var correlation = this.props.correlation
@@ -248,11 +328,25 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       total: totalCount
     }
 	
-    const { tableColumns, rowKey,resultList } = this.prepareTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
+	var ftableColumns,frowKey,fresultList
+	if(toolbox['slide']=='list'){
+		const { tableColumns, rowKey,resultList } = this.prepareListTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
+		ftableColumns = tableColumns
+		frowKey = rowKey
+		fresultList = resultList
+	}else{
+		const { tableColumns, rowKey,resultList } = this.prepareCombineTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
+		ftableColumns = tableColumns
+		frowKey = rowKey
+		fresultList = resultList
+	}
     const scroll: TableProps<any>['scroll'] = {
-      x: tableColumns.reduce((acc, col) => (col.width as number + acc), 0),
+      x: ftableColumns.reduce((acc, col) => (col.width as number + acc), 0),
       y: this.state.tableBodyHeight
     }
+    
+    console.log("---------------111-------")
+    console.log(paginationConfig)
     
     return (
       <Table
@@ -261,11 +355,11 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
         bordered
         size={size}
         pagination={paginationConfig}
-        dataSource={resultList}
-        columns={tableColumns}
+        dataSource={fresultList}
+        columns={ftableColumns}
         scroll={scroll}
         loading={loading}
-        rowKey={rowKey}
+        rowKey={frowKey}
       />
     )
   }

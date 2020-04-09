@@ -52,6 +52,8 @@ public class ViewCreate {
     private String config;
     
     private String correlation;
+    
+    private String toolbox;
 
     private List<RelRoleViewDto> roles;
 }

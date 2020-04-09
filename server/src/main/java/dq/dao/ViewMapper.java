@@ -67,6 +67,7 @@ public interface ViewMapper {
             "`variable` = #{variable,jdbcType=LONGVARCHAR},",
             "`config` = #{config,jdbcType=LONGVARCHAR},",
             "`correlation` = #{correlation,jdbcType=LONGVARCHAR},",
+            "`toolbox` = #{toolbox,jdbcType=VARCHAR},",
             "`update_by` = #{updateBy,jdbcType=BIGINT},",
             "`update_time` = #{updateTime,jdbcType=TIMESTAMP}",
             "where id = #{id,jdbcType=BIGINT}"
