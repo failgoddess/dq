@@ -39,14 +39,14 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     showSizeChanger: true
   }
 
-  private prepareListTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+  private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
-    
+    var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
     	var record = {}
-    	if (typeof(resultList[i]) != "undefined") {
-			for(var key in resultList[i]){
-    			record['left.'+key] = resultList[i][key];
+    	if (typeof(leftResultList[i]) != "undefined") {
+			for(var key in leftResultList[i]){
+    			record['left.'+key] = leftResultList[i][key];
     		}
 		}
     	if (typeof(rightResultList[i]) != "undefined") {
@@ -106,14 +106,14 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     return { tableColumns, rowKey, resultList }
   })
   
-  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], resultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
-    
+    var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
     	var record = {}
-    	if (typeof(resultList[i]) != "undefined") {
-			for(var key in resultList[i]){
-    			record['left.'+key] = resultList[i][key];
+    	if (typeof(leftResultList[i]) != "undefined") {
+			for(var key in leftResultList[i]){
+    			record['left.'+key] = leftResultList[i][key];
     		}
 		}
     	if (typeof(rightResultList[i]) != "undefined") {
@@ -346,7 +346,8 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }
     
     console.log("---------------111-------")
-    console.log(paginationConfig)
+    console.log(ftableColumns)
+    console.log(fresultList)
     
     return (
       <Table

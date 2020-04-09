@@ -57,26 +57,7 @@ module.exports = require('./webpack.base.babel')({
     sideEffects: true,
     concatenateModules: true,
     splitChunks: {
-      chunks: 'all',
-      minSize: 30000,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/](?!antd|jquery|three|bootstrap-datepicker)(.[a-zA-Z0-9.\-_]+)[\\/]/,
-          // test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all'
-        }
-        // main: {
-        //   chunks: 'all',
-        //   minChunks: 2,
-        //   reuseExistingChunk: true,
-        //   enforce: true
-        // }
-      }
+      chunks: 'all'
     },
     runtimeChunk: true
   },
