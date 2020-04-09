@@ -1,7 +1,7 @@
 # DQ
 
 ## Difference Check
-    ![avatar](doc/differenceCheck.png)
+    ![image](https://github.com/ljc520313/dq/raw/master/images/differenceCheck.png)
 
     Difference Check开发计划：
     1、左右编辑器之间的关系
