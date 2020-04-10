@@ -101,7 +101,6 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   }
 
   public render () {
-  	console.log("--------------------")
     const { visible, onCancel, form, channels, tenants, bizs, onLoadDacTenants, correlation } = this.props
     const { isFromService,expression } = this.state
 

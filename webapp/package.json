@@ -59,7 +59,7 @@
     "@hot-loader/react-dom": "16.8.6",
     "ansi-escapes": "^4.3.1",
     "ansi-styles": "^4.2.1",
-    "antd": "^3.26.14",
+    "antd": "^3.26.15",
     "array.prototype.find": "^2.1.1",
     "axios": "^0.18.1",
     "babel-cli": "^6.24.0",

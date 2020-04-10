@@ -32,13 +32,6 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
   private static ExcludeElems = ['.ant-table-thead', '.ant-pagination.ant-table-pagination']
 
-  private static basePagination: PaginationConfig = {
-    pageSize: DEFAULT_SQL_PREVIEW_PAGE_SIZE,
-    pageSizeOptions: SQL_PREVIEW_PAGE_SIZE_OPTIONS.map((size) => size.toString()),
-    showQuickJumper: true,
-    showSizeChanger: true
-  }
-
   private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     var resultList: any[] = []
@@ -209,7 +202,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   }
 
   private table = React.createRef<Table<any>>()
-  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '' }
+  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '',pageSize: DEFAULT_SQL_PREVIEW_PAGE_SIZE,currentPage: 1 }
 
   public componentDidMount () {
     const tableBodyHeight = this.computeTableBody()
@@ -309,9 +302,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   };
 
   public render () {
-    console.log("---------------")
     const { loading, response, size,updatedCorrelation,toolbox } = this.props
     const { key, value } = response
+    const { pageSize,currentPage } = this.state
     
     var correlation = this.props.correlation
     if(updatedCorrelation){
@@ -324,8 +317,19 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }
 
     const paginationConfig: PaginationConfig = {
-      ...SqlPreview.basePagination,
-      total: totalCount
+    	pageSize: pageSize,
+    	pageSizeOptions: SQL_PREVIEW_PAGE_SIZE_OPTIONS.map((size) => size.toString()),
+//        locale: { items_per_page: "" },
+    	showQuickJumper: true,
+    	showSizeChanger: true,
+    	onShowSizeChange: (current, pageSize) => {
+  			this.setState({ pageSize: pageSize,currentPage: current });
+    	},
+    	onChange: (page, size) => {
+			this.setState({ currentPage: page });
+		},
+//		current: currentPage,
+      	total: totalCount
     }
 	
 	var ftableColumns,frowKey,fresultList
@@ -346,8 +350,10 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }
     
     console.log("---------------111-------")
-    console.log(ftableColumns)
-    console.log(fresultList)
+    console.log(paginationConfig)
+    console.log(size)
+    console.log(pageSize)
+    console.log(currentPage)
     
     return (
       <Table

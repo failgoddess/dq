@@ -185,7 +185,6 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     let toolboxModal: React.ReactElement<IToolboxModalProps>
 
     React.Children.forEach(props.children, (child) => {
-      console.log("----------------")
       const c = child as React.ReactElement<any>
       const type = c.type as React.ComponentClass<any>
       if (areComponentsEqual(type, SourceTable)) {

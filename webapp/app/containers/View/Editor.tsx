@@ -389,7 +389,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
-    console.log("-------------------")
     return (
       <>
         <Helmet title="View" />

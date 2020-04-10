@@ -57,7 +57,7 @@ module.exports = require('./webpack.base.babel')({
     sideEffects: true,
     concatenateModules: true,
     splitChunks: {
-      chunks: 'all',
+      chunks: 'async',
       minSize: 5000,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -66,9 +66,9 @@ module.exports = require('./webpack.base.babel')({
       cacheGroups: {
         vendors: {
           // test: /[\\/]node_modules[\\/](?!antd|jquery|three|bootstrap-datepicker)(.[a-zA-Z0-9.\-_]+)[\\/]/,
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all'
+           test: /[\\/]node_modules[\\/]/,
+          name: 'vendor'
+          // ,chunks: 'async'
         }
         // main: {
         //   chunks: 'all',
@@ -95,7 +95,7 @@ module.exports = require('./webpack.base.babel')({
         removeEmptyAttributes: true,
         removeStyleLinkTypeAttributes: true,
         keepClosingSlash: true,
-        minifyJS: false,
+        minifyJS: true,
         minifyCSS: true,
         minifyURLs: true
       },
@@ -124,7 +124,7 @@ module.exports = require('./webpack.base.babel')({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
-      minRatio: 0.8
+      minRatio: 0.6
     }),
 
     new HashedModuleIdsPlugin({

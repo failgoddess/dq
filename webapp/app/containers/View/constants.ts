@@ -152,6 +152,6 @@ export const ViewModelVisualTypesLocale = {
   [ViewModelVisualTypes.GeoCity]: '地理城市'
 }
 
-export const DEFAULT_SQL_LIMIT = 500
-export const DEFAULT_SQL_PREVIEW_PAGE_SIZE = 100
-export const SQL_PREVIEW_PAGE_SIZE_OPTIONS = [100, 200, 500, 1000]
+export const DEFAULT_SQL_LIMIT = 1000
+export const DEFAULT_SQL_PREVIEW_PAGE_SIZE = 500
+export const SQL_PREVIEW_PAGE_SIZE_OPTIONS = [100, 200, 500, 1000,2000,5000,10000]

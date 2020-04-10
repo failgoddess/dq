@@ -4,7 +4,6 @@ import { SqlTypes } from 'app/globalConstants'
 import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, ViewModelVisualTypes, ViewModelTypes } from './constants'
 
 export function getFormedView (view: IView): IFormedView {
-  console.log("-------------")
   const { model, variable, roles,correlation,toolbox } = view
   const formedView = {
     ...view,
