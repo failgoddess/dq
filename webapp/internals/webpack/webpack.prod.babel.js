@@ -37,15 +37,25 @@ module.exports = require('./webpack.base.babel')({
     minimizer: [
       new TerserPlugin({
         terserOptions: {
+          // 在UglifyJs删除没有用到的代码时不输出警告
           warnings: false,
           compress: {
-            comparisons: false
+            comparisons: false,
+            // 删除所有的 `console` 语句,还可以兼容ie浏览器
+			drop_console: true,
+			// 内嵌定义了但是只用到一次的变量
+			collapse_vars: true,
+			// 提取出出现多次但是没有定义成变量去引用的静态值
+			reduce_vars: true,
           },
           parse: {},
           mangle: true,
           output: {
+            // 删除所有的注释
             comments: false,
-            ascii_only: true
+            ascii_only: true,
+            // 最紧凑的输出
+            beautify: false
           }
         },
         parallel: true,
@@ -67,8 +77,8 @@ module.exports = require('./webpack.base.babel')({
         vendors: {
           // test: /[\\/]node_modules[\\/](?!antd|jquery|three|bootstrap-datepicker)(.[a-zA-Z0-9.\-_]+)[\\/]/,
            test: /[\\/]node_modules[\\/]/,
-          name: 'vendor'
-          // ,chunks: 'async'
+          name: 'vendor',
+          chunks: 'all'
         }
         // main: {
         //   chunks: 'all',

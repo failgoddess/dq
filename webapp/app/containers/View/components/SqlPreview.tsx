@@ -349,12 +349,6 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
       y: this.state.tableBodyHeight
     }
     
-    console.log("---------------111-------")
-    console.log(paginationConfig)
-    console.log(size)
-    console.log(pageSize)
-    console.log(currentPage)
-    
     return (
       <Table
         ref={this.table}

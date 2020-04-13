@@ -1,8 +1,9 @@
 import React from 'react'
-import { Modal, Form, Input, Select, Checkbox, Button, Row, Col } from 'antd'
+import { Modal, Form, Input, Select, Checkbox, Button, Row, Col,Tabs } from 'antd'
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 const { Option } = Select
+const { TabPane } = Tabs
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import ConditionValuesControl, { ConditionValueTypes } from 'components/ConditionValuesControl'
@@ -37,7 +38,8 @@ const defaultCorrelation: IViewCorrelation = {
   alias: '',
   correlation:{
   	expression:'',
-    expressionPair:{}
+    expressionPair:{},
+    condition:''
   }
 }
 
@@ -67,6 +69,10 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   private singleExpressionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({"expression":e.target.value})
   }
+  
+  private singleConditionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({"condition":e.target.value})
+  }
 
   private clearFieldsValue = () => {
     this.props.form.resetFields()
@@ -79,6 +85,8 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
         const correlation = fieldsValue as IViewCorrelation
         correlation["expression"] = this.state.expression
         correlation["expressionPair"] = this.strToPair(this.state.expression)
+        correlation["condition"] = this.state.condition
+        correlation["conditionDict"] = this.state.condition
         onSave(correlation)
       }
     })
@@ -99,10 +107,30 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
 	}
 	return expressionPair
   }
+  
+  private strToDict = (condition: string) => {
+  	var expressionDict = {}
+  	if (typeof(expression) != "undefined") {
+  		var expressionArr = expression.split(",")
+		for(var i in expressionArr){
+    		var pa = expressionArr[i].split(/ +as +/)
+    		if(pa.length>1){
+    			expressionPair[pa[1].trim()] =  pa[0].trim()
+    		}else{
+    			expressionPair[pa[0].trim()] =  pa[0].trim()
+    		}
+    	}
+	}
+	return expressionPair
+  }
+  
+  private callback = (key) => {
+  	console.log(key);
+  }
 
   public render () {
     const { visible, onCancel, form, channels, tenants, bizs, onLoadDacTenants, correlation } = this.props
-    const { isFromService,expression } = this.state
+    const { isFromService,expression,condition } = this.state
 
     const modalButtons = [(
       <Button
@@ -122,22 +150,36 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
         保 存
       </Button>
     )]
-
+	console.log("--------------------")
+	console.log(correlation)
     return (
       <Modal
-        title={`${correlation && correlation.key ? '修改' : '新增'}关联关系`}
+        title={`${correlation ? '修改' : '新增'}关联关系`}
         wrapClassName="ant-modal-small"
         maskClosable={false}
         visible={visible}
         footer={modalButtons}
         onCancel={onCancel}
         afterClose={this.clearFieldsValue}
+         bodyStyle={{ padding: "0px 24px" }}
       >
-        <Form>
-            <FormItem label="表达式" {...this.formItemStyle}>
-              <TextArea placeholder="请输入表达式" value={expression} onChange={this.singleExpressionChange} rows={3} />
-            </FormItem>
-        </Form>
+      	<Tabs defaultActiveKey="condition" onChange={this.callback} >
+    		<TabPane tab="关联条件" key="condition">
+      			<Form>
+            		<FormItem {...this.formItemStyle}>
+              			<TextArea placeholder="请输入关联条件" value={condition} onChange={this.singleConditionChange} rows={6} />
+            		</FormItem>
+        		</Form>
+    		</TabPane>
+    		<TabPane tab="表达式" key="expression">
+      			<Form>
+            		<FormItem {...this.formItemStyle}>
+              			<TextArea placeholder="请输入表达式" value={expression} onChange={this.singleExpressionChange} rows={6} />
+            		</FormItem>
+        		</Form>
+    		</TabPane>
+  		</Tabs>
+        
       </Modal>
     )
   }

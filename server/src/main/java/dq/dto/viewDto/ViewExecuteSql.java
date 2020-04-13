@@ -37,7 +37,11 @@ public class ViewExecuteSql {
 
     private String leftSql;
     
+    private String leftRowKey;
+    
     private String rightSql;
+    
+    private String rightRowKey;
 
     private List<SqlVariable> variables;
 

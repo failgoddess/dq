@@ -174,7 +174,8 @@ module.exports = options => ({
       loaders: ['babel-loader'],
       threadPool: happyThreadPool,
       verbose: true
-    })
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
   ]),
   resolve: {
     modules: ['node_modules', 'app'],

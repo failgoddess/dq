@@ -492,6 +492,48 @@ public class ViewServiceImpl implements ViewService {
             e.printStackTrace();
             throw new ServerException(e.getMessage());
         }
+        
+        if(!(StringUtils.isEmpty(executeSql.getLeftRowKey()) || StringUtils.isEmpty(executeSql.getRightRowKey()))) {
+        	
+//        	Map<String,Map<String,Object>> rightMapResutl = new HashMap<>();
+//        	for() {
+//        		
+//        	}
+//        	
+//        	int length = (int)Math.max(leftPaginateWithQueryColumns.getTotalCount(),rightPaginateWithQueryColumns.getTotalCount());
+//        	for(int i=0;i<length;i++) {
+////            	Map<String,Object> left = leftPaginateWithQueryColumns.getResultList().get(i);
+////            	Map<String,Object> right = rightPaginateWithQueryColumns.getResultList().get(i);
+////            	
+////            	if(leftList!=null) {
+////            		leftList.add(i, left.get(executeSql.getLeftRowKey()));
+////            	}
+////            	
+////            	if(rightList!=null) {
+////            		rightList.add(i,right.get(executeSql.getRightRowKey()));
+////            	}
+//            }
+//        	
+//        	for(int i=0;i<length;i++) {
+//        		if(leftList.get(i) != null && rightList.get(i)!=null && !leftList.get(i).equals(rightList.get(i))) {
+//        			int rightIndex = rightList.indexOf(leftList.get(i));
+//        			int leftIndex = leftList.indexOf(rightList.get(i));
+//        			if(rightIndex >= 0) {
+//        				rightList.add(i,rightList.remove(rightIndex));
+//        			}else if(leftIndex >= 0) {
+//        				leftList.add(i,leftList.remove(leftIndex));
+//        			}else {
+//        				rightList.add(i,null);
+//        				leftList.add(i+1,null);
+//        				i++;
+//        				length++;
+//        			}
+//        		}
+//        	}
+        	
+        	
+        }
+        
         return new Dict<>(leftPaginateWithQueryColumns,rightPaginateWithQueryColumns);
     }
 
