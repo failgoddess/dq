@@ -26,6 +26,7 @@ export interface IView extends IViewTemp {
   source?: ISourceSimple
   sourceId: number
   roles: IViewRoleRaw[]
+  condition: string
 }
 
 type IViewTemp2 = Omit<Omit<Omit<IView, 'model'>, 'variable'>, 'roles'>
@@ -110,6 +111,7 @@ export interface IViewCorrelation {
   fromService: boolean
   expression: string
   expressionPair: Array<{[key: string]: string | number}>
+  condition: string
 }
 
 export interface IViewToolbox {

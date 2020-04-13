@@ -30,6 +30,7 @@ export interface ICorrelationModalProps {
 
 interface ICorrelationModalStates {
   expression: ViewCorrelationValueTypes
+  condition: ViewCorrelationValueTypes
 }
 
 const defaultCorrelation: IViewCorrelation = {
@@ -51,15 +52,17 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   }
 
   public state: Readonly<ICorrelationModalStates> = {
-    expression: ViewCorrelationValueTypes.String
+    expression: ViewCorrelationValueTypes.String,
+    condition: ViewCorrelationValueTypes.String
   }
 
   public componentDidUpdate (prevProps: ICorrelationModalProps & FormComponentProps) {
     const { form, visible, channels, correlation } = this.props
     if (visible !== prevProps.visible || correlation !== prevProps.correlation) {
-      const { expression } = correlation || defaultCorrelation
+      const { expression, condition } = correlation || defaultCorrelation
       this.setState({
-        expression: expression
+        expression: expression,
+        condition: condition
       }, () => {
         form.setFieldsValue(correlation || defaultCorrelation)
       })
@@ -86,7 +89,6 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
         correlation["expression"] = this.state.expression
         correlation["expressionPair"] = this.strToPair(this.state.expression)
         correlation["condition"] = this.state.condition
-        correlation["conditionDict"] = this.state.condition
         onSave(correlation)
       }
     })
@@ -106,26 +108,6 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
     	}
 	}
 	return expressionPair
-  }
-  
-  private strToDict = (condition: string) => {
-  	var expressionDict = {}
-  	if (typeof(expression) != "undefined") {
-  		var expressionArr = expression.split(",")
-		for(var i in expressionArr){
-    		var pa = expressionArr[i].split(/ +as +/)
-    		if(pa.length>1){
-    			expressionPair[pa[1].trim()] =  pa[0].trim()
-    		}else{
-    			expressionPair[pa[0].trim()] =  pa[0].trim()
-    		}
-    	}
-	}
-	return expressionPair
-  }
-  
-  private callback = (key) => {
-  	console.log(key);
   }
 
   public render () {
@@ -163,7 +145,7 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
         afterClose={this.clearFieldsValue}
          bodyStyle={{ padding: "0px 24px" }}
       >
-      	<Tabs defaultActiveKey="condition" onChange={this.callback} >
+      	<Tabs defaultActiveKey="condition" >
     		<TabPane tab="关联条件" key="condition">
       			<Form>
             		<FormItem {...this.formItemStyle}>

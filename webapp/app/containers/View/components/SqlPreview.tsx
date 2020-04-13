@@ -48,9 +48,12 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     		}
 		} 
 		
-		for(var key in correlation['expressionPair']){
-			record[key] = evaluate(record,correlation['expressionPair'][key]);
+		if(typeof(correlation) != "undefined"){
+			for(var key in correlation['expressionPair']){
+				record[key] = evaluate(record,correlation['expressionPair'][key]);
+			}
 		}
+		
 		record[rowKey] = Object.values(record).join('_') + i;
 		resultList[i]=record;
     }
@@ -82,19 +85,21 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 		}
 	))
 	
-	var expressionArr = []
-	for(var colName in correlation['expressionPair']){
-		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
-		expressionArr.unshift({
-			title: colName,
-			dataIndex: colName,
-			sorter: (a, b) => this.sortColumn(a,b,colName),
-			sortDirections: ['descend', 'ascend'],
-			width: rightWidth,
-			...this.getColumnSearchProps(colName)
-		})
+	if(typeof(toolbox) != "undefined"){
+		var expressionArr = []
+		for(var colName in correlation['expressionPair']){
+			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+			expressionArr.unshift({
+				title: colName,
+				dataIndex: colName,
+				sorter: (a, b) => this.sortColumn(a,b,colName),
+				sortDirections: ['descend', 'ascend'],
+				width: rightWidth,
+				...this.getColumnSearchProps(colName)
+			})
+		}
+		tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
 	}
-	tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
 	
     return { tableColumns, rowKey, resultList }
   })
@@ -152,20 +157,22 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     	}
  	})
  	
- 	var expressionArr = []
-	for(var colName in correlation['expressionPair']){
-		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
-		expressionArr.unshift({
-			title: colName,
-			dataIndex: colName,
-			key: colName,
-			sorter: (a, b) => this.sortColumn(a,b,colName),
-			sortDirections: ['descend', 'ascend'],
-			width: rightWidth,
-			...this.getColumnSearchProps(colName)
-		})
+ 	if(typeof(toolbox) != "undefined"){
+ 		var expressionArr = []
+		for(var colName in correlation['expressionPair']){
+			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+			expressionArr.unshift({
+				title: colName,
+				dataIndex: colName,
+				key: colName,
+				sorter: (a, b) => this.sortColumn(a,b,colName),
+				sortDirections: ['descend', 'ascend'],
+				width: rightWidth,
+				...this.getColumnSearchProps(colName)
+			})
+		}
+		tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
 	}
-	tableColumns = tableColumns.length === 0 ? tableColumns : tableColumns.concat(expressionArr)
 		
     return { tableColumns, rowKey, resultList }
   })
@@ -333,7 +340,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }
 	
 	var ftableColumns,frowKey,fresultList
-	if(toolbox['slide']=='list'){
+	if(typeof(toolbox) != "undefined" && toolbox['slide']=='list'){
 		const { tableColumns, rowKey,resultList } = this.prepareListTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
 		ftableColumns = tableColumns
 		frowKey = rowKey

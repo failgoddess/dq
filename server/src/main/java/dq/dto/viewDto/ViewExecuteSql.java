@@ -44,6 +44,8 @@ public class ViewExecuteSql {
     private String rightRowKey;
 
     private List<SqlVariable> variables;
+    
+    private String condition;
 
     private int limit = 0;
     private int pageNo = -1;

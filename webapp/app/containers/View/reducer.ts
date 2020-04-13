@@ -43,10 +43,11 @@ const initialState: IViewState = {
     roles: [],
     correlation:{
   	  expression:'',
-  	  expressionPair:{}
+  	  expressionPair:{},
+  	  condition:''
     },
     toolbox:{
-    	slide:'combine'
+    	slide:'combine',
     }
   },
   sources: [],

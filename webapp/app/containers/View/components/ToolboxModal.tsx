@@ -33,7 +33,7 @@ export class ToolboxModal extends React.Component<IToolboxModalProps,IToolboxMod
     const { toolbox } = this.props
     if (toolbox !== prevProps.toolbox) {
       this.setState({
-        slide: typeof(toolbox.slide) != "undefined" ? toolbox.slide : defaultToolbox.slide
+        slide: typeof(toolbox) != "undefined" && typeof(toolbox.slide) != "undefined" ? toolbox.slide : defaultToolbox.slide
       })
     }
   }
