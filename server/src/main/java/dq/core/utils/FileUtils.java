@@ -166,6 +166,8 @@ public class FileUtils {
             dir.delete();
         }
         else {
+        	System.out.println(dir);
+        	System.out.println(dir.listFiles());
             for (File f : dir.listFiles()) {
                 deleteDir(f);
             }
