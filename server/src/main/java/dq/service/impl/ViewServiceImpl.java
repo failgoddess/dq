@@ -67,6 +67,7 @@ import org.stringtemplate.v4.STGroupFile;
 
 import java.sql.SQLException;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -493,47 +494,58 @@ public class ViewServiceImpl implements ViewService {
             throw new ServerException(e.getMessage());
         }
         
-        if(!(StringUtils.isEmpty(executeSql.getLeftRowKey()) || StringUtils.isEmpty(executeSql.getRightRowKey()))) {
+        if(!(StringUtils.isEmpty(executeSql.getCondition()))) {
+        	Dict<List<String>,List<String>> andCondition = SqlUtils.pareseConditionColumn(executeSql.getCondition());
+        	// 后面引入antlr，将条件追加到下发sql中，这段逻辑还得改
+        	Map<String,Dict<Integer,Integer>> mapDict = new HashMap<String,Dict<Integer,Integer>>();
         	
-//        	Map<String,Map<String,Object>> rightMapResutl = new HashMap<>();
-//        	for() {
-//        		
-//        	}
-//        	
-//        	int length = (int)Math.max(leftPaginateWithQueryColumns.getTotalCount(),rightPaginateWithQueryColumns.getTotalCount());
-//        	for(int i=0;i<length;i++) {
-////            	Map<String,Object> left = leftPaginateWithQueryColumns.getResultList().get(i);
-////            	Map<String,Object> right = rightPaginateWithQueryColumns.getResultList().get(i);
-////            	
-////            	if(leftList!=null) {
-////            		leftList.add(i, left.get(executeSql.getLeftRowKey()));
-////            	}
-////            	
-////            	if(rightList!=null) {
-////            		rightList.add(i,right.get(executeSql.getRightRowKey()));
-////            	}
-//            }
-//        	
-//        	for(int i=0;i<length;i++) {
-//        		if(leftList.get(i) != null && rightList.get(i)!=null && !leftList.get(i).equals(rightList.get(i))) {
-//        			int rightIndex = rightList.indexOf(leftList.get(i));
-//        			int leftIndex = leftList.indexOf(rightList.get(i));
-//        			if(rightIndex >= 0) {
-//        				rightList.add(i,rightList.remove(rightIndex));
-//        			}else if(leftIndex >= 0) {
-//        				leftList.add(i,leftList.remove(leftIndex));
-//        			}else {
-//        				rightList.add(i,null);
-//        				leftList.add(i+1,null);
-//        				i++;
-//        				length++;
-//        			}
-//        		}
-//        	}
+        	int length = (int)Math.max(leftPaginateWithQueryColumns.getTotalCount(),rightPaginateWithQueryColumns.getTotalCount());
+        	for(int i=0;i<length;i++) {
+            	Map<String,Object> leftMap = leftPaginateWithQueryColumns.getResultList().get(i);
+            	Map<String,Object> rightMap = rightPaginateWithQueryColumns.getResultList().get(i);
+            	
+            	if(leftMap!=null) {
+            		StringBuilder sb = new StringBuilder();
+            		for(String key : andCondition.getKey()){
+            			sb.append(leftMap.getOrDefault(key, ""));
+            		}
+            		if(mapDict.containsKey(sb.toString())){
+            			mapDict.get(sb.toString()).setKey(i);
+            		}else{
+            			mapDict.put(sb.toString(), new Dict(i,-1));
+            		}
+            	}
+            	
+            	if(rightMap!=null) {
+            		StringBuilder sb = new StringBuilder();
+            		for(String key : andCondition.getValue()){
+            			sb.append(rightMap.getOrDefault(key, ""));
+            		}
+            		if(mapDict.containsKey(sb.toString())){
+            			mapDict.get(sb.toString()).setValue(i);
+            		}else{
+            			mapDict.put(sb.toString(), new Dict(-1,i));
+            		}
+            	}
+            }
+        	List<Map<String,Object>> leftResultList = new ArrayList<Map<String,Object>>();
+        	List<Map<String,Object>> rightResultList = new ArrayList<Map<String,Object>>();
+        	for(Entry<String,Dict<Integer,Integer>> entry : mapDict.entrySet()){
+        		if(entry.getValue().getKey() ==-1){
+        			leftResultList.add(new HashMap<String,Object>());
+        			rightResultList.add(rightPaginateWithQueryColumns.getResultList().get(entry.getValue().getValue()));
+        		}else if(entry.getValue().getValue() ==-1){
+        			leftResultList.add(leftPaginateWithQueryColumns.getResultList().get(entry.getValue().getKey()));
+        			rightResultList.add(new HashMap<String,Object>());
+        		}else{
+        			leftResultList.add(leftPaginateWithQueryColumns.getResultList().get(entry.getValue().getKey()));
+        			rightResultList.add(rightPaginateWithQueryColumns.getResultList().get(entry.getValue().getValue()));
+        		}
+        	}
         	
-        	
+        	leftPaginateWithQueryColumns.setResultList(leftResultList);
+        	rightPaginateWithQueryColumns.setResultList(rightResultList);
         }
-        
         return new Dict<>(leftPaginateWithQueryColumns,rightPaginateWithQueryColumns);
     }
 

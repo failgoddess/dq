@@ -975,5 +975,30 @@ public class SqlUtils {
         }
         return this.jdbcSourceInfo.getJdbcUrl();
     }
+    
+    public static Dict<List<String>,List<String>> pareseConditionColumn(String condition) {
+    	List<String> leftCondition = new ArrayList<String>();
+    	List<String> rightCondition = new ArrayList<String>();
+    	Dict<List<String>,List<String>> andCondition = new Dict<List<String>,List<String>>(leftCondition,rightCondition);
+    	String[] conArr = condition.split(" +and +");
+    	for(String con : conArr){
+    		String[] pair = con.replaceAll(" ", "").split("=");
+			for(String p : pair){
+				if(p.startsWith("left.")){
+					leftCondition.add(p.substring("left.".length()));
+				}
+				
+				if(p.startsWith("right.")){
+					rightCondition.add(p.substring("right.".length()));
+				}
+    		}
+			if(leftCondition.size()!=rightCondition.size()){
+				int toIndex = Math.min(leftCondition.size(),rightCondition.size());
+				leftCondition = leftCondition.subList(0, toIndex);
+				rightCondition = rightCondition.subList(0, toIndex);
+			}
+    	}
+        return andCondition;
+    }
 }
 
