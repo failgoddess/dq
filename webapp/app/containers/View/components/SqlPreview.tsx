@@ -12,7 +12,7 @@ import { IExecuteSqlResponse, ISqlColumn, IViewCorrelation } from '../types'
 import { DEFAULT_SQL_PREVIEW_PAGE_SIZE, SQL_PREVIEW_PAGE_SIZE_OPTIONS } from '../constants'
 import { getTextWidth } from 'utils/util'
 import evaluate from 'simple-evaluate';
-// import sqlparser
+// import sqlparser 
 export interface ISqlPreviewProps {
   loading: boolean
   response: IExecuteSqlResponse

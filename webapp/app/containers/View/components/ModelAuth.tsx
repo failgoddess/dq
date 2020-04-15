@@ -321,7 +321,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     return (
       <div className={styleCls} style={style}>
         <Tabs defaultActiveKey="model" className={Styles.authTab}>
-          <TabPane tab="Model" key="model">
+          <TabPane tab="模型" key="model">
             <div className={Styles.authTable}>
               <Table bordered pagination={false} rowKey="name" dataSource={modelDatasource}>
                 <Column title="字段名称" dataIndex="name" />
@@ -330,7 +330,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
               </Table>
             </div>
           </TabPane>
-          <TabPane tab="Auth" key="auth">
+          <TabPane tab="权限" key="auth">
             <div className={Styles.authTable}>
               <Table
                 bordered
@@ -349,6 +349,15 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
               onSave={this.saveModelAuth}
               onCancel={this.closeModelAuth}
             />
+          </TabPane>
+          <TabPane tab="动作" key="action">
+            <div className={Styles.authTable}>
+              <Table bordered pagination={false} rowKey="name" dataSource={modelDatasource}>
+                <Column title="字段名称" dataIndex="name" />
+                <Column title="数据类型" dataIndex="modelType" render={this.renderColumnModelType} />
+                <Column title="可视化类型" dataIndex="visualType" render={this.renderColumnVisualType} />
+              </Table>
+            </div>
           </TabPane>
         </Tabs>
         <Row className={Styles.bottom} type="flex" align="middle" justify="end">

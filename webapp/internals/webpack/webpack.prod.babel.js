@@ -24,8 +24,7 @@ module.exports = require('./webpack.base.babel')({
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].chunk.js'
+    filename: '[name].[chunkhash].js'
   },
 
   tsLoaders: [{
@@ -70,13 +69,13 @@ module.exports = require('./webpack.base.babel')({
       chunks: 'async',
       minSize: 5000,
       minChunks: 1,
-      maxAsyncRequests: 5,
+      maxAsyncRequests: 10,
       maxInitialRequests: 3,
       name: true,
       cacheGroups: {
         vendors: {
-          // test: /[\\/]node_modules[\\/](?!antd|jquery|three|bootstrap-datepicker)(.[a-zA-Z0-9.\-_]+)[\\/]/,
-           test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](?!antd|jquery|three|bootstrap-datepicker|app|vendor)(.[a-zA-Z0-9.\-_]+)[\\/]/,
+          // test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
           chunks: 'all'
         }
@@ -134,7 +133,7 @@ module.exports = require('./webpack.base.babel')({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
-      minRatio: 0.6
+      minRatio: 0.1
     }),
 
     new HashedModuleIdsPlugin({
