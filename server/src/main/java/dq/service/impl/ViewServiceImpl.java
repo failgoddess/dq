@@ -544,7 +544,9 @@ public class ViewServiceImpl implements ViewService {
         	}
         	
         	leftPaginateWithQueryColumns.setResultList(leftResultList);
+        	leftPaginateWithQueryColumns.setTotalCount(leftResultList.size());
         	rightPaginateWithQueryColumns.setResultList(rightResultList);
+        	rightPaginateWithQueryColumns.setTotalCount(rightResultList.size());
         }
         return new Dict<>(leftPaginateWithQueryColumns,rightPaginateWithQueryColumns);
     }

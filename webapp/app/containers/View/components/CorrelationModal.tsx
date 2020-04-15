@@ -12,6 +12,7 @@ import {
   IDacChannel, IDacTenant, IDacBiz
 } from 'containers/View/types'
 import { ViewCorrelationValueTypes } from 'containers/View/constants'
+import { isBlank } from 'utils/util'
 
 export interface ICorrelationModalProps {
   visible?: boolean
@@ -87,7 +88,9 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
       if (!err) {
         const correlation = fieldsValue as IViewCorrelation
         correlation["expression"] = this.state.expression
-        correlation["expressionPair"] = this.strToPair(this.state.expression)
+        if(!isBlank()){
+            correlation["expressionPair"] = this.strToPair(this.state.expression)
+        }
         correlation["condition"] = this.state.condition
         onSave(correlation)
       }

@@ -120,8 +120,10 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     		}
 		} 
 		
-		for(var key in correlation['expressionPair']){
-			record[key] = evaluate(record,correlation['expressionPair'][key]);
+		if(typeof(correlation) != "undefined"){
+			for(var key in correlation['expressionPair']){
+				record[key] = evaluate(record,correlation['expressionPair'][key]);
+			}
 		}
 		record[rowKey] = Object.values(record).join('_') + i;
 		resultList[i]=record;
@@ -244,7 +246,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }else if(typeof(a[colName])=="number"){
     	return a[colName] - b[colName];
     }
-    return 0;
+    return -1;
   }
   
   getColumnSearchProps = dataIndex => ({
