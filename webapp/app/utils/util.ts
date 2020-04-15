@@ -134,3 +134,54 @@ export function generateData (sourceData) {
   }
   return tableArr
 }
+/**
+ * 判断对象是否为空
+ */
+export function isBlank (value: any):boolean {
+  if (value === null || value == undefined || value === "") {
+	return true;
+  }
+  return false;
+}
+/**
+ * 判断对象的属性是否为空
+ */
+export function isNotEmptyObject (obj: any):boolean {
+  if (typeof obj === "object") {
+	if (Object.keys(obj).length > 0) {
+		return true;
+	}
+  }
+  return false;
+}
+/**
+ * 判断对象是否为空对象
+ */
+export function isNotBlankAndEmptyObject (value):boolean {
+  if (value === null || value == undefined || value === "") {
+	return false;
+  }
+  if (this.isNotEmptyObject(value)) {
+	return true;
+  } else {
+	return false;
+  }
+}
+/**
+ * 判断对象所有属性值是否都为空
+ */
+export function isAllEmptyValue (value):boolean {
+  // 若对象为空则返回true
+  if (this.isBlank(value)) {
+	return true;
+  }
+  if (typeof value === "object") {
+	if (Object.keys(value).every(item => this.isBlank(value[item]))) {
+	  return true;
+	} else {
+	  return false;
+	}
+  } else {
+	return true;
+  }
+}
