@@ -235,15 +235,16 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     if (hasError) { return }
     this.setState({ currentStep: currentStep + step }, () => {
       if (this.state.currentStep > 1) {
-        this.saveView(type)
+        this.saveView()
       }
     })
   }
   
-  private saveView = (type: number) => {
+  private saveView = () => {
+    const { actionType: type } = this.state
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation,toolbox } = editingViewInfo
+    const { model, variable, roles, correlation,toolbox, action } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
     var action = editingViewInfo.action
@@ -252,7 +253,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       ...editingView,
       projectId: +projectId,
       model: JSON.stringify(model),
-      action: JSON.stringify(action),
+      action: JSON.stringify({type,...action}),
       variable: JSON.stringify(variable),
       correlation: JSON.stringify(correlation),
       toolbox: JSON.stringify(toolbox),
@@ -299,7 +300,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     this.viewChange('leftSql', leftSql,'rightSql', rightSql)
   }
   
-    private sqlChange = (sql: string) => {
+  private sqlChange = (sql: string) => {
     this.viewChange('sql', sql)
   }
 
@@ -410,7 +411,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
-    console.log("---------------------------------")
     return (
       <>
         <Helmet title="View" />

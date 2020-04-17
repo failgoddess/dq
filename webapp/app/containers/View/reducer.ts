@@ -225,6 +225,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case LOAD_WIDGET_DETAIL_SUCCESS:
         const widgetView = action.payload.view
+        console.log("------------")
         draft.formedViews[widgetView.id] = {
           ...widgetView,
           model: JSON.parse(widgetView.model || '{}'),
@@ -235,6 +236,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
       case DisplayActionTypes.LOAD_DISPLAY_DETAIL_SUCCESS:
         const updatedViews: IFormedViews = (action.payload.views || []).reduce((obj, view) => {
+          console.log("---------------")
           obj[view.id] = {
             ...view,
             model: JSON.parse(view.model || '{}'),

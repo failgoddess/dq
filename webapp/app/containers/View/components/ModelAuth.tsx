@@ -60,6 +60,7 @@ interface IModelAuthStates {
   selectedRoleId: number
   selectedColumnAuth: string[]
   isAction: boolean
+  actionType: number
 }
 
 export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthStates> {
@@ -69,7 +70,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     modalVisible: false,
     selectedRoleId: 0,
     selectedColumnAuth: [],
-    isAction: true
+    isAction: true,
+    actionType: 0
   }
 
   private modelTypeOptions = Object.entries(ViewModelTypesLocale).map(([value, label]) => ({
@@ -82,7 +84,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   ))
 
   private stepChange = (step: number,type: number) => () => {
-    this.props.onStepChange(step,type)
+    this.setState({ actionType: type })
+    this.props.onStepChange(step)
   }
 
   private setColumnAuth = (viewRole: IViewRoleConverted) => () => {
