@@ -33,7 +33,8 @@ import {
   makeSelectTenants,
   makeSelectBizs,
   makeSelectCorrelation,
-  makeSelectToolbox
+  makeSelectToolbox,
+  makeSelectAction
 } from './selectors'
 
 import { loadProjectRoles } from 'containers/Organizations/actions'
@@ -79,6 +80,7 @@ interface IViewEditorStateProps {
   
   correlation: IViewCorrelation
   toolbox: IViewToolbox
+  action: IViewAction
 }
 
 interface IViewEditorDispatchProps {
@@ -198,7 +200,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private static ExecuteSql = (props: IViewEditorProps) => {
-    console.log('-----------------------------------')
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
     const { sourceId, leftSql, rightSql } = editingView
     const { variable,correlation } = editingViewInfo
@@ -242,13 +243,14 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   private saveView = () => {
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation,toolbox } = editingViewInfo
+    const { model, variable, roles, correlation,toolbox, action } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
     const updatedView: IView = {
       ...editingView,
       projectId: +projectId,
       model: JSON.stringify(model),
+      action: JSON.stringify(action),
       variable: JSON.stringify(variable),
       correlation: JSON.stringify(correlation),
       toolbox: JSON.stringify(toolbox),
@@ -295,13 +297,25 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     this.viewChange('leftSql', leftSql,'rightSql', rightSql)
   }
 
-  private modelChange = (partialModel: IViewModel) => {
+  private modelChange = (partialModel: IViewAction) => {
     const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const { model } = editingViewInfo
+    const { action } = editingViewInfo
     const updatedViewInfo: IViewInfo = {
       ...editingViewInfo,
-      model: { ...model, ...partialModel }
+      action: { ...action, ...partialModel }
     }
+    onUpdateEditingViewInfo(updatedViewInfo)
+  }
+
+  private actionChange = (partialModel: IViewAction) => {
+    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
+    const { action } = editingViewInfo
+    const updatedViewInfo: IViewInfo = {
+      ...editingViewInfo,
+      action: { ...action, ...partialModel }
+    }
+    console.log("--------------------")
+    console.log(updatedViewInfo)
     onUpdateEditingViewInfo(updatedViewInfo)
   }
 
@@ -387,7 +401,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
     const { currentStep, lastSuccessExecutedSql } = this.state
-    const { model, variable, roles: viewRoles, correlation, toolbox } = editingViewInfo
+    const { model, variable, roles: viewRoles, correlation, toolbox, action } = editingViewInfo
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
@@ -435,17 +449,28 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             />
             
           </EditorContainer>
-          <ModelAuth
-            visible={modelAuthVisible}
-            model={model}
-            variable={variable}
-            sqlColumns={sqlDataSource.columns}
-            roles={projectRoles}
-            viewRoles={viewRoles}
-            onModelChange={this.modelChange}
-            onViewRoleChange={this.viewRoleChange}
-            onStepChange={this.stepChange}
-          />
+          <EditorContainer
+            visible={containerVisible}
+            action={action}
+            onVariableChange={this.variableChange}
+            correlation={correlation} 
+            onCorrelationChange={this.correlationChange}
+            toolbox={toolbox} 
+            onToolboxChange={this.toolboxChange}
+          >
+          	<ModelAuth
+            	visible={modelAuthVisible}
+            	model={model}
+            	action={action}
+            	variable={variable}
+            	sqlColumns={sqlDataSource.columns}
+            	roles={projectRoles}
+            	viewRoles={viewRoles}
+            	onActionChange={this.actionChange}
+            	onViewRoleChange={this.viewRoleChange}	
+            	onStepChange={this.stepChange}
+          	/>
+          </EditorContainer>
         </div>
       </>
     )
@@ -487,6 +512,7 @@ const mapStateToProps = createStructuredSelector({
 
   correlation: makeSelectCorrelation(),
   toolbox: makeSelectToolbox(),
+  action: makeSelectAction(),
   channels: makeSelectChannels(),
   tenants: makeSelectTenants(),
   bizs: makeSelectBizs()

@@ -536,6 +536,7 @@ CREATE TABLE `view`
     `config`         text,
     `correlation`    text,
     `toolbox`        varchar(255) DEFAULT NULL,
+    `action`         text,
     `create_by`      bigint(20)   DEFAULT NULL,
     `create_time`    datetime     DEFAULT NULL,
     `update_by`      bigint(20)   DEFAULT NULL,

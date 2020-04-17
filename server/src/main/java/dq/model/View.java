@@ -52,6 +52,8 @@ public class View extends RecordInfo<View> {
     private String correlation;
     
     private String toolbox;
+    
+    private String action;
 
     @Override
     public String toString() {
@@ -68,6 +70,7 @@ public class View extends RecordInfo<View> {
                 ", config='" + config + '\'' +
                 ", correlation='" + correlation + '\'' +
                 ", toolbox='" + toolbox + '\'' +
+                ", action='" + action + '\'' +
                 '}';
     }
 

@@ -77,6 +77,11 @@ const makeSelectToolbox = () => createSelector(
   (viewState: IViewState) => viewState.toolbox
 )
 
+const makeSelectAction = () => createSelector(
+  selectView,
+  (viewState: IViewState) => viewState.action
+)
+
 export {
   selectView,
   makeSelectViews,
@@ -95,5 +100,6 @@ export {
   makeSelectBizs,
   
   makeSelectCorrelation,
-  makeSelectToolbox
+  makeSelectToolbox,
+  makeSelectAction
 }

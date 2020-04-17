@@ -4,10 +4,11 @@ import { SqlTypes } from 'app/globalConstants'
 import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, ViewModelVisualTypes, ViewModelTypes } from './constants'
 
 export function getFormedView (view: IView): IFormedView {
-  const { model, variable, roles,correlation,toolbox } = view
+  const { model, variable, roles, correlation, toolbox, action } = view
   const formedView = {
     ...view,
     model: JSON.parse((model || '{}')),
+    action: JSON.parse((action || '{}')),
     variable: JSON.parse((variable || '[]')),
     correlation: JSON.parse((correlation || '{}')),
     toolbox: JSON.parse((toolbox || '{}')),

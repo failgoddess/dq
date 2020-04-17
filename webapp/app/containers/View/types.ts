@@ -20,6 +20,7 @@ export interface IView extends IViewTemp {
   rightSql: string
   rightRowKey: string
   model: string
+  action: string
   variable: string
   config: string
   projectId: number
@@ -33,6 +34,7 @@ type IViewTemp2 = Omit<Omit<Omit<IView, 'model'>, 'variable'>, 'roles'>
 
 export interface IFormedView extends IViewTemp2 {
   model: IViewModel
+  action: IViewAction
   variable: IViewVariable[]
   roles: IViewRole[]
 }
@@ -82,6 +84,11 @@ export interface IViewModelProps {
 
 export interface IViewModel {
   [name: string]: Omit<IViewModelProps, 'name'>
+}
+
+export interface IViewAction {
+  sql: string,
+  python: string
 }
 
 interface IViewVariableChannel {
@@ -151,6 +158,7 @@ export interface IViewRole {
 
 export interface IViewInfo {
   model: IViewModel
+  action: IViewAction
   variable: IViewVariable[]
   roles: IViewRole[]
   correlation: IViewCorrelation

@@ -23,6 +23,7 @@ const emptyView: IView = {
   leftSql: '',
   rightSql: '',
   model: '',
+  action: '',
   variable: '',
   roles: [],
   config: '',
@@ -30,7 +31,8 @@ const emptyView: IView = {
   projectId: null,
   sourceId: null,
   correlation: null,
-  toolbox: null
+  toolbox: null,
+  action: null
 }
 
 const initialState: IViewState = {
@@ -39,6 +41,9 @@ const initialState: IViewState = {
   editingView: emptyView,
   editingViewInfo: {
     model: {},
+    action: {
+    	sql:''
+    },
     variable: [],
     roles: [],
     correlation:{
@@ -106,12 +111,13 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox'])
+          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox','action'])
         }
         draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles, correlation,toolbox } = getFormedView(view)
+          const { id, model, variable, roles, correlation, toolbox, action } = getFormedView(view)
           acc[id] = {
             ...view,
+            action,
             model,
             variable,
             roles,
@@ -180,7 +186,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case ActionTypes.EDIT_VIEW_SUCCESS:
         draft.editingView = emptyView
-        draft.editingViewInfo = { model: {}, variable: [], roles: [] }
+        draft.editingViewInfo = { model: {}, variable: [], roles: [], action: {} }
         draft.formedViews[action.payload.result.id] = getFormedView(action.payload.result)
         break
 
@@ -222,6 +228,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         draft.formedViews[widgetView.id] = {
           ...widgetView,
           model: JSON.parse(widgetView.model || '{}'),
+          action: JSON.parse(widgetView.action || '{}'),
           variable: JSON.parse(widgetView.variable || '[]')
         }
         break
@@ -231,6 +238,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
           obj[view.id] = {
             ...view,
             model: JSON.parse(view.model || '{}'),
+            action: JSON.parse(widgetView.action || '{}'),
             variable: JSON.parse(view.variable || '[]')
           }
           return obj

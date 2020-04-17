@@ -135,8 +135,7 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
         保 存
       </Button>
     )]
-	console.log("--------------------")
-	console.log(correlation)
+
     return (
       <Modal
         title={`${correlation ? '修改' : '新增'}关联关系`}

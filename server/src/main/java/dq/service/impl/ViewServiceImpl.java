@@ -401,7 +401,7 @@ public class ViewServiceImpl implements ViewService {
      * @return
      */
     @Override
-    public Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException {
+    public Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> executeSqlDict(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException {
 
         Source source = sourceMapper.getById(executeSql.getSourceId());
         if (null == source) {
@@ -550,7 +550,77 @@ public class ViewServiceImpl implements ViewService {
         }
         return new Dict<>(leftPaginateWithQueryColumns,rightPaginateWithQueryColumns);
     }
+    
+    /**
+     * 执行sql
+     *
+     * @param executeSql
+     * @param user
+     * @return
+     */
+    @Override
+    public PaginateWithQueryColumns executeSql(ViewExecuteSql executeSql, User user) throws NotFoundException, UnAuthorizedExecption, ServerException {
 
+        Source source = sourceMapper.getById(executeSql.getSourceId());
+        if (null == source) {
+            throw new NotFoundException("source is not found");
+        }
+
+        ProjectDetail projectDetail = projectService.getProjectDetail(source.getProjectId(), user, false);
+
+        ProjectPermission projectPermission = projectService.getProjectPermission(projectDetail, user);
+
+        if (projectPermission.getSourcePermission() == UserPermissionEnum.HIDDEN.getPermission()
+                || projectPermission.getViewPermission() < UserPermissionEnum.WRITE.getPermission()) {
+            throw new UnAuthorizedExecption("you have not permission to execute sql");
+        }
+
+        //结构化Sql
+        PaginateWithQueryColumns paginateWithQueryColumns = new PaginateWithQueryColumns();
+        try {
+            SqlEntity sqlEntity = sqlParseUtils.parseSql(executeSql.getSql(), executeSql.getVariables(), sqlTempDelimiter);
+            if (null != sqlUtils) {
+                if ((null != sqlEntity && !StringUtils.isEmpty(sqlEntity.getSql()))) {
+
+                    if (isMaintainer(user, projectDetail)) {
+                    	sqlEntity.setAuthParams(null);
+                    }
+
+                    if (!CollectionUtils.isEmpty(sqlEntity.getQuaryParams())) {
+                    	sqlEntity.getQuaryParams().forEach((k, v) -> {
+                            if (v instanceof List && ((List) v).size() > 0) {
+                                v = ((List) v).stream().collect(Collectors.joining(COMMA)).toString();
+                            }
+                            sqlEntity.getQuaryParams().put(k, v);
+                        });
+                    }
+
+                    String srcSql = sqlParseUtils.replaceParams(sqlEntity.getSql(), sqlEntity.getQuaryParams(), sqlEntity.getAuthParams(), sqlTempDelimiter);
+                    
+                    SqlUtils sqlUtils = this.sqlUtils.init(source);
+
+                    List<String> executeSqlList = sqlParseUtils.getSqls(srcSql, false);
+
+                    List<String> querySqlList = sqlParseUtils.getSqls(srcSql, true);
+
+                    if (!CollectionUtils.isEmpty(executeSqlList)) {
+                        executeSqlList.forEach(dict -> {sqlUtils.execute(dict);});
+                    }
+                    if (!CollectionUtils.isEmpty(querySqlList)) {
+                        for (String str : querySqlList) {
+                        	paginateWithQueryColumns = sqlUtils.syncQuery4Paginate(str, null, null, null, executeSql.getLimit(), null);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServerException(e.getMessage());
+        }
+        
+        return paginateWithQueryColumns;
+    }
+    
     private boolean isMaintainer(User user, ProjectDetail projectDetail) {
         return projectService.isMaintainer(projectDetail, user);
     }

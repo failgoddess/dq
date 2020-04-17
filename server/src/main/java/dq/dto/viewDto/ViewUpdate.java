@@ -54,6 +54,8 @@ public class ViewUpdate {
     private String correlation;
     
     private String toolbox;
+    
+    private String action;
 
     private List<RelRoleViewDto> roles;
 }

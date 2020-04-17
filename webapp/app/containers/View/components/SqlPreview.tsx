@@ -32,7 +32,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
   private static ExcludeElems = ['.ant-table-thead', '.ant-pagination.ant-table-pagination']
 
-  private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+  private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation,sortedInfo) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
@@ -65,6 +65,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     		title: colName,
     		dataIndex: colName,
     		sorter: (a, b) => this.sortColumn(a,b,colName),
+    		sortOrder: sortedInfo.columnKey === colName && sortedInfo.order,
     		sortDirections: ['descend', 'ascend'],
     		width: leftWidth,
     		...this.getColumnSearchProps(colName)
@@ -78,6 +79,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     		title: colName,
     		dataIndex: colName,
     		sorter: (a, b) => this.sortColumn(a,b,colName),
+    		sortOrder: sortedInfo.columnKey === colName && sortedInfo.order,
     		sortDirections: ['descend', 'ascend'],
     		width: rightWidth,
     		...this.getColumnSearchProps(colName)
@@ -93,6 +95,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 				title: colName,
 				dataIndex: colName,
 				sorter: (a, b) => this.sortColumn(a,b,colName),
+				sortOrder: sortedInfo.columnKey === colName && sortedInfo.order,
 				sortDirections: ['descend', 'ascend'],
 				width: rightWidth,
 				...this.getColumnSearchProps(colName)
@@ -104,7 +107,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     return { tableColumns, rowKey, resultList }
   })
   
-  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation) => {
+  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation,sortedInfo) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
@@ -145,6 +148,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
            		dataIndex: leftColName,
            		key: leftColName,
            		sorter: (a, b) => this.sortColumn(a,b,leftColName),
+           		sortOrder: sortedInfo.columnKey === leftColName && sortedInfo.order,
            		sortDirections: ['descend', 'ascend'],
            		...this.getColumnSearchProps(leftColName)
          	},
@@ -153,6 +157,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
            		dataIndex: rightColName,
            		key: rightColName,
            		sorter: (a, b) => this.sortColumn(a,b,rightColName),
+           		sortOrder: sortedInfo.columnKey === rightColName && sortedInfo.order,
            		sortDirections: ['descend', 'ascend'],
            		...this.getColumnSearchProps(rightColName)
          	}]
@@ -168,6 +173,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 				dataIndex: colName,
 				key: colName,
 				sorter: (a, b) => this.sortColumn(a,b,colName),
+				sortOrder: sortedInfo.columnKey === colName && sortedInfo.order,
 				sortDirections: ['descend', 'ascend'],
 				width: rightWidth,
 				...this.getColumnSearchProps(colName)
@@ -211,7 +217,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   }
 
   private table = React.createRef<Table<any>>()
-  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '',pageSize: DEFAULT_SQL_PREVIEW_PAGE_SIZE,currentPage: 1 }
+  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '',pageSize: DEFAULT_SQL_PREVIEW_PAGE_SIZE,currentPage: 1,sortedInfo: null }
 
   public componentDidMount () {
     const tableBodyHeight = this.computeTableBody()
@@ -246,7 +252,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     }else if(typeof(a[colName])=="number"){
     	return a[colName] - b[colName];
     }
-    return -1;
+    return 1;
   }
   
   getColumnSearchProps = dataIndex => ({
@@ -309,11 +315,19 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     clearFilters();
     this.setState({ searchText: '' });
   };
+  
+  handleChange = (pagination, filters, sorter) => {
+    console.log('Various parameters', pagination, filters, sorter);
+    this.setState({
+      sortedInfo: sorter,
+    });
+  };
 
   public render () {
     const { loading, response, size,updatedCorrelation,toolbox } = this.props
     const { key, value } = response
     const { pageSize,currentPage } = this.state
+    let sortedInfo = this.state.sortedInfo || {};
     
     var correlation = this.props.correlation
     if(updatedCorrelation){
@@ -343,12 +357,12 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	
 	var ftableColumns,frowKey,fresultList
 	if(typeof(toolbox) != "undefined" && toolbox['slide']=='list'){
-		const { tableColumns, rowKey,resultList } = this.prepareListTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
+		const { tableColumns, rowKey,resultList } = this.prepareListTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation,sortedInfo)
 		ftableColumns = tableColumns
 		frowKey = rowKey
 		fresultList = resultList
 	}else{
-		const { tableColumns, rowKey,resultList } = this.prepareCombineTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation)
+		const { tableColumns, rowKey,resultList } = this.prepareCombineTable(key.columns, key.resultList ,value.columns, value.resultList,totalCount,correlation,sortedInfo)
 		ftableColumns = tableColumns
 		frowKey = rowKey
 		fresultList = resultList
@@ -370,6 +384,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
         scroll={scroll}
         loading={loading}
         rowKey={frowKey}
+        onChange={this.handleChange}
       />
     )
   }

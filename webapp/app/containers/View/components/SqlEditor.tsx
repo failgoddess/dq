@@ -26,7 +26,8 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   constructor (props) {
     super(props)
-
+    console.log("-----constructor-----")
+    console.log(props)
     require([
       'codemirror/lib/codemirror',
       'codemirror/lib/codemirror.css',
@@ -92,6 +93,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
   }
 
   public render () {
+    console.log("---------------")
     return (
       <div className={Styles.sqlEditor} id={this.props.id} style={this.props.styleDict}>
         <textarea ref={this.sqlEditorContainer} />

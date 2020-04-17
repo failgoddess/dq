@@ -9,8 +9,10 @@ const { Option } = Select
 import { RadioChangeEvent } from 'antd/lib/radio'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { TableProps, ColumnProps } from 'antd/lib/table'
+import SqlEditor from './SqlEditor'
+import PythonEditor from './PythonEditor'
 
-import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth } from '../types'
+import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth, IViewAction } from '../types'
 import {
   ViewModelTypesLocale,
   ViewVariableValueTypes,
@@ -43,11 +45,12 @@ interface IViewRoleConverted {
 interface IModelAuthProps {
   visible: boolean
   model: IViewModel
+  action: IViewAction
   variable: IViewVariable[]
   sqlColumns: IExecuteSqlResponse['columns']
   roles: any[] // @FIXME role typing
   viewRoles: IViewRole[]
-  onModelChange: (partialModel: IViewModel) => void
+  onActionChange: (partialModel: IViewAction) => void
   onViewRoleChange: (viewRole: IViewRole) => void
   onStepChange: (stepChange: number) => void
 }
@@ -59,7 +62,8 @@ interface IModelAuthStates {
 }
 
 export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthStates> {
-
+  private editor = React.createRef<HTMLDivElement>()
+  
   public state: Readonly<IModelAuthStates> = {
     modalVisible: false,
     selectedRoleId: 0,
@@ -74,18 +78,6 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   private visualTypeOptions = Object.entries(ViewModelVisualTypesLocale).map(([visualType, text]) => (
     <Option key={visualType} value={visualType}>{text}</Option>
   ))
-
-  private modelChange = (record: IViewModelProps, propName: keyof IViewModelProps) => (e: RadioChangeEvent | string) => {
-    const value: string = (e as RadioChangeEvent).target ? (e as RadioChangeEvent).target.value : e
-    const { name, ...rest } = record
-    const partialModel: IViewModel = {
-      [name]: {
-        ...rest,
-        [propName]: value
-      }
-    }
-    this.props.onModelChange(partialModel)
-  }
 
   private stepChange = (step: number) => () => {
     this.props.onStepChange(step)
@@ -304,9 +296,14 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   private closeModelAuth = () => {
     this.setState({ modalVisible: false })
   }
+  
+  private sqlChange = (leftSql: string,rightSql: string) => {
+    const { onActionChange } = this.props
+    onActionChange({"sql":rightSql})
+  }
 
   public render () {
-    const { visible, model, variable, viewRoles, sqlColumns, roles, onModelChange } = this.props
+    const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
     const { modalVisible, selectedColumnAuth, selectedRoleId } = this.state
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
@@ -317,20 +314,23 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       [Styles.modelAuth]: true
     })
     const style = visible ? {} : { display: 'none' }
-
+    console.log("--------------------")
     return (
       <div className={styleCls} style={style}>
         <Tabs defaultActiveKey="model" className={Styles.authTab}>
-          <TabPane tab="模型" key="model">
-            <div className={Styles.authTable}>
-              <Table bordered pagination={false} rowKey="name" dataSource={modelDatasource}>
-                <Column title="字段名称" dataIndex="name" />
-                <Column title="数据类型" dataIndex="modelType" render={this.renderColumnModelType} />
-                <Column title="可视化类型" dataIndex="visualType" render={this.renderColumnVisualType} />
-              </Table>
-            </div>
+          <TabPane tab="Action" key="action">
+         	 <div className={Styles.authTable}>
+          		<Tabs defaultActiveKey="sql" type="card" size="small">
+          			 <TabPane tab="SQL" key="sql">
+              			<SqlEditor style={{ height: "20px" }} onSqlChange={ this.sqlChange } />
+          		 	</TabPane>
+          		 	<TabPane tab="Python" key="python">
+          		 		<PythonEditor />
+          		 	</TabPane>
+          		</Tabs>
+          	</div>
           </TabPane>
-          <TabPane tab="权限" key="auth">
+          <TabPane tab="Auth" key="auth">
             <div className={Styles.authTable}>
               <Table
                 bordered
@@ -349,15 +349,6 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
               onSave={this.saveModelAuth}
               onCancel={this.closeModelAuth}
             />
-          </TabPane>
-          <TabPane tab="动作" key="action">
-            <div className={Styles.authTable}>
-              <Table bordered pagination={false} rowKey="name" dataSource={modelDatasource}>
-                <Column title="字段名称" dataIndex="name" />
-                <Column title="数据类型" dataIndex="modelType" render={this.renderColumnModelType} />
-                <Column title="可视化类型" dataIndex="visualType" render={this.renderColumnVisualType} />
-              </Table>
-            </div>
           </TabPane>
         </Tabs>
         <Row className={Styles.bottom} type="flex" align="middle" justify="end">

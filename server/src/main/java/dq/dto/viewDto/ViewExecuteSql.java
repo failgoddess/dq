@@ -37,6 +37,8 @@ public class ViewExecuteSql {
 
     private String leftSql;
     
+    private String sql;
+    
     private String leftRowKey;
     
     private String rightSql;
@@ -50,11 +52,4 @@ public class ViewExecuteSql {
     private int limit = 0;
     private int pageNo = -1;
     private int pageSize = -1;
-    
-    public boolean checkSql(String leftSql,String rightSql) {
-    	if(StringUtils.isNotBlank(leftSql) || StringUtils.isNotBlank(rightSql)) {
-    		return true;
-    	}
-    	return false;
-    }
 }

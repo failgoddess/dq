@@ -198,7 +198,7 @@ public class ViewController extends BaseController {
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
 
-        Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> paginateWithQueryColumns = viewService.executeSql(executeSql, user);
+        Dict<PaginateWithQueryColumns,PaginateWithQueryColumns> paginateWithQueryColumns = viewService.executeSqlDict(executeSql, user);
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(paginateWithQueryColumns));
     }
 
