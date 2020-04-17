@@ -108,6 +108,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         draft.loading.view = false
         break
       case ActionTypes.LOAD_VIEWS_DETAIL_SUCCESS:
+        console.log("---------------------")
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
@@ -185,6 +186,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         draft.sqlLimit = action.payload.limit
         break
       case ActionTypes.EDIT_VIEW_SUCCESS:
+        console.log("---------------------------")
         draft.editingView = emptyView
         draft.editingViewInfo = { model: {}, variable: [], roles: [], action: {} }
         draft.formedViews[action.payload.result.id] = getFormedView(action.payload.result)

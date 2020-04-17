@@ -315,6 +315,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     })
     const style = visible ? {} : { display: 'none' }
     console.log("--------------------")
+    console.log(action)
     return (
       <div className={styleCls} style={style}>
         <Tabs defaultActiveKey="model" className={Styles.authTab}>
@@ -322,7 +323,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
          	 <div className={Styles.authTable}>
           		<Tabs defaultActiveKey="sql" type="card" size="small">
           			 <TabPane tab="SQL" key="sql">
-              			<SqlEditor style={{ height: "20px" }} onSqlChange={ this.sqlChange } />
+              			<SqlEditor g:"20px" rightSql={action.sql} name="rightSql" onSqlChange={ this.sqlChange } />
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
           		 		<PythonEditor />

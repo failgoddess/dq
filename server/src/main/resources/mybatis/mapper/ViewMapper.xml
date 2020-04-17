@@ -49,6 +49,9 @@
             <if test="correlation != null">
                 `correlation`,
             </if>
+            <if test="action != null">
+                `action`,
+            </if>
             `source_id`,
             `create_by`,
             `create_time`
@@ -75,6 +78,9 @@
                 #{config,jdbcType=LONGVARCHAR},
             </if>
             <if test="correlation != null">
+                #{correlation,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="action != null">
                 #{correlation,jdbcType=LONGVARCHAR},
             </if>
             #{sourceId,jdbcType=BIGINT},

@@ -44,6 +44,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   private editor = React.createRef<HTMLDivElement>()
   public static SiderMinWidth = 250
   public static EditorMinHeight = 0
+  public static ToolHeight = 23
+  public static DefaultPreviewHeight = 80
 
   public state: Readonly<IEditorContainerStates> = {
     editorHeight: 0,
@@ -59,9 +61,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   public componentDidMount () {
     window.addEventListener('resize', this.setEditorHeight, false)
     // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
-    // const editorHeight = this.editor.current.clientHeight + 10
-    const editorHeight = this.editor.current.clientHeight + 10
-    const previewHeight = editorHeight - 80
+    const editorHeight = this.editor.current.clientHeight
+    const previewHeight = editorHeight - EditorContainer.DefaultPreviewHeight
     this.setState({
       editorHeight,
       previewHeight
@@ -73,9 +74,10 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   }
 
   public setEditorHeight = () => {
-    const editorHeight = this.editor.current.clientHeight
+    const editorHeight = this.editor.current.clientHeight - EditorContainer.ToolHeight
     const { previewHeight, editorHeight: oldEditorHeight } = this.state
-    const newPreviewHeight = Math.min(Math.floor(previewHeight * (editorHeight / oldEditorHeight)), editorHeight)
+    // const newPreviewHeight = Math.min(Math.floor(previewHeight * (editorHeight / oldEditorHeight)), editorHeight)
+    const newPreviewHeight = editorHeight - oldEditorHeight + previewHeight
     this.setState({
       editorHeight,
       previewHeight: newPreviewHeight
@@ -278,7 +280,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                 </Resizable>
               </div>
               <div className={Styles.toolbox}>{toolboxModal}</div>
-              <div className={Styles.preview} style={{height: previewHeight}}>
+              <div className={Styles.preview} style={{height: previewHeight }}>
                   {sqlPreview}
               </div>
             </div>

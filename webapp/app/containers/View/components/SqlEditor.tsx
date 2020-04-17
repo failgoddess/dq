@@ -70,6 +70,9 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
+    // if (name==="leftSql" && leftSql != null) {
+    //  this.sqlEditor.setSize(null, 500);
+    // }
     const name = this.sqlEditor.options.name
     if (name==="leftSql" && leftSql != null) {
       this.sqlEditor.doc.setValue(leftSql)

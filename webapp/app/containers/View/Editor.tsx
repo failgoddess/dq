@@ -406,6 +406,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
+    console.log("---------------------------------")
     return (
       <>
         <Helmet title="View" />
@@ -421,7 +422,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             onVariableChange={this.variableChange}
             correlation={correlation} 
             onCorrelationChange={this.correlationChange}
-            toolbox={toolbox} 
             onToolboxChange={this.toolboxChange}
           >
             <SourceTable
@@ -449,15 +449,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             />
             
           </EditorContainer>
-          <EditorContainer
-            visible={containerVisible}
-            action={action}
-            onVariableChange={this.variableChange}
-            correlation={correlation} 
-            onCorrelationChange={this.correlationChange}
-            toolbox={toolbox} 
-            onToolboxChange={this.toolboxChange}
-          >
           	<ModelAuth
             	visible={modelAuthVisible}
             	model={model}
@@ -470,7 +461,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             	onViewRoleChange={this.viewRoleChange}	
             	onStepChange={this.stepChange}
           	/>
-          </EditorContainer>
         </div>
       </>
     )
