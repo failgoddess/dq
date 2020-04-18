@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import memoizeOne from 'memoize-one'
-import { Table, Tabs, Radio, Checkbox, Select, Row, Col, Button, Tag, Tooltip, Icon } from 'antd'
+import { Table, Tabs, Radio, Checkbox, Select, Row, Col, Button, Tag, Tooltip, Icon, Popconfirm } from 'antd'
 const { Column } = Table
 const { TabPane } = Tabs
 const RadioGroup = Radio.Group
@@ -59,6 +59,7 @@ interface IModelAuthStates {
   modalVisible: boolean
   selectedRoleId: number
   selectedColumnAuth: string[]
+  isAction: boolean
 }
 
 export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthStates> {
@@ -67,7 +68,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   public state: Readonly<IModelAuthStates> = {
     modalVisible: false,
     selectedRoleId: 0,
-    selectedColumnAuth: []
+    selectedColumnAuth: [],
+    isAction: true
   }
 
   private modelTypeOptions = Object.entries(ViewModelTypesLocale).map(([value, label]) => ({
@@ -301,10 +303,18 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     const { onActionChange } = this.props
     onActionChange({"sql":rightSql})
   }
+  
+  private tabActionSelect = (key) => {
+    if('action' == key){
+    	this.setState({ isAction: true })
+    }else{
+    	this.setState({ isAction: false })
+    }
+  }
 
   public render () {
     const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
-    const { modalVisible, selectedColumnAuth, selectedRoleId } = this.state
+    const { modalVisible, selectedColumnAuth, selectedRoleId, isAction } = this.state
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
     const authScroll = this.getAuthTableScroll(authColumns)
@@ -318,12 +328,12 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     console.log(action)
     return (
       <div className={styleCls} style={style}>
-        <Tabs defaultActiveKey="model" className={Styles.authTab}>
+        <Tabs defaultActiveKey="action" className={Styles.authTab} onChange={this.tabActionSelect}>
           <TabPane tab="Action" key="action">
          	 <div className={Styles.authTable}>
-          		<Tabs defaultActiveKey="sql" type="card" size="small">
+          		<Tabs defaultActiveKey="sql" type="card" size="small" >
           			 <TabPane tab="SQL" key="sql">
-              			<SqlEditor g:"20px" rightSql={action.sql} name="rightSql" onSqlChange={ this.sqlChange } />
+              			<SqlEditor height="500" rightSql={action.sql} name="rightSql" onSqlChange={ this.sqlChange } />
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
           		 		<PythonEditor />
@@ -357,6 +367,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
             <Button type="primary" onClick={this.stepChange(-1)}>上一步</Button>
             <Button onClick={this.stepChange(-2)}>取消</Button>
             <Button onClick={this.stepChange(1)}>保存</Button>
+            { isAction ? <Popconfirm key="execute" title="确定执行吗？" placement="left" onConfirm={this.stepChange(2)} > <Button>执行</Button> </Popconfirm> : '' }
+            { isAction ? <Popconfirm key="executeSave" title="确定保存并执行执行吗？" placement="left" onConfirm={this.stepChange(3)} > <Button>保存并执行</Button> </Popconfirm> : '' }
           </Col>
         </Row>
       </div>
