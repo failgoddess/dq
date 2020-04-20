@@ -161,7 +161,6 @@ export const ViewActions = {
   },
 
   executeSql (params: IExecuteSqlParams) {
-    console.log("------------------")
     return {
       type: ActionTypes.EXECUTE_SQL,
       payload: {

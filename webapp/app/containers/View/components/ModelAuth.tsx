@@ -1,4 +1,5 @@
 import React from 'react'
+import { areComponentsEqual } from 'react-hot-loader'
 import classnames from 'classnames'
 import memoizeOne from 'memoize-one'
 import { Table, Tabs, Radio, Checkbox, Select, Row, Col, Button, Tag, Tooltip, Icon, Popconfirm } from 'antd'
@@ -11,7 +12,6 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { TableProps, ColumnProps } from 'antd/lib/table'
 import SqlEditor from './SqlEditor'
 import PythonEditor from './PythonEditor'
-
 import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth, IViewAction } from '../types'
 import {
   ViewModelTypesLocale,
@@ -81,8 +81,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     <Option key={visualType} value={visualType}>{text}</Option>
   ))
 
-  private stepChange = (step: number) => () => {
-    this.props.onStepChange(step)
+  private stepChange = (step: number,type: number) => () => {
+    this.props.onStepChange(step,type)
   }
 
   private setColumnAuth = (viewRole: IViewRoleConverted) => () => {
@@ -299,7 +299,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     this.setState({ modalVisible: false })
   }
   
-  private sqlChange = (leftSql: string,rightSql: string) => {
+  private sqlChange = (sql: string) => {
     const { onActionChange } = this.props
     onActionChange({"sql":rightSql})
   }
@@ -310,6 +310,28 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     }else{
     	this.setState({ isAction: false })
     }
+  }
+  
+  private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
+    let sqlEditor: React.ReactElement<any>
+    let pythonEditor: React.ReactElement<any>
+
+    React.Children.forEach(props.children, (child) => {
+      const c = child as React.ReactElement<any>
+      const type = c.type as React.ComponentClass<any>
+      if (areComponentsEqual(type, SqlEditor)) {
+        // sqlEditor = c
+        console.log("-------ModelAuth-------")
+      	console.log(c)
+        const { leftWidth } = state
+        sqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "sql",name:"sql",styleDict: {"padding":"0px 0px 0px 16px"} })
+      } else if (areComponentsEqual(type, PythonEditor)) {
+        pythonEditor = c
+      }
+       
+    })
+
+    return { sqlEditor, pythonEditor }
   }
 
   public render () {
@@ -323,9 +345,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       [Styles.containerHorizontal]: true,
       [Styles.modelAuth]: true
     })
+	const { sqlEditor, pythonEditor } = this.getChildren(this.props, this.state)
     const style = visible ? {} : { display: 'none' }
-    console.log("--------------------")
-    console.log(action)
     return (
       <div className={styleCls} style={style}>
         <Tabs defaultActiveKey="action" className={Styles.authTab} onChange={this.tabActionSelect}>
@@ -333,10 +354,14 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
          	 <div className={Styles.authTable}>
           		<Tabs defaultActiveKey="sql" type="card" size="small" >
           			 <TabPane tab="SQL" key="sql">
-              			<SqlEditor height="500" rightSql={action.sql} name="rightSql" onSqlChange={ this.sqlChange } />
+          			 	<div className={ Styles.sider,Styles.containerHorizontal,Styles.right,Styles.containerVertical } ref={this.editor}>
+                            {sqlEditor}
+              			</div>
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
-          		 		<PythonEditor />
+          		 		<div className={Styles.containerHorizontal} ref={this.editor}>
+                            {pythonEditor}
+              			</div>
           		 	</TabPane>
           		</Tabs>
           	</div>
@@ -364,11 +389,11 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
         </Tabs>
         <Row className={Styles.bottom} type="flex" align="middle" justify="end">
           <Col span={12} className={Styles.toolBtns}>
-            <Button type="primary" onClick={this.stepChange(-1)}>上一步</Button>
-            <Button onClick={this.stepChange(-2)}>取消</Button>
-            <Button onClick={this.stepChange(1)}>保存</Button>
-            { isAction ? <Popconfirm key="execute" title="确定执行吗？" placement="left" onConfirm={this.stepChange(2)} > <Button>执行</Button> </Popconfirm> : '' }
-            { isAction ? <Popconfirm key="executeSave" title="确定保存并执行执行吗？" placement="left" onConfirm={this.stepChange(3)} > <Button>保存并执行</Button> </Popconfirm> : '' }
+            <Button type="primary" onClick={this.stepChange(-1,0)}>上一步</Button>
+            <Button onClick={this.stepChange(-2,0)}>取消</Button>
+            <Button onClick={this.stepChange(1,0)}>保存</Button>
+            { isAction ? <Popconfirm key="execute" title="确定执行吗？" placement="left" onConfirm={this.stepChange(2,2)} > <Button>执行</Button> </Popconfirm> : '' }
+            { isAction ? <Popconfirm key="executeSave" title="确定保存并执行执行吗？" placement="left" onConfirm={this.stepChange(3,3)} > <Button>保存并执行</Button> </Popconfirm> : '' }
           </Col>
         </Row>
       </div>

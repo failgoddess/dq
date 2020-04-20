@@ -19,18 +19,19 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   private sqlEditorContainer = React.createRef<HTMLTextAreaElement>()
   private sqlEditor
-  private debouncedSqlChange = debounce((val: string,name: string) => { 
+  private debouncedGroupSqlChange = debounce((val: string,name: string) => { 
   	if(name==="leftSql") 
   		this.props.onSqlGroupChange(val,null); 
-  	else if (type === 'rightSql')
+  	else if(name === 'rightSql')
   		this.props.onSqlGroupChange(null,val);
-  	else
+  	}, 500)
+  	
+  	private debouncedSqlChange = debounce((val: string) => { 
   	    this.props.onSqlChange(sql);
   	}, 500)
 
   constructor (props) {
     super(props)
-    console.log("-------SqlEditor---constructor---------")
     require([
       'codemirror/lib/codemirror',
       'codemirror/lib/codemirror.css',
@@ -42,13 +43,20 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       'codemirror/addon/hint/sql-hint',
       'codemirror/addon/display/placeholder'
     ], (CodeMirror) => {
-      this.initEditor(CodeMirror, props.leftSql,props.rightSql)
+      console.log("-----------")
+      console.log(props)
+      
+      if(props.name==="leftSql" || props.name==="rightSql" )
+      	this.initGroupEditor(CodeMirror, props.leftSql,props.rightSql)
+      else if(props.name==="sql" )
+      	this.initEditor(CodeMirror, props.sql)
     })
   }
 
   public componentDidUpdate () {
     if (this.sqlEditor) {
       console.log("-------SqlEditor---componentDidUpdate---------")
+      console.log(this.props)
       const { leftSql, rightSql, sql } = this.props
       const localValue = this.sqlEditor.doc.getValue()
       const name = this.sqlEditor.options.name
@@ -58,14 +66,13 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       if (name==="rightSql" && rightSql !=null && rightSql !== localValue) {
         this.sqlEditor.doc.setValue(this.props.rightSql)
       }
-      if (sql !=null && sql !== localValue) {
+      if (name==="sql" && sql !=null && sql !== localValue) {
         this.sqlEditor.doc.setValue(this.props.sql)
       }
     }
   }
 
-  private initEditor = (codeMirror, leftSql: string,rightSql: string,sql: string) => {
-    console.log("-------SqlEditor---initEditor---------")
+  private initGroupEditor = (codeMirror, leftSql: string,rightSql: string) => {
     const { fromTextArea } = codeMirror
     const config = {
       mode: 'text/x-sql',
@@ -78,9 +85,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
-    if (typeof(this.props['height']) != "undefined") {
-      this.sqlEditor.setSize(null, this.props['height']);
-    }
     const name = this.sqlEditor.options.name
     if (name==="leftSql" && leftSql != null) {
       this.sqlEditor.doc.setValue(leftSql)
@@ -88,11 +92,38 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
     if (name==="rightSql" && rightSql != null) {
       this.sqlEditor.doc.setValue(rightSql)
     }
-    if (sql != null) {
-      this.sqlEditor.doc.setValue(sql)
-    }
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
-      this.debouncedSqlChange(_.getDoc().getValue(),_.options.name)
+      this.debouncedGroupSqlChange(_.getDoc().getValue(),_.options.name)
+    	
+      if (change.origin === '+input'
+          && change.text[0] !== ';'
+          && change.text[0].trim() !== ''
+          && change.text[1] !== '') {
+        this.sqlEditor.showHint({
+          completeSingle: false,
+          tables: this.props.hints
+        })
+      }
+    })
+  }
+  
+  private initEditor = (codeMirror,sql: string) => {
+    const { fromTextArea } = codeMirror
+    const config = {
+      mode: 'text/x-sql',
+      theme: '3024-day',
+      lineNumbers: true,
+      lineWrapping: false,
+      autoCloseBrackets: true,
+      matchBrackets: true,
+      foldGutter: true,
+      name: this.props.name
+    }
+    this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
+    const name = this.sqlEditor.options.name
+    this.sqlEditor.doc.setValue(sql)
+    this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
+      this.debouncedSqlChange(_.getDoc().getValue())
     	
       if (change.origin === '+input'
           && change.text[0] !== ';'
@@ -107,7 +138,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
   }
 
   public render () {
-    console.log("---------------")
     return (
       <div className={Styles.sqlEditor} id={this.props.id} style={this.props.styleDict}>
         <textarea ref={this.sqlEditorContainer} />

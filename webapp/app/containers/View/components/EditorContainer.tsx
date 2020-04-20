@@ -193,6 +193,8 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
         sourceTable = c
       } else if (areComponentsEqual(type, SqlEditor)) {
         // sqlEditor = c
+         console.log("-------EditorContainer-------")
+         console.log(c)
         const { leftWidth } = state
         leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql",styleDict: {"padding":"16px 3px 3px 16px"} })
         rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql",styleDict: {"padding":"16px 16px 3px 3px"} })

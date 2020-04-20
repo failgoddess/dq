@@ -317,7 +317,6 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   };
   
   handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
     this.setState({
       sortedInfo: sorter,
     });

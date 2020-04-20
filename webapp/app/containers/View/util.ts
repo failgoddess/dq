@@ -5,7 +5,6 @@ import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, ViewModelVisualTypes
 
 export function getFormedView (view: IView): IFormedView {
   const { model, variable, roles, correlation, toolbox, action } = view
-  console.log("------------------------------")
   const formedView = {
     ...view,
     model: JSON.parse((model || '{}')),

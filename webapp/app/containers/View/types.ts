@@ -87,6 +87,7 @@ export interface IViewModel {
 }
 
 export interface IViewAction {
+  type: number,
   sql: string,
   python: string
 }

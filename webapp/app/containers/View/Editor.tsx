@@ -215,7 +215,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     onExecuteSql(updatedParams)
   }
 
-  private stepChange = (step: number) => {
+  private stepChange = (step: number,type: number) => {
     const { currentStep } = this.state
     if (currentStep + step < 0) {
       this.goToViewList()
@@ -235,17 +235,19 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     if (hasError) { return }
     this.setState({ currentStep: currentStep + step }, () => {
       if (this.state.currentStep > 1) {
-        this.saveView()
+        this.saveView(type)
       }
     })
   }
-
-  private saveView = () => {
+  
+  private saveView = (type: number) => {
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation,toolbox, action } = editingViewInfo
+    const { model, variable, roles, correlation,toolbox } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
+    var action = editingViewInfo.action
+    action['type'] = type
     const updatedView: IView = {
       ...editingView,
       projectId: +projectId,
@@ -293,8 +295,12 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     onUpdateEditingView(updatedView)
   }
 
-  private sqlChange = (leftSql: string,rightSql: string) => {
+  private sqlGroupChange = (leftSql: string,rightSql: string) => {
     this.viewChange('leftSql', leftSql,'rightSql', rightSql)
+  }
+  
+    private sqlChange = (sql: string) => {
+    this.viewChange('sql', sql)
   }
 
   private modelChange = (partialModel: IViewAction) => {
@@ -314,8 +320,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       ...editingViewInfo,
       action: { ...action, ...partialModel }
     }
-    console.log("--------------------")
-    console.log(updatedViewInfo)
     onUpdateEditingViewInfo(updatedViewInfo)
   }
 
@@ -433,7 +437,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} sql={action.sql} hints={sqlHints} onSqlGroupChange={this.sqlChange} />
+            <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlGroupChange={this.sqlGroupChange} />
             <SpacebarModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <CorrelationModal correlation={correlation} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <ToolboxModal toolbox={toolbox} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
@@ -449,7 +453,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             />
             
           </EditorContainer>
-          	<ModelAuth
+          <ModelAuth
             	visible={modelAuthVisible}
             	model={model}
             	action={action}
@@ -460,7 +464,9 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             	onActionChange={this.actionChange}
             	onViewRoleChange={this.viewRoleChange}	
             	onStepChange={this.stepChange}
-          	/>
+          	>
+          		<SqlEditor sql={action.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+          	</ModelAuth>
         </div>
       </>
     )
