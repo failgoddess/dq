@@ -363,7 +363,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
           		 		<div className={Styles.containerHorizontal} ref={this.editor}>
-                            {pythonEditor}
+          		 			{pythonEditor}
               			</div>
           		 	</TabPane>
           		</Tabs>
