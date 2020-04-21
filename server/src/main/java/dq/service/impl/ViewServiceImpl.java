@@ -260,6 +260,7 @@ public class ViewServiceImpl implements ViewService {
         	 if(map.get("type")!=null && Integer.parseInt(map.get("type").toString())==3) {
         		 ViewExecuteSql executeSql = new ViewExecuteSql();
         		 executeSql.setSql(map.get("sql").toString());
+        		 executeSql.setSourceId(viewCreate.getSourceId());
             	 executeSql(executeSql, user);
         	 }
         }
@@ -334,6 +335,7 @@ public class ViewServiceImpl implements ViewService {
         	 if(map.get("type")!=null && Integer.parseInt(map.get("type").toString())==3) {
         		 ViewExecuteSql executeSql = new ViewExecuteSql();
         		 executeSql.setSql(map.get("sql").toString());
+        		 executeSql.setSourceId(viewUpdate.getSourceId());
             	 executeSql(executeSql, user);
         	 }
         }
