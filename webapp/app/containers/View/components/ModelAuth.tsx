@@ -84,8 +84,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   ))
 
   private stepChange = (step: number,type: number) => () => {
-    this.setState({ actionType: type })
-    this.props.onStepChange(step)
+    this.props.onStepChange(step, type)
   }
 
   private setColumnAuth = (viewRole: IViewRoleConverted) => () => {
@@ -395,7 +394,6 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
             <Button type="primary" onClick={this.stepChange(-1,0)}>上一步</Button>
             <Button onClick={this.stepChange(-2,0)}>取消</Button>
             <Button onClick={this.stepChange(1,0)}>保存</Button>
-            { isAction ? <Popconfirm key="execute" title="确定执行吗？" placement="left" onConfirm={this.stepChange(2,2)} > <Button>执行</Button> </Popconfirm> : '' }
             { isAction ? <Popconfirm key="executeSave" title="确定保存并执行执行吗？" placement="left" onConfirm={this.stepChange(3,3)} > <Button>保存并执行</Button> </Popconfirm> : '' }
           </Col>
         </Row>

@@ -523,7 +523,7 @@ export class SourceList extends React.PureComponent<ISourceListProps, ISourceLis
           <Box>
             <Box.Header>
               <Box.Title>
-                <Icon type="bars" />Source List
+                <Icon type="bars" />列表
               </Box.Title>
               <Box.Tools>
                 <Tooltip placement="bottom" title="新增">

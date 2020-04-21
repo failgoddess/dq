@@ -19,7 +19,7 @@
 
 package dq.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -253,6 +253,16 @@ public class ViewServiceImpl implements ViewService {
             log.info("source (:{}) not found", viewCreate.getSourceId());
             throw new NotFoundException("source is not found");
         }
+        
+        // 判断是否执行动作
+        if(org.apache.commons.lang.StringUtils.isNotBlank(viewCreate.getAction())) {
+        	 Map<String,Object> map = JSON.parseObject(viewCreate.getAction(),Map.class);
+        	 if(map.get("type")!=null && Integer.parseInt(map.get("type").toString())==3) {
+        		 ViewExecuteSql executeSql = new ViewExecuteSql();
+        		 executeSql.setSql(map.get("sql").toString());
+            	 executeSql(executeSql, user);
+        	 }
+        }
 
         //测试连接
         boolean testConnection = sqlUtils.init(source).testConnection();
@@ -317,7 +327,17 @@ public class ViewServiceImpl implements ViewService {
             log.info("source not found");
             throw new NotFoundException("source is not found");
         }
-
+        
+        // 判断是否执行动作
+        if(org.apache.commons.lang.StringUtils.isNotBlank(viewUpdate.getAction())) {
+        	 Map<String,Object> map = JSON.parseObject(viewUpdate.getAction(),Map.class);
+        	 if(map.get("type")!=null && Integer.parseInt(map.get("type").toString())==3) {
+        		 ViewExecuteSql executeSql = new ViewExecuteSql();
+        		 executeSql.setSql(map.get("sql").toString());
+            	 executeSql(executeSql, user);
+        	 }
+        }
+        
         //测试连接
         boolean testConnection = sqlUtils.init(source).testConnection();
 

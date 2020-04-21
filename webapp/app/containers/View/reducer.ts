@@ -42,7 +42,8 @@ const initialState: IViewState = {
     model: {},
     action: {
     	type:'',
-    	sql:''
+    	sql:'',
+    	python:''
     },
     variable: [],
     roles: [],

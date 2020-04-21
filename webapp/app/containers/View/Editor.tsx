@@ -233,7 +233,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       }
     })
     if (hasError) { return }
-    this.setState({ currentStep: currentStep + step }, () => {
+    this.setState({ currentStep: currentStep + step,type: type }, () => {
       if (this.state.currentStep > 1) {
         this.saveView()
       }
@@ -241,19 +241,18 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
   
   private saveView = () => {
-    const { actionType: type } = this.state
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation,toolbox, action } = editingViewInfo
+    const { model, variable, roles, correlation, toolbox ,action} = editingViewInfo
+    const { type } = this.state
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
-    var action = editingViewInfo.action
     action['type'] = type
     const updatedView: IView = {
       ...editingView,
       projectId: +projectId,
       model: JSON.stringify(model),
-      action: JSON.stringify({type,...action}),
+      action: JSON.stringify(action),
       variable: JSON.stringify(variable),
       correlation: JSON.stringify(correlation),
       toolbox: JSON.stringify(toolbox),
@@ -271,6 +270,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
         }
       })
     }
+    console.log("--------------------")
     viewId ? onEditView(updatedView, this.goToViewList) : onAddView(updatedView, this.goToViewList)
   }
 
