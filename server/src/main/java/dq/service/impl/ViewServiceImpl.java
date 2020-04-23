@@ -519,7 +519,7 @@ public class ViewServiceImpl implements ViewService {
         if(!(StringUtils.isEmpty(executeSql.getCondition()))) {
         	Dict<List<String>,List<String>> andCondition = SqlUtils.pareseConditionColumn(executeSql.getCondition());
         	// 后面引入antlr，将条件追加到下发sql中，这段逻辑还得改
-        	Map<String,Dict<Integer,Integer>> mapDict = new HashMap<String,Dict<Integer,Integer>>();
+        	LinkedHashMap<String,Dict<Integer,Integer>> mapDict = new LinkedHashMap<String,Dict<Integer,Integer>>();
         	
         	int length = (int)Math.max(leftPaginateWithQueryColumns.getTotalCount(),rightPaginateWithQueryColumns.getTotalCount());
         	for(int i=0;i<length;i++) {

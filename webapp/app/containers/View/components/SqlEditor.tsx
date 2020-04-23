@@ -43,7 +43,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       'codemirror/addon/hint/sql-hint',
       'codemirror/addon/display/placeholder'
     ], (CodeMirror) => {
-      console.log("-----------")
+      console.log("-------SqlEditor---constructor---------")
       console.log(props)
       
       if(props.name==="leftSql" || props.name==="rightSql" )
@@ -57,17 +57,24 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
     if (this.sqlEditor) {
       console.log("-------SqlEditor---componentDidUpdate---------")
       console.log(this.props)
+      console.log(this.sqlEditor.options.name)
       const { leftSql, rightSql, sql } = this.props
       const localValue = this.sqlEditor.doc.getValue()
       const name = this.sqlEditor.options.name
       if (name==="leftSql" && leftSql != null && leftSql !== localValue) {
-        this.sqlEditor.doc.setValue(this.props.leftSql)
+        console.log("=============")
+        console.log(leftSql)
+        this.sqlEditor.doc.setValue(leftSql)
       }
       if (name==="rightSql" && rightSql !=null && rightSql !== localValue) {
-        this.sqlEditor.doc.setValue(this.props.rightSql)
+        console.log("=============")
+        console.log(rightSql)
+        this.sqlEditor.doc.setValue(rightSql)
       }
       if (name==="sql" && sql !=null && sql !== localValue) {
-        this.sqlEditor.doc.setValue(this.props.sql)
+        console.log("=============")
+        console.log(sql)
+        this.sqlEditor.doc.setValue(sql)
       }
     }
   }
@@ -120,7 +127,10 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
-    const name = this.sqlEditor.options.name
+    
+    console.log("==================")
+    console.log(sql)
+    
     this.sqlEditor.doc.setValue(sql)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
       this.debouncedSqlChange(_.getDoc().getValue())

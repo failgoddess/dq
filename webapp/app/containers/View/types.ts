@@ -20,7 +20,7 @@ export interface IView extends IViewTemp {
   rightSql: string
   rightRowKey: string
   model: string
-  action: string
+  action: IViewAction
   variable: string
   config: string
   projectId: number
