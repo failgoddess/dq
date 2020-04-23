@@ -303,7 +303,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   
   private sqlChange = (sql: string) => {
     const { onActionChange } = this.props
-    onActionChange({"sql":rightSql})
+    const action = {sql:rightSql} as IViewAction
+    onActionChange(action)
   }
   
   private tabActionSelect = (key) => {

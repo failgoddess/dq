@@ -304,16 +304,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     this.viewChange('sql', sql)
   }
 
-  private modelChange = (partialModel: IViewAction) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const { action } = editingViewInfo
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
-      action: { ...action, ...partialModel }
-    }
-    onUpdateEditingViewInfo(updatedViewInfo)
-  }
-
   private actionChange = (partialModel: IViewAction) => {
     const { editingViewInfo, onUpdateEditingViewInfo } = this.props
     const { action } = editingViewInfo
