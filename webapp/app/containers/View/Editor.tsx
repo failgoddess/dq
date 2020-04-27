@@ -443,14 +443,15 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             />
             
           </EditorContainer>
-          <ModelAuth
-            	visible={modelAuthVisible}
+          <ModelAuth visible={modelAuthVisible}
             	model={model}
             	action={action}
             	variable={variable}
             	sqlColumns={sqlDataSource.columns}
             	roles={projectRoles}
             	viewRoles={viewRoles}
+            	sqlHints={sqlHints}
+            	onSqlChange={this.sqlChange}
             	onActionChange={this.actionChange}
             	onViewRoleChange={this.viewRoleChange}	
             	onStepChange={this.stepChange}

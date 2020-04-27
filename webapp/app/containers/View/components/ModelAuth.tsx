@@ -53,6 +53,7 @@ interface IModelAuthProps {
   onActionChange: (partialModel: IViewAction) => void
   onViewRoleChange: (viewRole: IViewRole) => void
   onStepChange: (stepChange: number) => void
+  sqlHints: any
 }
 
 interface IModelAuthStates {
@@ -324,9 +325,6 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       const type = c.type as React.ComponentClass<any>
       if (areComponentsEqual(type, SqlEditor)) {
         // sqlEditor = c
-        console.log("-------ModelAuth-------")
-      	console.log(c)
-        const { leftWidth } = state
         sqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "sql",name:"sql",styleDict: {"padding":"0px 0px 0px 16px"} })
       } else if (areComponentsEqual(type, PythonEditor)) {
         pythonEditor = c
@@ -338,7 +336,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   }
 
   public render () {
-    const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
+    console.log("--------------------")
+    const { visible, model, variable, viewRoles, sqlColumns, roles, action, sqlHints } = this.props
     const { modalVisible, selectedColumnAuth, selectedRoleId, isAction } = this.state
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
@@ -357,9 +356,18 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
          	 <div className={Styles.authTable}>
           		<Tabs defaultActiveKey="sql" type="card" size="small" >
           			 <TabPane tab="SQL" key="sql">
-          			 	<div className={ Styles.sider,Styles.containerHorizontal,Styles.right,Styles.containerVertical } ref={this.editor}>
-                            {sqlEditor}
-              			</div>
+          			 	
+              			 <div className={Styles.containerVertical} style={style}>
+  <div className={Styles.containerHorizontal}>
+    <div className={Styles.containerHorizontal} ref={this.editor}>
+      <div className={Styles.right} style={{ height: 500 }}>
+        <div className={Styles.containerVertical}>
+          {sqlEditor}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
           		 		<div className={Styles.containerHorizontal} ref={this.editor}>
