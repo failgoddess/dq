@@ -59,7 +59,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       console.log(this.props)
       console.log(this.sqlEditor.options.name)
       console.log(this.sqlEditor)
-      const { leftSql, rightSql, sql } = this.props
+      const { leftSql, rightSql, sql, currentStep } = this.props
       const localValue = this.sqlEditor.doc.getValue()
       const name = this.sqlEditor.options.name
       if (name==="leftSql" && leftSql != null && leftSql !== localValue) {
@@ -72,7 +72,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
         console.log(rightSql)
         this.sqlEditor.doc.setValue(rightSql)
       }
-      if (name==="sql" && sql !=null && sql !== localValue) {
+      if (name==="sql" && sql !=null && sql !== localValue && currentStep > 0) {
         console.log("=============")
         console.log(sql)
         this.sqlEditor.doc.setValue(sql)

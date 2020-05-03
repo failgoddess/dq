@@ -456,7 +456,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             	onViewRoleChange={this.viewRoleChange}	
             	onStepChange={this.stepChange}
           	>
-          		<SqlEditor sql={action.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+          		<SqlEditor sql={action.sql} currentStep={ currentStep } hints={sqlHints} onSqlChange={this.sqlChange} />
           	</ModelAuth>
         </div>
       </>
