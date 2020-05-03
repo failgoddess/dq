@@ -306,7 +306,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
                   列表
                 </Box.Title>
                 <Box.Tools>
-                  <Tooltip placement="bottom" title="新增">
+                  <Tooltip placement="topLeft" title="新增">
                   	<Dropdown overlay={ruleMenus} placement="bottomLeft">
       					<AdminButton type="primary" icon="plus"/>
     				</Dropdown>

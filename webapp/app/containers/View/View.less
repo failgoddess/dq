@@ -126,6 +126,30 @@
     padding-right: 16px;
     background: #f7f7f7;
   }
+  
+  .actionEditor{
+  	position: absolute;
+    overflow-y: auto;
+    top: 52px;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    padding-right: 16px;
+    background: #f7f7f7;
+    
+    :global(.ant-tabs) {
+		height: 100%;
+	}
+	
+	:global(.ant-tabs .ant-tabs-top-content){
+		height: 100%;
+	}
+	
+	:global(.ant-tabs .ant-tabs-top-content>.ant-tabs-tabpane){
+		height: 100%;
+	}
+	
+  }
 
   .bottom {
     border: 1px solid @border-color-base;
@@ -284,4 +308,3 @@
   max-height: 480px;
   overflow-y: auto;
 }
-

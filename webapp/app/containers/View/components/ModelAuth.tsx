@@ -62,6 +62,7 @@ interface IModelAuthStates {
   selectedColumnAuth: string[]
   isAction: boolean
   actionType: number
+  editorHeight: number
 }
 
 export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthStates> {
@@ -72,7 +73,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     selectedRoleId: 0,
     selectedColumnAuth: [],
     isAction: true,
-    actionType: 0
+    actionType: 0,
+    editorHeight: 0
   }
 
   private modelTypeOptions = Object.entries(ViewModelTypesLocale).map(([value, label]) => ({
@@ -334,11 +336,20 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
 
     return { sqlEditor, pythonEditor }
   }
+  
+  public componentDidMount () {
+    window.addEventListener('resize', this.setEditorHeight, false)
+    // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
+    const editorHeight = this.editor.current.clientHeight
+    this.setState({
+      editorHeight
+    })
+  }
 
   public render () {
     console.log("--------------------")
     const { visible, model, variable, viewRoles, sqlColumns, roles, action, sqlHints } = this.props
-    const { modalVisible, selectedColumnAuth, selectedRoleId, isAction } = this.state
+    const { modalVisible, selectedColumnAuth, selectedRoleId, isAction, editorHeight } = this.state    
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
     const authScroll = this.getAuthTableScroll(authColumns)
@@ -353,21 +364,12 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       <div className={styleCls} style={style}>
         <Tabs defaultActiveKey="action" className={Styles.authTab} onChange={this.tabActionSelect}>
           <TabPane tab="Action" key="action">
-         	 <div className={Styles.authTable}>
+         	 <div className={Styles.actionEditor}>
           		<Tabs defaultActiveKey="sql" type="card" size="small" >
           			 <TabPane tab="SQL" key="sql">
-          			 	
-              			 <div className={Styles.containerVertical} style={style}>
-  <div className={Styles.containerHorizontal}>
-    <div className={Styles.containerHorizontal} ref={this.editor}>
-      <div className={Styles.right} style={{ height: 500 }}>
-        <div className={Styles.containerVertical}>
-          {sqlEditor}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+              			<div className={Styles.containerVertical} style={{ height: '100%' }} ref={this.editor}>
+          					{sqlEditor}
+						</div>
           		 	</TabPane>
           		 	<TabPane tab="Python" key="python">
           		 		<div className={Styles.containerHorizontal} ref={this.editor}>
