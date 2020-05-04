@@ -88,8 +88,8 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
       if (!err) {
         const correlation = fieldsValue as IViewCorrelation
         correlation["expression"] = this.state.expression
-        if(!isBlank()){
-            correlation["expressionPair"] = this.strToPair(this.state.expression)
+        if(!isBlank(correlation["expression"])){
+            correlation["expressionPair"] = this.strToPair(correlation["expression"])
         }
         correlation["condition"] = this.state.condition
         onSave(correlation)
@@ -116,7 +116,6 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   public render () {
     const { visible, onCancel, form, channels, tenants, bizs, onLoadDacTenants, correlation } = this.props
     const { isFromService,expression,condition } = this.state
-
     const modalButtons = [(
       <Button
         key="back"
