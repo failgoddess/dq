@@ -169,13 +169,13 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
           duration: null
         })
       if (sqlValidation.code === 200) {
-        lastSuccessExecutedSql = editingView.sql
+        lastSuccessExecutedSql = editingView.leftSql
       }
     }
     if (editingView && editingView.id === +viewId) {
       if (init) {
         props.onLoadSourceDatabases(editingView.sourceId)
-        lastSuccessExecutedSql = editingView.sql
+        lastSuccessExecutedSql = editingView.leftSql
         return {
           init: false,
           sqlValidationCode: sqlValidation.code,
@@ -270,7 +270,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
         }
       })
     }
-    console.log("--------------------")
     viewId ? onEditView(updatedView, this.goToViewList) : onAddView(updatedView, this.goToViewList)
   }
 
@@ -400,7 +399,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
-    const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
+    const nextDisabled = (editingView.leftSql !== lastSuccessExecutedSql)
     return (
       <>
         <Helmet title="View" />

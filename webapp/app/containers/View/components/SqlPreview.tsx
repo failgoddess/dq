@@ -87,7 +87,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 		}
 	))
 	
-	if(typeof(toolbox) != "undefined"){
+	if(typeof(correlation) != "undefined"){
 		var expressionArr = []
 		for(var colName in correlation['expressionPair']){
 			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
@@ -163,8 +163,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
          	}]
     	}
  	})
- 	
- 	if(typeof(toolbox) != "undefined"){
+ 	console.log("------------------")
+ 	console.log(correlation)
+ 	if(typeof(correlation) != "undefined"){
  		var expressionArr = []
 		for(var colName in correlation['expressionPair']){
 			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
@@ -323,6 +324,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   };
 
   public render () {
+  	console.log("-------------------")
     const { loading, response, size,updatedCorrelation,toolbox } = this.props
     const { key, value } = response
     const { pageSize,currentPage } = this.state

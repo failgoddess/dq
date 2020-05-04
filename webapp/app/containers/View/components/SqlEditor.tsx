@@ -43,9 +43,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       'codemirror/addon/hint/sql-hint',
       'codemirror/addon/display/placeholder'
     ], (CodeMirror) => {
-      console.log("-------SqlEditor---constructor---------")
-      console.log(props)
-      
       if(props.name==="leftSql" || props.name==="rightSql" )
       	this.initGroupEditor(CodeMirror, props.leftSql,props.rightSql)
       else if(props.name==="sql" )
@@ -55,29 +52,19 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
 
   public componentDidUpdate () {
     if (this.sqlEditor) {
-      console.log("-------SqlEditor---componentDidUpdate---------")
-      console.log(this.props)
-      console.log(this.sqlEditor.options.name)
-      console.log(this.sqlEditor)
       const { leftSql, rightSql, sql, currentStep } = this.props
       const localValue = this.sqlEditor.doc.getValue()
       const name = this.sqlEditor.options.name
       if (name==="leftSql" && leftSql != null && leftSql !== localValue) {
-        console.log("=============")
-        console.log(leftSql)
         this.sqlEditor.doc.setValue(leftSql)
       }
       if (name==="rightSql" && rightSql !=null && rightSql !== localValue) {
-        console.log("=============")
-        console.log(rightSql)
         this.sqlEditor.doc.setValue(rightSql)
       }
       if (name==="sql" && sql !=null && sql !== localValue && currentStep > 0) {
-        console.log("=============")
-        console.log(sql)
+      	this.sqlEditor.display.lineNumChars = null
         this.sqlEditor.doc.setValue(sql)
       }
-      console.log("-----------")
     }
   }
 
@@ -101,9 +88,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
     if (name==="rightSql" && rightSql != null) {
       this.sqlEditor.doc.setValue(rightSql)
     }
-    console.log("=============")
-    console.log(leftSql)
-    console.log(rightSql)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
       this.debouncedGroupSqlChange(_.getDoc().getValue(),_.options.name)
     	
@@ -132,8 +116,6 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       name: this.props.name
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
-    console.log("=============")
-    console.log(sql)
     this.sqlEditor.doc.setValue(sql)
     this.sqlEditor.on('change', (_: CodeMirror.Editor, change: CodeMirror.EditorChange) => {
       this.debouncedSqlChange(_.getDoc().getValue())
