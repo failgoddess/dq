@@ -53,7 +53,6 @@ interface IModelAuthProps {
   onActionChange: (partialModel: IViewAction) => void
   onViewRoleChange: (viewRole: IViewRole) => void
   onStepChange: (stepChange: number) => void
-  sqlHints: any
 }
 
 interface IModelAuthStates {
@@ -306,7 +305,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   
   private sqlChange = (sql: string) => {
     const { onActionChange } = this.props
-    const action = {sql:rightSql} as IViewAction
+    const action = {sql: sql} as IViewAction
 	onActionChange(action)
   }
   
@@ -327,7 +326,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       const type = c.type as React.ComponentClass<any>
       if (areComponentsEqual(type, SqlEditor)) {
         // sqlEditor = c
-        sqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "sql",name:"sql",styleDict: {"padding":"0px 0px 0px 16px"} })
+        sqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "sql",name:"sql",styleDict: {"padding":"0px 0px 0px 16px"}, onSqlChange: this.sqlChange })
       } else if (areComponentsEqual(type, PythonEditor)) {
         pythonEditor = c
       }
@@ -348,7 +347,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
 
   public render () {
     console.log("--------------------")
-    const { visible, model, variable, viewRoles, sqlColumns, roles, action, sqlHints } = this.props
+    const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
     const { modalVisible, selectedColumnAuth, selectedRoleId, isAction, editorHeight } = this.state    
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)

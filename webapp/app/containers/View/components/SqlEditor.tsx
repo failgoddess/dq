@@ -26,7 +26,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
   		this.props.onSqlGroupChange(null,val);
   	}, 500)
   	
-  	private debouncedSqlChange = debounce((val: string) => { 
+  	private debouncedSqlChange = debounce((val: string) => {
   	    this.props.onSqlChange(val);
   	}, 500)
 

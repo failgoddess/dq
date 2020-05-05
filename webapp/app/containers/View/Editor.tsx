@@ -298,10 +298,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   private sqlGroupChange = (leftSql: string,rightSql: string) => {
     this.viewChange('leftSql', leftSql,'rightSql', rightSql)
   }
-  
-  private sqlChange = (sql: string) => {
-    this.viewChange('sql', sql)
-  }
 
   private actionChange = (partialModel: IViewAction) => {
     const { editingViewInfo, onUpdateEditingViewInfo } = this.props
@@ -399,6 +395,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
+    
     const nextDisabled = (editingView.leftSql !== lastSuccessExecutedSql)
     return (
       <>
@@ -449,13 +446,11 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             	sqlColumns={sqlDataSource.columns}
             	roles={projectRoles}
             	viewRoles={viewRoles}
-            	sqlHints={sqlHints}
-            	onSqlChange={this.sqlChange}
             	onActionChange={this.actionChange}
             	onViewRoleChange={this.viewRoleChange}	
             	onStepChange={this.stepChange}
           	>
-          		<SqlEditor sql={action.sql} currentStep={ currentStep } hints={sqlHints} onSqlChange={this.sqlChange} />
+          		<SqlEditor sql={action.sql} currentStep={ currentStep } hints={sqlHints}  />
           	</ModelAuth>
         </div>
       </>
