@@ -350,6 +350,7 @@ CREATE TABLE `rel_role_project`
     `role_id`             bigint(20)  NOT NULL,
     `source_permission`   smallint(1) NOT NULL DEFAULT '1',
     `view_permission`     smallint(1) NOT NULL DEFAULT '1',
+    `rule_permission`     smallint(1) NOT NULL DEFAULT '1',
     `widget_permission`   smallint(1) NOT NULL DEFAULT '1',
     `viz_permission`      smallint(1) NOT NULL DEFAULT '1',
     `schedule_permission` smallint(1) NOT NULL DEFAULT '1',

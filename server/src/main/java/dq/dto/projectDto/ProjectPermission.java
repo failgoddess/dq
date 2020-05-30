@@ -29,6 +29,8 @@ public class ProjectPermission {
     private Short sourcePermission = 0;
 
     private Short viewPermission = 0;
+    
+    private Short rulePermission = 0;
 
     private Short widgetPermission = 0;
 
@@ -50,6 +52,7 @@ public class ProjectPermission {
     public ProjectPermission(Short permission) {
         this.sourcePermission = permission;
         this.viewPermission = permission;
+        this.rulePermission = permission;
         this.widgetPermission = permission;
         this.vizPermission = permission;
         this.schedulePermission = permission;
@@ -60,6 +63,7 @@ public class ProjectPermission {
         permission.setVizPermission((short) 1);
         permission.setWidgetPermission((short) 0);
         permission.setViewPermission((short) 0);
+        permission.setRulePermission((short)0);
         permission.setSourcePermission((short) 0);
         permission.setSchedulePermission((short) 0);
         permission.setDownloadPermission(false);

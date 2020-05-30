@@ -1,3 +1,4 @@
+
 import { SqlTypes } from 'app/globalConstants'
 import { ISourceSimple, ISourceBase, ISchema } from 'containers/Source/types'
 import { ViewModelTypes, ViewModelVisualTypes, ViewVariableTypes, ViewVariableValueTypes } from './constants'
@@ -14,19 +15,26 @@ type IViewTemp = Omit<IViewBase, 'sourceName'>
 
 export interface IView extends IViewTemp {
   sql: string
+  leftSql: string
+  leftRowKey: string
+  rightSql: string
+  rightRowKey: string
   model: string
+  action: IViewAction
   variable: string
   config: string
   projectId: number
   source?: ISourceSimple
   sourceId: number
   roles: IViewRoleRaw[]
+  condition: string
 }
 
 type IViewTemp2 = Omit<Omit<Omit<IView, 'model'>, 'variable'>, 'roles'>
 
 export interface IFormedView extends IViewTemp2 {
   model: IViewModel
+  action: IViewAction
   variable: IViewVariable[]
   roles: IViewRole[]
 }
@@ -56,10 +64,15 @@ export interface ISqlColumn {
   type: SqlTypes
 }
 
-export interface IExecuteSqlResponse {
+export interface IComponentSqlResponse {
   columns: ISqlColumn[]
   totalCount: number
   resultList: Array<{[key: string]: string | number}>
+}
+
+export interface IExecuteSqlResponse {
+  key: IComponentSqlResponse
+  value: IComponentSqlResponse
 }
 
 export interface IViewModelProps {
@@ -71,6 +84,12 @@ export interface IViewModelProps {
 
 export interface IViewModel {
   [name: string]: Omit<IViewModelProps, 'name'>
+}
+
+export interface IViewAction {
+  type: number,
+  sql: string,
+  python: string
 }
 
 interface IViewVariableChannel {
@@ -92,6 +111,21 @@ export interface IViewVariable extends IViewVariableBase {
   key: string
   alias: string
   fromService: boolean
+}
+
+export interface IViewCorrelation {
+  key: string
+  alias: string
+  fromService: boolean
+  expression: string
+  expressionPair: Array<{[key: string]: string | number}>
+  condition: string
+}
+
+export interface IViewToolbox {
+  key: string
+  alias: string
+  slide: string
 }
 
 export interface IViewRoleRaw {
@@ -125,8 +159,11 @@ export interface IViewRole {
 
 export interface IViewInfo {
   model: IViewModel
+  action: IViewAction
   variable: IViewVariable[]
   roles: IViewRole[]
+  correlation: IViewCorrelation
+  toolbox: IViewToolbox
 }
 
 export interface IFormedViews {

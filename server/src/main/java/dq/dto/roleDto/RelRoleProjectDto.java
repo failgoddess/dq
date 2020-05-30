@@ -36,6 +36,10 @@ public class RelRoleProjectDto {
     @Min(value = (short) 0, message = "Invalid view permission")
     @Max(value = (short) 3, message = "Invalid view permission")
     private Short viewPermission = 1;
+    
+    @Min(value = (short) 0, message = "Invalid view permission")
+    @Max(value = (short) 3, message = "Invalid view permission")
+    private Short rulePermission = 1;
 
     @Min(value = (short) 0, message = "Invalid widget permission")
     @Max(value = (short) 3, message = "Invalid widget permission")

@@ -5,7 +5,9 @@ import Report from 'containers/Report'
 import SourceList from 'containers/Source'
 
 import ViewIndex from 'containers/View'
+import RulesIndex from 'containers/Rules'
 import ViewEditor from 'containers/View/Editor'
+import RulesEditor from 'containers/Rules/Editor'
 
 import Widget from 'containers/Widget'
 import Workbench from 'containers/Widget/components/Workbench/index'
@@ -107,6 +109,11 @@ export default function createRoutes (store): IExtendedRouteProps[] {
               component: ViewIndex
             },
             {
+              path: '/project/:pid/rules',
+              name: 'rules',
+              component: RulesIndex
+            },
+            {
               path: '/project/:pid/sources',
               name: 'sources',
               component: SourceList
@@ -159,6 +166,11 @@ export default function createRoutes (store): IExtendedRouteProps[] {
           path: '/project/:pid/view(/:viewId)',
           name: 'viewEditor',
           component: ViewEditor
+        },
+        {
+          path: '/project/:pid/rules(/:rulesId)',
+          name: 'RulesEditor',
+          component: RulesEditor
         },
         {
           path: '/project/:pid/schedule(/:scheduleId)',
@@ -215,4 +227,5 @@ export interface IRouteParams {
   pid?: string
   viewId?: string
   scheduleId?: string
+  rulesId?:string
 }

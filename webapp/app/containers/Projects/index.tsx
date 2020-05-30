@@ -79,6 +79,7 @@ export interface IProjectPermission {
   sharePermission: boolean
   sourcePermission: number
   viewPermission: number
+  rulePermission: number
   vizPermission: number
   widgetPermission: number
 }

@@ -32,6 +32,7 @@ public class RelRoleProject extends RecordInfo<RelRoleProject> {
 
     private Short sourcePermission = 0;     //隐藏/只读/修改/删除 0/1/2/3
     private Short viewPermission = 0;       //隐藏/只读/修改/删除 0/1/2/3
+    private Short rulePermission = 0;       //隐藏/只读/修改/删除 0/1/2/3
     private Short widgetPermission = 0;     //隐藏/只读/修改/删除 0/1/2/3
     private Short vizPermission = 1;        //隐藏/只读/修改/删除 0/1/2/3
     private Short schedulePermission = 0;   //隐藏/只读/修改/删除 0/1/2/3
@@ -56,6 +57,7 @@ public class RelRoleProject extends RecordInfo<RelRoleProject> {
                 ", roleId=" + roleId +
                 ", sourcePermission=" + sourcePermission +
                 ", viewPermission=" + viewPermission +
+                ", rulePermission=" + rulePermission +
                 ", widgetPermission=" + widgetPermission +
                 ", vizPermission=" + vizPermission +
                 ", schedulePermission=" + schedulePermission +

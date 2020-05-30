@@ -16,11 +16,13 @@ export function hasOnlyVizPermission (permission: IProjectPermission) {
     vizPermission,
     widgetPermission,
     viewPermission,
+    rulePermission,
     sourcePermission,
     schedulePermission
   } = permission
   return !widgetPermission
     && !viewPermission
+    && !rulePermission
     && !sourcePermission
     && !schedulePermission
     && vizPermission

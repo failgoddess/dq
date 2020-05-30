@@ -1,3 +1,4 @@
+
 import produce from 'immer'
 import pick from 'lodash/pick'
 import { IViewState, IView, IFormedViews, IViewBase } from './types'
@@ -19,13 +20,18 @@ const emptyView: IView = {
   id: null,
   name: '',
   sql: '',
+  leftSql: '',
+  rightSql: '',
   model: '',
+  action: '',
   variable: '',
   roles: [],
   config: '',
   description: '',
   projectId: null,
-  sourceId: null
+  sourceId: null,
+  correlation: null,
+  toolbox: null
 }
 
 const initialState: IViewState = {
@@ -34,8 +40,21 @@ const initialState: IViewState = {
   editingView: emptyView,
   editingViewInfo: {
     model: {},
+    action: {
+    	type:'',
+    	sql:'',
+    	python:''
+    },
     variable: [],
-    roles: []
+    roles: [],
+    correlation:{
+  	  expression:'',
+  	  expressionPair:{},
+  	  condition:''
+    },
+    toolbox:{
+    	slide:'combine',
+    }
   },
   sources: [],
   schema: {
@@ -48,9 +67,16 @@ const initialState: IViewState = {
     message: null
   },
   sqlDataSource: {
-    columns: [],
-    totalCount: 0,
-    resultList: []
+  	key: {
+      columns: [],
+      totalCount: 0,
+      resultList: []
+  	},
+  	value:{
+  	  columns: [],
+      totalCount: 0,
+      resultList: []
+  	}
   },
   sqlLimit: DEFAULT_SQL_LIMIT,
   loading: {
@@ -60,7 +86,6 @@ const initialState: IViewState = {
     execute: false,
     copy: false
   },
-
   channels: [],
   tenants: [],
   bizs: [],
@@ -87,15 +112,18 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles'])
+          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox','action'])
         }
         draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles } = getFormedView(view)
+          const { id, model, variable, roles, correlation, toolbox, action } = getFormedView(view)
           acc[id] = {
             ...view,
+            action,
             model,
             variable,
-            roles
+            roles,
+            correlation,
+            toolbox
           }
           return acc
         }, draft.formedViews)
@@ -159,7 +187,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case ActionTypes.EDIT_VIEW_SUCCESS:
         draft.editingView = emptyView
-        draft.editingViewInfo = { model: {}, variable: [], roles: [] }
+        draft.editingViewInfo = { model: {}, variable: [], roles: [], action: {} }
         draft.formedViews[action.payload.result.id] = getFormedView(action.payload.result)
         break
 
@@ -198,18 +226,22 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case LOAD_WIDGET_DETAIL_SUCCESS:
         const widgetView = action.payload.view
+        console.log("------------")
         draft.formedViews[widgetView.id] = {
           ...widgetView,
           model: JSON.parse(widgetView.model || '{}'),
+          action: JSON.parse(widgetView.action || '{}'),
           variable: JSON.parse(widgetView.variable || '[]')
         }
         break
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
       case DisplayActionTypes.LOAD_DISPLAY_DETAIL_SUCCESS:
         const updatedViews: IFormedViews = (action.payload.views || []).reduce((obj, view) => {
+          console.log("---------------")
           obj[view.id] = {
             ...view,
             model: JSON.parse(view.model || '{}'),
+            action: JSON.parse(widgetView.action || '{}'),
             variable: JSON.parse(view.variable || '[]')
           }
           return obj

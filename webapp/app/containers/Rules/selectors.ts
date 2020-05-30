@@ -1,3 +1,4 @@
+
 import { createSelector } from 'reselect'
 import { IViewState } from './types'
 
@@ -39,8 +40,8 @@ const makeSelectSqlValidation = () => createSelector(
 )
 
 const makeSelectSqlDataSource = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.sqlDataSource
+	selectView,
+	(viewState: IViewState) => viewState.sqlDataSource
 )
 
 const makeSelectSqlLimit = () => createSelector(
@@ -66,6 +67,21 @@ const makeSelectBizs = () => createSelector(
   (viewState: IViewState) => viewState.bizs
 )
 
+const makeSelectCorrelation = () => createSelector(
+  selectView,
+  (viewState: IViewState) => viewState.correlation
+)
+
+const makeSelectToolbox = () => createSelector(
+  selectView,
+  (viewState: IViewState) => viewState.toolbox
+)
+
+const makeSelectAction = () => createSelector(
+  selectView,
+  (viewState: IViewState) => viewState.action
+)
+
 export {
   selectView,
   makeSelectViews,
@@ -81,5 +97,9 @@ export {
 
   makeSelectChannels,
   makeSelectTenants,
-  makeSelectBizs
+  makeSelectBizs,
+  
+  makeSelectCorrelation,
+  makeSelectToolbox,
+  makeSelectAction
 }

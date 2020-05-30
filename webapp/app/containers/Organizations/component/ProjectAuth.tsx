@@ -24,7 +24,9 @@ export class Auth extends React.Component <IAuthProps, {}> {
   }
   public render () {
     const role = 1
-    const authModules = [ 'viz', 'view', 'source', 'widget', 'schedule', 'share', 'download']
+    const authModules = [ 'viz', 'view', 'source', 'widget', 'schedule', 'share', 'download', 'rule']
+    console.log("--------111---------")
+    console.log(this.props.currentProjectRole)
     const organizationMembers = authModules.map((auth, index) => {
       return {
         user: auth,
