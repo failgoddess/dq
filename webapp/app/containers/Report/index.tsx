@@ -173,6 +173,7 @@ export function mapDispatchToProps (dispatch) {
     onPageLoad: () => {
       const sidebarSource = [
         { icon: (<i className="iconfont icon-datasource24" />), route: ['sources'], permission: 'source' },
+        { icon: (<i className="iconfont .icon-gauge" />), route: ['rules', 'rule'], permission: 'rule' },
         { icon: (<i className="iconfont icon-custom-business" />), route: ['views', 'view'], permission: 'view' }
       ]
       dispatch(loadSidebar(sidebarSource))

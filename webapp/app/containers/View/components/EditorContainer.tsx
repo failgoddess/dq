@@ -1,17 +1,34 @@
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
+
 import React from 'react'
 import { areComponentsEqual } from 'react-hot-loader'
 
 import { uuid } from 'utils/util'
-import { IViewVariable,IViewCorrelation } from '../types'
+import { IViewVariable } from '../types'
 import Resizable, { IResizeCallbackData } from 'libs/react-resizable/lib/Resizable'
 
 import SourceTable from './SourceTable'
 import SqlEditor from './SqlEditor'
-import SqlButton, { ISqlButtonProps } from './SqlButton'
+import ViewVariableList, { IViewVariableListProps } from './ViewVariableList'
 import VariableModal, { IVariableModalProps } from './VariableModal'
-import CorrelationModal, { ICorrelationModalProps } from './CorrelationModal'
-import SpacebarModal, { ISpacebarModalProps } from './SpacebarModal'
-import ToolboxModal, { IToolboxModalProps } from './ToolboxModal'
 import SqlPreview, { ISqlPreviewProps } from './SqlPreview'
 import EditorBottom from './EditorBottom'
 
@@ -20,12 +37,8 @@ import Styles from '../View.less'
 interface IEditorContainerProps {
   visible: boolean
   variable: IViewVariable[]
-  correlation: IViewCorrelation
-  toolbox: IViewToolbox
   children?: React.ReactNode
   onVariableChange: (variable: IViewVariable[]) => void
-  onCorrelationChange: (variable: IViewCorrelation) => void
-  onToolboxChange: (variable: IViewCorrelation) => void
 }
 
 interface IEditorContainerStates {
@@ -33,39 +46,30 @@ interface IEditorContainerStates {
   siderWidth: number
   previewHeight: number
   variableModalVisible: boolean
-  correlationModalVisible: boolean
   editingVariable: IViewVariable
-  editingCorrelation: IViewCorrelation
-  leftWidth: number
 }
 
 export class EditorContainer extends React.Component<IEditorContainerProps, IEditorContainerStates> {
 
   private editor = React.createRef<HTMLDivElement>()
   public static SiderMinWidth = 250
-  public static EditorMinHeight = 0
-  public static ToolHeight = 23
-  public static DefaultPreviewHeight = 80
+  public static EditorMinHeight = 100
+  public static DefaultPreviewHeight = 300
 
   public state: Readonly<IEditorContainerStates> = {
     editorHeight: 0,
     siderWidth: EditorContainer.SiderMinWidth,
-    previewHeight: 0,
+    previewHeight: EditorContainer.DefaultPreviewHeight,
     variableModalVisible: false,
-    correlationModalVisible: false,
-    editingVariable: null,
-    editingCorrelation: null,
-    leftWidth: 0
+    editingVariable: null
   }
 
   public componentDidMount () {
     window.addEventListener('resize', this.setEditorHeight, false)
     // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
-    const editorHeight = this.editor.current.clientHeight
-    const previewHeight = editorHeight - EditorContainer.DefaultPreviewHeight
+    const editorHeight = this.editor.current.clientHeight + 64
     this.setState({
-      editorHeight,
-      previewHeight
+      editorHeight
     })
   }
 
@@ -74,10 +78,9 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   }
 
   public setEditorHeight = () => {
-    const editorHeight = this.editor.current.clientHeight - EditorContainer.ToolHeight
+    const editorHeight = this.editor.current.clientHeight
     const { previewHeight, editorHeight: oldEditorHeight } = this.state
-    // const newPreviewHeight = Math.min(Math.floor(previewHeight * (editorHeight / oldEditorHeight)), editorHeight)
-    const newPreviewHeight = editorHeight - oldEditorHeight + previewHeight
+    const newPreviewHeight = Math.min(Math.floor(previewHeight * (editorHeight / oldEditorHeight)), editorHeight)
     this.setState({
       editorHeight,
       previewHeight: newPreviewHeight
@@ -98,24 +101,6 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     this.setState({
       editingVariable: null,
       variableModalVisible: true
-    })
-  }
-  
-  private addCorrelation = () => {
-    this.setState({
-      editingCorrelation: null,
-      correlationModalVisible: true
-    })
-  }
-  
-  private saveCorrelation = (updatedCorrelation: IViewCorrelation) => {
-  	const { onCorrelationChange } = this.props
-  	if (!updatedCorrelation.key) {
-      updatedCorrelation.key = uuid(5)
-    } 
-    onCorrelationChange(updatedCorrelation)
-    this.setState({
-      correlationModalVisible: false    
     })
   }
 
@@ -161,30 +146,14 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   private closeVariableModal = () => {
     this.setState({ variableModalVisible: false })
   }
-  
-  private closeCorrelationModal = () => {
-    this.setState({ correlationModalVisible: false })
-  }
-  
-  private onToolboxChange = (updatedToolbox: IViewVariable) => {
-  	const { onToolboxChange } = this.props
-  	if (!updatedToolbox.key) {
-      updatedToolbox.key = uuid(5)
-    } 
-    onToolboxChange(updatedToolbox)
-  }
 
   private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
     let sourceTable: React.ReactElement<any>
-    let rightSqlEditor: React.ReactElement<any>
-    let leftSqlEditor: React.ReactElement<any>
+    let sqlEditor: React.ReactElement<any>
     let sqlPreview: React.ReactElement<ISqlPreviewProps>
     let editorBottom: React.ReactElement<any>
-    let sqlButton: React.ReactElement<ISqlButtonProps>
+    let viewVariableList: React.ReactElement<IViewVariableListProps>
     let variableModal: React.ReactElement<IVariableModalProps>
-    let correlationModal: React.ReactElement<ICorrelationModalProps>
-    let spacebarModal: React.ReactElement<ISpacebarModalProps>
-    let toolboxModal: React.ReactElement<IToolboxModalProps>
 
     React.Children.forEach(props.children, (child) => {
       const c = child as React.ReactElement<any>
@@ -192,17 +161,14 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       if (areComponentsEqual(type, SourceTable)) {
         sourceTable = c
       } else if (areComponentsEqual(type, SqlEditor)) {
-        // sqlEditor = c
-        const { leftWidth } = state
-        leftSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "leftSql",name:"leftSql",styleDict: {"padding":"16px 3px 3px 16px"} })
-        rightSqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "rightSql",name:"rightSql",styleDict: {"padding":"16px 16px 3px 3px"} })
+        sqlEditor = c
       } else if (areComponentsEqual(type, SqlPreview)) {
         const { previewHeight } = state
         sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })
       } else if (areComponentsEqual(type, EditorBottom)) {
         editorBottom = c
-      } else if (areComponentsEqual(type, SqlButton)) {
-        sqlButton = React.cloneElement<ISqlButtonProps>(c, {
+      } else if (areComponentsEqual(type, ViewVariableList)) {
+        viewVariableList = React.cloneElement<IViewVariableListProps>(c, {
           className: Styles.viewVariable,
           onAdd: this.addVariable,
           onDelete: this.deleteVariable,
@@ -217,35 +183,19 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           onCancel: this.closeVariableModal,
           onSave: this.saveVariable
         })
-       } else if (areComponentsEqual(type, SpacebarModal)) {
-        spacebarModal = React.cloneElement<ISpacebarModalProps>(c, {
-          className: Styles.viewVariable,
-          addCorrelation: this.addCorrelation,
-          onDelete: this.deleteVariable,
-          onEdit: this.editVariable
-        })
-      } else if (areComponentsEqual(type, CorrelationModal)) {
-        const { correlationModalVisible, editingCorrelation } = this.state
-        correlationModal = React.cloneElement<ICorrelationModalProps>(c, {
-          visible: correlationModalVisible,
-          onCancel: this.closeCorrelationModal,
-          onSave: this.saveCorrelation
-        })
-       } else if (areComponentsEqual(type, ToolboxModal)) {
-        toolboxModal = React.cloneElement<IToolboxModalProps>(c, {
-          onChange: this.onToolboxChange
-        })
       }
     })
 
-    return { sourceTable, rightSqlEditor, leftSqlEditor , sqlPreview, editorBottom, sqlButton, variableModal, correlationModal, toolboxModal, spacebarModal }
+    return { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal }
   }
 
   public render () {
     const { visible } = this.props
-    const { editorHeight, siderWidth, previewHeight } = this.state
+    const {
+      editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { sourceTable, rightSqlEditor, leftSqlEditor, sqlPreview, editorBottom, sqlButton, variableModal, correlationModal , toolboxModal,spacebarModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal } = this.getChildren(this.props, this.state)
+
     return (
       <>
         <div className={Styles.containerVertical} style={style}>
@@ -254,7 +204,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
               axis="x"
               width={siderWidth}
               height={0}
-              minConstraints={0}
+              minConstraints={[EditorContainer.SiderMinWidth, 0]}
               maxConstraints={[EditorContainer.SiderMinWidth * 2, 0]}
               onResize={this.siderResize}
             >
@@ -273,14 +223,12 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                   onResize={this.previewResize}
                 >
                   <div className={Styles.containerVertical}>
-                    {leftSqlEditor}
-                    {spacebarModal}
-                    {rightSqlEditor}
+                    {sqlEditor}
+                    {viewVariableList}
                   </div>
                 </Resizable>
               </div>
-              <div className={Styles.toolbox}>{toolboxModal}</div>
-              <div className={Styles.preview} style={{height: previewHeight }}>
+              <div className={Styles.preview} style={{height: previewHeight}}>
                   {sqlPreview}
               </div>
             </div>
@@ -288,7 +236,6 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
           </div>
         </div>
         {variableModal}
-        {correlationModal}
       </>
     )
   }

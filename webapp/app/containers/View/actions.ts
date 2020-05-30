@@ -1,8 +1,27 @@
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
 
 import axios from 'axios'
 import { ActionTypes } from './constants'
 import { returnType } from 'utils/redux'
-import { IDQResponse } from 'utils/request'
+import { IDavinciResponse } from 'utils/request'
 import {
   IViewBase, IView, IExecuteSqlParams, IExecuteSqlResponse, IViewInfo,
   IDacChannel, IDacTenant, IDacBiz
@@ -168,7 +187,7 @@ export const ViewActions = {
       }
     }
   },
-  sqlExecuted (result: IDQResponse<IExecuteSqlResponse>) {
+  sqlExecuted (result: IDavinciResponse<IExecuteSqlResponse>) {
     return {
       type: ActionTypes.EXECUTE_SQL_SUCCESS,
       payload: {
@@ -176,7 +195,7 @@ export const ViewActions = {
       }
     }
   },
-  executeSqlFail (err: IDQResponse<any>['header']) {
+  executeSqlFail (err: IDavinciResponse<any>['header']) {
     return {
       type: ActionTypes.EXECUTE_SQL_FAILURE,
       payload: {

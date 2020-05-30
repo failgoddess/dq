@@ -11,8 +11,8 @@ export const EditorSteps: React.FunctionComponent<IEditorStepProps> = (props) =>
 
   return (
     <Steps current={current}>
-      <Step title="编写SQL" />
-      <Step title="编辑动作与权限" />
+      <Step title="编写 SQL" />
+      <Step title="编辑数据模型与权限" />
     </Steps>
   )
 }

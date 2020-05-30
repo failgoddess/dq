@@ -1,8 +1,7 @@
 import React from 'react'
-import { areComponentsEqual } from 'react-hot-loader'
 import classnames from 'classnames'
 import memoizeOne from 'memoize-one'
-import { Table, Tabs, Radio, Checkbox, Select, Row, Col, Button, Tag, Tooltip, Icon, Popconfirm } from 'antd'
+import { Table, Tabs, Radio, Checkbox, Select, Row, Col, Button, Tag, Tooltip, Icon } from 'antd'
 const { Column } = Table
 const { TabPane } = Tabs
 const RadioGroup = Radio.Group
@@ -10,9 +9,8 @@ const { Option } = Select
 import { RadioChangeEvent } from 'antd/lib/radio'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { TableProps, ColumnProps } from 'antd/lib/table'
-import SqlEditor from './SqlEditor'
-import PythonEditor from './PythonEditor'
-import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth, IViewAction } from '../types'
+
+import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth } from '../types'
 import {
   ViewModelTypesLocale,
   ViewVariableValueTypes,
@@ -45,12 +43,11 @@ interface IViewRoleConverted {
 interface IModelAuthProps {
   visible: boolean
   model: IViewModel
-  action: IViewAction
   variable: IViewVariable[]
   sqlColumns: IExecuteSqlResponse['columns']
   roles: any[] // @FIXME role typing
   viewRoles: IViewRole[]
-  onActionChange: (partialModel: IViewAction) => void
+  onModelChange: (partialModel: IViewModel) => void
   onViewRoleChange: (viewRole: IViewRole) => void
   onStepChange: (stepChange: number) => void
 }
@@ -59,21 +56,14 @@ interface IModelAuthStates {
   modalVisible: boolean
   selectedRoleId: number
   selectedColumnAuth: string[]
-  isAction: boolean
-  actionType: number
-  editorHeight: number
 }
 
 export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthStates> {
-  private editor = React.createRef<HTMLDivElement>()
-  
+
   public state: Readonly<IModelAuthStates> = {
     modalVisible: false,
     selectedRoleId: 0,
-    selectedColumnAuth: [],
-    isAction: true,
-    actionType: 0,
-    editorHeight: 0
+    selectedColumnAuth: []
   }
 
   private modelTypeOptions = Object.entries(ViewModelTypesLocale).map(([value, label]) => ({
@@ -85,8 +75,20 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     <Option key={visualType} value={visualType}>{text}</Option>
   ))
 
-  private stepChange = (step: number,type: number) => () => {
-    this.props.onStepChange(step, type)
+  private modelChange = (record: IViewModelProps, propName: keyof IViewModelProps) => (e: RadioChangeEvent | string) => {
+    const value: string = (e as RadioChangeEvent).target ? (e as RadioChangeEvent).target.value : e
+    const { name, ...rest } = record
+    const partialModel: IViewModel = {
+      [name]: {
+        ...rest,
+        [propName]: value
+      }
+    }
+    this.props.onModelChange(partialModel)
+  }
+
+  private stepChange = (step: number) => () => {
+    this.props.onStepChange(step)
   }
 
   private setColumnAuth = (viewRole: IViewRoleConverted) => () => {
@@ -302,53 +304,10 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   private closeModelAuth = () => {
     this.setState({ modalVisible: false })
   }
-  
-  private sqlChange = (sql: string) => {
-    const { onActionChange } = this.props
-    const action = {sql: sql} as IViewAction
-	onActionChange(action)
-  }
-  
-  private tabActionSelect = (key) => {
-    if('action' == key){
-    	this.setState({ isAction: true })
-    }else{
-    	this.setState({ isAction: false })
-    }
-  }
-  
-  private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
-    let sqlEditor: React.ReactElement<any>
-    let pythonEditor: React.ReactElement<any>
-
-    React.Children.forEach(props.children, (child) => {
-      const c = child as React.ReactElement<any>
-      const type = c.type as React.ComponentClass<any>
-      if (areComponentsEqual(type, SqlEditor)) {
-        // sqlEditor = c
-        sqlEditor = React.cloneElement<ISqlEditorProps>(c, { id: "sql",name:"sql",styleDict: {"padding":"0px 0px 0px 16px"}, onSqlChange: this.sqlChange })
-      } else if (areComponentsEqual(type, PythonEditor)) {
-        pythonEditor = c
-      }
-       
-    })
-
-    return { sqlEditor, pythonEditor }
-  }
-  
-  public componentDidMount () {
-    window.addEventListener('resize', this.setEditorHeight, false)
-    // @FIX for this init height, 64px is the height of the hidden navigator in Main.tsx
-    const editorHeight = this.editor.current.clientHeight
-    this.setState({
-      editorHeight
-    })
-  }
 
   public render () {
-    console.log("--------------------")
-    const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
-    const { modalVisible, selectedColumnAuth, selectedRoleId, isAction, editorHeight } = this.state    
+    const { visible, model, variable, viewRoles, sqlColumns, roles, onModelChange } = this.props
+    const { modalVisible, selectedColumnAuth, selectedRoleId } = this.state
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
     const authScroll = this.getAuthTableScroll(authColumns)
@@ -357,26 +316,19 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
       [Styles.containerHorizontal]: true,
       [Styles.modelAuth]: true
     })
-	const { sqlEditor, pythonEditor } = this.getChildren(this.props, this.state)
     const style = visible ? {} : { display: 'none' }
+
     return (
       <div className={styleCls} style={style}>
-        <Tabs defaultActiveKey="action" className={Styles.authTab} onChange={this.tabActionSelect}>
-          <TabPane tab="Action" key="action">
-         	 <div className={Styles.actionEditor}>
-          		<Tabs defaultActiveKey="sql" type="card" size="small" >
-          			 <TabPane tab="SQL" key="sql">
-              			<div className={Styles.containerVertical} style={{ height: '100%' }} ref={this.editor}>
-          					{sqlEditor}
-						</div>
-          		 	</TabPane>
-          		 	<TabPane tab="Python" key="python">
-          		 		<div className={Styles.containerHorizontal} ref={this.editor}>
-          		 			{pythonEditor}
-              			</div>
-          		 	</TabPane>
-          		</Tabs>
-          	</div>
+        <Tabs defaultActiveKey="model" className={Styles.authTab}>
+          <TabPane tab="Model" key="model">
+            <div className={Styles.authTable}>
+              <Table bordered pagination={false} rowKey="name" dataSource={modelDatasource}>
+                <Column title="字段名称" dataIndex="name" />
+                <Column title="数据类型" dataIndex="modelType" render={this.renderColumnModelType} />
+                <Column title="可视化类型" dataIndex="visualType" render={this.renderColumnVisualType} />
+              </Table>
+            </div>
           </TabPane>
           <TabPane tab="Auth" key="auth">
             <div className={Styles.authTable}>
@@ -401,10 +353,9 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
         </Tabs>
         <Row className={Styles.bottom} type="flex" align="middle" justify="end">
           <Col span={12} className={Styles.toolBtns}>
-            <Button type="primary" onClick={this.stepChange(-1,0)}>上一步</Button>
-            <Button onClick={this.stepChange(-2,0)}>取消</Button>
-            <Button onClick={this.stepChange(1,0)}>保存</Button>
-            { isAction ? <Popconfirm key="executeSave" title="确定保存并执行执行吗？" placement="left" onConfirm={this.stepChange(3,3)} > <Button>保存并执行</Button> </Popconfirm> : '' }
+            <Button type="primary" onClick={this.stepChange(-1)}>上一步</Button>
+            <Button onClick={this.stepChange(-2)}>取消</Button>
+            <Button onClick={this.stepChange(1)}>保存</Button>
           </Col>
         </Row>
       </div>

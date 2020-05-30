@@ -1,4 +1,24 @@
 
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
+
 import React from 'react'
 import { compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
@@ -20,7 +40,7 @@ import { makeSelectCurrentProject } from 'containers/Projects/selectors'
 import ModulePermission from '../Account/components/checkModulePermission'
 import { initializePermission } from '../Account/components/checkUtilPermission'
 
-import { Table, Tooltip, Button, Row, Col, Breadcrumb, Icon, Popconfirm, message, Dropdown, Menu } from 'antd'
+import { Table, Tooltip, Button, Row, Col, Breadcrumb, Icon, Popconfirm, message } from 'antd'
 import { ColumnProps, PaginationConfig, SorterResult } from 'antd/lib/table'
 import { ButtonProps } from 'antd/lib/button'
 import Container from 'components/Container'
@@ -207,10 +227,10 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     showSizeChanger: true
   }
 
-  // private addView = () => {
-  //  const { router, params } = this.props
-  //  router.push(`/project/${params.pid}/view`)
-  // }
+  private addView = () => {
+    const { router, params } = this.props
+    router.push(`/project/${params.pid}/view`)
+  }
 
   private copyView = (fromView: IViewBase) => () => {
     this.setState({
@@ -249,26 +269,6 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     const { currentProject, onCheckName } = this.props
     onCheckName({ name: viewName, projectId: currentProject.id }, resolve, reject)
   }
-  
-  private getRuleMenus = () => {
-  	const { router, params } = this.props
-    const menu = (
-    	<Menu>
-		<Menu.Item key='difference' style={{ fontSize: '16px' }}>
-			<Link to={`/project/${params.pid}/view`}>
-				<i className={`iconfont ${'sortascending'}`}/> 差异检查
-        	</Link>
-      	</Menu.Item>
-      	<Menu.Item key='fluctuate' style={{ fontSize: '16px' }}>
-			<Link to={`/project/${params.pid}/fluctuates`}>
-				<i className={`iconfont ${'sortdescending'}`}/> 波动检查
-        	</Link>
-      	</Menu.Item>
-  		</Menu>
-	);
-
-    return menu
-  }
 
   public render () {
     const { currentProject, views, loading } = this.props
@@ -280,7 +280,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
       simple: screenWidth <= 768
     }
     const filterViews = this.getFilterViews(filterViewName, views)
-    const ruleMenus = this.getRuleMenus()
+
     const { copyModalVisible, copyFromView } = this.state
 
     return (
@@ -292,7 +292,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
               <Col span={24}>
                 <Breadcrumb className={utilStyles.breadcrumb}>
                   <Breadcrumb.Item>
-                    <Link to="">Rule</Link>
+                    <Link to="">View</Link>
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </Col>
@@ -303,13 +303,11 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
               <Box.Header>
                 <Box.Title>
                   <Icon type="bars" />
-                  列表
+                  View List
                 </Box.Title>
                 <Box.Tools>
-                  <Tooltip placement="topLeft" title="新增">
-                  	<Dropdown overlay={ruleMenus} placement="bottomLeft">
-      					<AdminButton type="primary" icon="plus"/>
-    				</Dropdown>
+                  <Tooltip placement="bottom" title="新增">
+                    <AdminButton type="primary" icon="plus" onClick={this.addView} />
                   </Tooltip>
                 </Box.Tools>
               </Box.Header>

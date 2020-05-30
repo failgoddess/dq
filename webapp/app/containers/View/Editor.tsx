@@ -1,3 +1,23 @@
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
+
 import React from 'react'
 import { compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
@@ -31,10 +51,7 @@ import {
 
   makeSelectChannels,
   makeSelectTenants,
-  makeSelectBizs,
-  makeSelectCorrelation,
-  makeSelectToolbox,
-  makeSelectAction
+  makeSelectBizs
 } from './selectors'
 
 import { loadProjectRoles } from 'containers/Organizations/actions'
@@ -57,9 +74,6 @@ import SqlPreview from './components/SqlPreview'
 import EditorBottom from './components/EditorBottom'
 import ViewVariableList from './components/ViewVariableList'
 import VariableModal from './components/VariableModal'
-import CorrelationModal from './components/CorrelationModal'
-import ToolboxModal from './components/ToolboxModal'
-import SpacebarModal from './components/SpacebarModal'
 
 import Styles from './View.less'
 
@@ -77,10 +91,6 @@ interface IViewEditorStateProps {
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
-  
-  correlation: IViewCorrelation
-  toolbox: IViewToolbox
-  action: IViewAction
 }
 
 interface IViewEditorDispatchProps {
@@ -169,13 +179,13 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
           duration: null
         })
       if (sqlValidation.code === 200) {
-        lastSuccessExecutedSql = editingView.leftSql
+        lastSuccessExecutedSql = editingView.sql
       }
     }
     if (editingView && editingView.id === +viewId) {
       if (init) {
         props.onLoadSourceDatabases(editingView.sourceId)
-        lastSuccessExecutedSql = editingView.leftSql
+        lastSuccessExecutedSql = editingView.sql
         return {
           init: false,
           sqlValidationCode: sqlValidation.code,
@@ -188,6 +198,7 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   public componentDidMount () {
     this.props.onHideNavigator()
+
   }
 
   public componentWillUnmount () {
@@ -201,30 +212,26 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
 
   private static ExecuteSql = (props: IViewEditorProps) => {
     const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, leftSql, rightSql } = editingView
-    const { variable,correlation } = editingViewInfo
-    const { condition } = correlation
+    const { sourceId, sql } = editingView
+    const { variable } = editingViewInfo
     const updatedParams: IExecuteSqlParams = {
       sourceId,
-      leftSql,
-      rightSql,
+      sql,
       limit: sqlLimit,
-      variables: variable,
-      condition: condition
+      variables: variable
     }
     onExecuteSql(updatedParams)
   }
 
-  private stepChange = (step: number,type: number) => {
+  private stepChange = (step: number) => {
     const { currentStep } = this.state
     if (currentStep + step < 0) {
       this.goToViewList()
       return
     }
     const { editingView } = this.props
-    const { name, sourceId, leftSql, rightSql } = editingView
-    const errorMessages = ['名称不能为空', '请选择数据源', 'sql不能同时为空']
-    const sql = leftSql || rightSql
+    const { name, sourceId, sql } = editingView
+    const errorMessages = ['名称不能为空', '请选择数据源', 'sql 不能为空']
     const fieldsValue = [name, sourceId, sql]
     const hasError = fieldsValue.some((val, idx) => {
       if (!val) {
@@ -233,29 +240,24 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       }
     })
     if (hasError) { return }
-    this.setState({ currentStep: currentStep + step,type: type }, () => {
+    this.setState({ currentStep: currentStep + step }, () => {
       if (this.state.currentStep > 1) {
         this.saveView()
       }
     })
   }
-  
+
   private saveView = () => {
     const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation, toolbox ,action} = editingViewInfo
-    const { type } = this.state
+    const { model, variable, roles } = editingViewInfo
     const { id: viewId } = editingView
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
-    action['type'] = type
     const updatedView: IView = {
       ...editingView,
       projectId: +projectId,
       model: JSON.stringify(model),
-      action: JSON.stringify(action),
       variable: JSON.stringify(variable),
-      correlation: JSON.stringify(correlation),
-      toolbox: JSON.stringify(toolbox),
       roles: validRoles.map<IViewRoleRaw>(({ roleId, columnAuth, rowAuth }) => {
         const validColumnAuth = columnAuth.filter((c) => !!model[c])
         const validRowAuth = rowAuth.filter((r) => {
@@ -279,32 +281,25 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     router.push(`/project/${projectId}/views`)
   }
 
-  private viewChange = (leftPropName: keyof IView, leftSql: string | number,rightPropName: keyof IView, rightSql: string | number) => {
+  private viewChange = (propName: keyof IView, value: string | number) => {
     const { editingView, onUpdateEditingView } = this.props
-    if(leftSql==null){
-    	leftSql = editingView.leftSql
-    }
-    if(rightSql==null){
-    	rightSql = editingView.rightSql
-    }
     const updatedView = {
       ...editingView,
-      [leftPropName]: leftSql,
-      [rightPropName]: rightSql
+      [propName]: value
     }
     onUpdateEditingView(updatedView)
   }
 
-  private sqlGroupChange = (leftSql: string,rightSql: string) => {
-    this.viewChange('leftSql', leftSql,'rightSql', rightSql)
+  private sqlChange = (sql: string) => {
+    this.viewChange('sql', sql)
   }
 
-  private actionChange = (partialModel: IViewAction) => {
+  private modelChange = (partialModel: IViewModel) => {
     const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const { action } = editingViewInfo
+    const { model } = editingViewInfo
     const updatedViewInfo: IViewInfo = {
       ...editingViewInfo,
-      action: { ...action, ...partialModel }
+      model: { ...model, ...partialModel }
     }
     onUpdateEditingViewInfo(updatedViewInfo)
   }
@@ -314,24 +309,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     const updatedViewInfo: IViewInfo = {
       ...editingViewInfo,
       variable: updatedVariable
-    }
-    onUpdateEditingViewInfo(updatedViewInfo)
-  }
-  
-  private correlationChange = (updatedCorrelation: IViewCorrelation) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
-      correlation: updatedCorrelation
-    }
-    onUpdateEditingViewInfo(updatedViewInfo)
-  }
-  
-  private toolboxChange = (updatedToolbox: IViewToolbox) => {
-  	const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
-      toolbox: updatedToolbox
     }
     onUpdateEditingViewInfo(updatedViewInfo)
   }
@@ -391,12 +368,12 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
     const { currentStep, lastSuccessExecutedSql } = this.state
-    const { model, variable, roles: viewRoles, correlation, toolbox, action } = editingViewInfo
+    const { model, variable, roles: viewRoles } = editingViewInfo
     const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
-    
-    const nextDisabled = (editingView.leftSql !== lastSuccessExecutedSql)
+    const nextDisabled = (editingView.sql !== lastSuccessExecutedSql)
+
     return (
       <>
         <Helmet title="View" />
@@ -410,9 +387,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             visible={containerVisible}
             variable={variable}
             onVariableChange={this.variableChange}
-            correlation={correlation} 
-            onCorrelationChange={this.correlationChange}
-            onToolboxChange={this.toolboxChange}
           >
             <SourceTable
               view={editingView}
@@ -423,12 +397,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlGroupChange={this.sqlGroupChange} />
-            <SpacebarModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <CorrelationModal correlation={correlation} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <ToolboxModal toolbox={toolbox} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <VariableModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} toolbox={toolbox} />
+            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
               sqlLimit={sqlLimit}
               loading={loading.execute}
@@ -437,21 +407,26 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onExecuteSql={this.executeSql}
               onStepChange={this.stepChange}
             />
-            
+            <ViewVariableList variables={variable} />
+            <VariableModal
+              channels={channels}
+              tenants={tenants}
+              bizs={bizs}
+              onLoadDacTenants={onLoadDacTenants}
+              onLoadDacBizs={onLoadDacBizs}
+            />
           </EditorContainer>
-          <ModelAuth visible={modelAuthVisible}
-            	model={model}
-            	action={action}
-            	variable={variable}
-            	sqlColumns={sqlDataSource.columns}
-            	roles={projectRoles}
-            	viewRoles={viewRoles}
-            	onActionChange={this.actionChange}
-            	onViewRoleChange={this.viewRoleChange}	
-            	onStepChange={this.stepChange}
-          	>
-          		<SqlEditor sql={action.sql} currentStep={ currentStep } hints={sqlHints}  />
-          	</ModelAuth>
+          <ModelAuth
+            visible={modelAuthVisible}
+            model={model}
+            variable={variable}
+            sqlColumns={sqlDataSource.columns}
+            roles={projectRoles}
+            viewRoles={viewRoles}
+            onModelChange={this.modelChange}
+            onViewRoleChange={this.viewRoleChange}
+            onStepChange={this.stepChange}
+          />
         </div>
       </>
     )
@@ -491,9 +466,6 @@ const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   projectRoles: makeSelectProjectRoles(),
 
-  correlation: makeSelectCorrelation(),
-  toolbox: makeSelectToolbox(),
-  action: makeSelectAction(),
   channels: makeSelectChannels(),
   tenants: makeSelectTenants(),
   bizs: makeSelectBizs()

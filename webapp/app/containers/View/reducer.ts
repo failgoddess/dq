@@ -1,3 +1,22 @@
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
 
 import produce from 'immer'
 import pick from 'lodash/pick'
@@ -20,18 +39,13 @@ const emptyView: IView = {
   id: null,
   name: '',
   sql: '',
-  leftSql: '',
-  rightSql: '',
   model: '',
-  action: '',
   variable: '',
   roles: [],
   config: '',
   description: '',
   projectId: null,
-  sourceId: null,
-  correlation: null,
-  toolbox: null
+  sourceId: null
 }
 
 const initialState: IViewState = {
@@ -40,21 +54,8 @@ const initialState: IViewState = {
   editingView: emptyView,
   editingViewInfo: {
     model: {},
-    action: {
-    	type:'',
-    	sql:'',
-    	python:''
-    },
     variable: [],
-    roles: [],
-    correlation:{
-  	  expression:'',
-  	  expressionPair:{},
-  	  condition:''
-    },
-    toolbox:{
-    	slide:'combine',
-    }
+    roles: []
   },
   sources: [],
   schema: {
@@ -67,16 +68,9 @@ const initialState: IViewState = {
     message: null
   },
   sqlDataSource: {
-  	key: {
-      columns: [],
-      totalCount: 0,
-      resultList: []
-  	},
-  	value:{
-  	  columns: [],
-      totalCount: 0,
-      resultList: []
-  	}
+    columns: [],
+    totalCount: 0,
+    resultList: []
   },
   sqlLimit: DEFAULT_SQL_LIMIT,
   loading: {
@@ -86,6 +80,7 @@ const initialState: IViewState = {
     execute: false,
     copy: false
   },
+
   channels: [],
   tenants: [],
   bizs: [],
@@ -112,18 +107,15 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         const detailedViews = action.payload.views
         if (action.payload.isEditing) {
           draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox','action'])
+          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles'])
         }
         draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles, correlation, toolbox, action } = getFormedView(view)
+          const { id, model, variable, roles } = getFormedView(view)
           acc[id] = {
             ...view,
-            action,
             model,
             variable,
-            roles,
-            correlation,
-            toolbox
+            roles
           }
           return acc
         }, draft.formedViews)
@@ -187,7 +179,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case ActionTypes.EDIT_VIEW_SUCCESS:
         draft.editingView = emptyView
-        draft.editingViewInfo = { model: {}, variable: [], roles: [], action: {} }
+        draft.editingViewInfo = { model: {}, variable: [], roles: [] }
         draft.formedViews[action.payload.result.id] = getFormedView(action.payload.result)
         break
 
@@ -226,22 +218,18 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case LOAD_WIDGET_DETAIL_SUCCESS:
         const widgetView = action.payload.view
-        console.log("------------")
         draft.formedViews[widgetView.id] = {
           ...widgetView,
           model: JSON.parse(widgetView.model || '{}'),
-          action: JSON.parse(widgetView.action || '{}'),
           variable: JSON.parse(widgetView.variable || '[]')
         }
         break
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
       case DisplayActionTypes.LOAD_DISPLAY_DETAIL_SUCCESS:
         const updatedViews: IFormedViews = (action.payload.views || []).reduce((obj, view) => {
-          console.log("---------------")
           obj[view.id] = {
             ...view,
             model: JSON.parse(view.model || '{}'),
-            action: JSON.parse(widgetView.action || '{}'),
             variable: JSON.parse(view.variable || '[]')
           }
           return obj

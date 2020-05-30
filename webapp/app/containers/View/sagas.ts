@@ -1,3 +1,22 @@
+/*
+ * <<
+ * Davinci
+ * ==
+ * Copyright (C) 2016 - 2017 EDP
+ * ==
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * >>
+ */
 
 import { call, put, all, takeLatest, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './constants'
@@ -5,7 +24,7 @@ import { ViewActions, ViewActionType } from './actions'
 import omit from 'lodash/omit'
 
 import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
-import request, { IDQResponse } from 'utils/request'
+import request, { IDavinciResponse } from 'utils/request'
 import api from 'utils/api'
 import { errorHandler, getErrorMessage } from 'utils/util'
 
@@ -132,7 +151,7 @@ export function* executeSql (action: ViewActionType) {
   const variableParam = variables.map((v) => omit(v, omitKeys))
   const { sqlExecuted, executeSqlFail } = ViewActions
   try {
-    const asyncData: IDQResponse<IExecuteSqlResponse> = yield call<AxiosRequestConfig>(request, {
+    const asyncData: IDavinciResponse<IExecuteSqlResponse> = yield call<AxiosRequestConfig>(request, {
       method: 'post',
       url: `${api.view}/executesql`,
       data: {
@@ -143,7 +162,7 @@ export function* executeSql (action: ViewActionType) {
     yield put(sqlExecuted(asyncData))
   } catch (err) {
     const { response } = err as AxiosError
-    const { data } = response as AxiosResponse<IDQResponse<any>>
+    const { data } = response as AxiosResponse<IDavinciResponse<any>>
     yield put(executeSqlFail(data.header))
   }
 
@@ -166,7 +185,7 @@ export function* getViewData (action: ViewActionType) {
     resolve(asyncData.payload)
   } catch (err) {
     const { response } = err as AxiosError
-    const { data } = response as AxiosResponse<IDQResponse<any>>
+    const { data } = response as AxiosResponse<IDavinciResponse<any>>
     yield put(loadViewDataFail(err))
     reject(data.header)
   }

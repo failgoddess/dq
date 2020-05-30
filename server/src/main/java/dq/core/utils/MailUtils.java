@@ -1,6 +1,5 @@
 package dq.core.utils;
 
-import com.alibaba.druid.Constants;
 import com.alibaba.druid.util.StringUtils;
 import com.google.common.base.Stopwatch;
 import dq.core.exception.ServerException;

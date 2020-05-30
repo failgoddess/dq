@@ -673,5 +673,37 @@ CREATE TABLE `share_download_record` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ----------------------------
+-- Table structure for view
+-- ----------------------------
+DROP TABLE IF EXISTS `rules`;
+CREATE TABLE `rules`
+(
+    `id`             bigint(20)   NOT NULL AUTO_INCREMENT,
+    `name`           varchar(255) NOT NULL,
+    `description`    varchar(255) DEFAULT NULL,
+    `project_id`     bigint(20)   NOT NULL,
+    `source_id`      bigint(20)   NOT NULL,
+    `leftSql`        text,
+    `rightSql`       text,
+    `model`          text,
+    `variable`       text,
+    `config`         text,
+    `correlation`    text,
+    `toolbox`        varchar(255) DEFAULT NULL,
+    `action`         text,
+    `create_by`      bigint(20)   DEFAULT NULL,
+    `create_time`    datetime     DEFAULT NULL,
+    `update_by`      bigint(20)   DEFAULT NULL,
+    `update_time`    datetime     DEFAULT NULL,
+    `parent_id`      bigint(20)   DEFAULT NULL,
+    `full_parent_id` varchar(255) DEFAULT NULL,
+    `is_folder`      tinyint(1)   DEFAULT NULL,
+    `index`          int(5)       DEFAULT NULL,
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `idx_project_id` (`project_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
 
 SET FOREIGN_KEY_CHECKS = 1;

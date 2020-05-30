@@ -167,6 +167,7 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
         if (updatedVariable.type === ViewVariableTypes.Query) {
           updatedVariable.defaultValues = this.state.defaultValues
         }
+        console.log(updatedVariable)
         // return
         onSave(updatedVariable)
       }
