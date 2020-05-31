@@ -2,11 +2,11 @@ import React from 'react'
 import { Modal, Button, List, Checkbox } from 'antd'
 const ListItem = List.Item
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
-import { IViewModel } from '../types'
+import { IRuleModel } from '../types'
 
 interface IModelAuthModalProps {
   visible: boolean
-  model: IViewModel
+  model: IRuleModel
   roleId: number
   auth: string[]
   onSave: (auth: string[]) => void

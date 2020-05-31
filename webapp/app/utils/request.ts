@@ -20,6 +20,10 @@ function refreshToken (response: AxiosResponse) {
 export function request (config: AxiosRequestConfig): AxiosPromise
 export function request (url: string, options?: AxiosRequestConfig): AxiosPromise
 export default function request (url: any, options?: AxiosRequestConfig): AxiosPromise {
+  console.log("-----------114---")
+  console.log(url)
+  console.log(options)
+  console.log(parseJSON)
   return axios(url, options)
     .then(refreshToken)
     .then(parseJSON)

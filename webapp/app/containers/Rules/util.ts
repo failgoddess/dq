@@ -1,24 +1,24 @@
-import { IViewModel, ISqlColumn, IView, IFormedView, IViewRoleRaw, IViewRole } from './types'
+import { IRuleModel, ISqlColumn, IRule, IFormedRule, IRuleRoleRaw, IRuleRole } from './types'
 
 import { SqlTypes } from 'app/globalConstants'
-import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, ViewModelVisualTypes, ViewModelTypes } from './constants'
+import { ModelTypeSqlTypeSetting, VisualTypeSqlTypeSetting, RuleModelVisualTypes, RuleModelTypes } from './constants'
 
-export function getFormedView (view: IView): IFormedView {
-  const { model, variable, roles, correlation, toolbox, action } = view
-  const formedView = {
-    ...view,
+export function getFormedRule (rule: IRule): IFormedRule {
+  const { model, variable, roles, correlation, toolbox, action } = rule
+  const formedRule = {
+    ...rule,
     model: JSON.parse((model || '{}')),
     action: JSON.parse((action || '{}')),
     variable: JSON.parse((variable || '[]')),
     correlation: JSON.parse((correlation || '{}')),
     toolbox: JSON.parse((toolbox || '{}')),
-    roles: (roles as IViewRoleRaw[]).map<IViewRole>(({ roleId, columnAuth, rowAuth }) => ({
+    roles: (roles as IRuleRoleRaw[]).map<IRuleRole>(({ roleId, columnAuth, rowAuth }) => ({
       roleId,
       columnAuth: JSON.parse(columnAuth || '[]'),
       rowAuth: JSON.parse(rowAuth || '[]')
     }))
   }
-  return formedView
+  return formedRule
 }
 
 function getMapKeyByValue (value: SqlTypes, map: typeof VisualTypeSqlTypeSetting | typeof ModelTypeSqlTypeSetting) {
@@ -32,17 +32,17 @@ function getMapKeyByValue (value: SqlTypes, map: typeof VisualTypeSqlTypeSetting
   return result
 }
 
-export function getValidModel (model: IViewModel, sqlColumns: ISqlColumn[]) {
+export function getValidModel (model: IRuleModel, sqlColumns: ISqlColumn[]) {
   if (!Array.isArray(sqlColumns)) { return {} }
 
-  const validModel = sqlColumns.reduce<IViewModel>((accModel, column) => {
+  const validModel = sqlColumns.reduce<IRuleModel>((accModel, column) => {
     const { name: columnName, type: columnType } = column
     const modelItem = model[columnName]
     if (!modelItem) {
       accModel[columnName] = {
         sqlType: columnType,
-        visualType: getMapKeyByValue(columnType, VisualTypeSqlTypeSetting) || ViewModelVisualTypes.String,
-        modelType: getMapKeyByValue(columnType, ModelTypeSqlTypeSetting) || ViewModelTypes.Category
+        visualType: getMapKeyByValue(columnType, VisualTypeSqlTypeSetting) || RuleModelVisualTypes.String,
+        modelType: getMapKeyByValue(columnType, ModelTypeSqlTypeSetting) || RuleModelTypes.Category
       }
     } else {
       accModel[columnName] = { ...modelItem }
@@ -62,7 +62,7 @@ export function getValidModel (model: IViewModel, sqlColumns: ISqlColumn[]) {
   return validModel
 }
 
-export function getValidRoleModelNames (model: IViewModel, modelNames: string[]) {
+export function getValidRoleModelNames (model: IRuleModel, modelNames: string[]) {
   if (!Array.isArray(modelNames)) { return [] }
 
   const validModelNames = modelNames.filter((name) => !!model[name])

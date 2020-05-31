@@ -12,46 +12,46 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { TableProps, ColumnProps } from 'antd/lib/table'
 import SqlEditor from './SqlEditor'
 import PythonEditor from './PythonEditor'
-import { IViewVariable, IViewModelProps, IViewModel, IExecuteSqlResponse, IViewRole, IViewRoleRowAuth, IViewAction } from '../types'
+import { IRuleVariable, IRuleModelProps, IRuleModel, IExecuteSqlResponse, IRuleRole, IRuleRoleRowAuth, IRuleAction } from '../types'
 import {
-  ViewModelTypesLocale,
-  ViewVariableValueTypes,
-  ViewModelVisualTypesLocale,
-  ViewVariableTypes
+  RuleModelTypesLocale,
+  RuleVariableValueTypes,
+  RuleModelVisualTypesLocale,
+  RuleVariableTypes
 } from '../constants'
 
 import OperatorTypes from 'utils/operatorTypes'
 import ConditionValuesControl, { ConditionValueTypes } from 'components/ConditionValuesControl'
 import ModelAuthModal from './ModelAuthModal'
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
-interface IViewRoleRowAuthConverted {
+interface IRuleRoleRowAuthConverted {
   name: string
   values: Array<string | number | boolean>
   enable: boolean
-  variable: IViewVariable
+  variable: IRuleVariable
 }
 
-interface IViewRoleConverted {
+interface IRuleRoleConverted {
   roleId: number
   roleName: string
   roleDesc: string
   columnAuth: string[]
   rowAuthConverted: {
-    [variableName: string]: IViewRoleRowAuthConverted
+    [variableName: string]: IRuleRoleRowAuthConverted
   }
 }
 
 interface IModelAuthProps {
   visible: boolean
-  model: IViewModel
-  action: IViewAction
-  variable: IViewVariable[]
+  model: IRuleModel
+  action: IRuleAction
+  variable: IRuleVariable[]
   sqlColumns: IExecuteSqlResponse['columns']
   roles: any[] // @FIXME role typing
-  viewRoles: IViewRole[]
-  onActionChange: (partialModel: IViewAction) => void
-  onViewRoleChange: (viewRole: IViewRole) => void
+  ruleRoles: IRuleRole[]
+  onActionChange: (partialModel: IRuleAction) => void
+  onRuleRoleChange: (ruleRole: IRuleRole) => void
   onStepChange: (stepChange: number) => void
 }
 
@@ -76,12 +76,12 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     editorHeight: 0
   }
 
-  private modelTypeOptions = Object.entries(ViewModelTypesLocale).map(([value, label]) => ({
+  private modelTypeOptions = Object.entries(RuleModelTypesLocale).map(([value, label]) => ({
     label,
     value
   }))
 
-  private visualTypeOptions = Object.entries(ViewModelVisualTypesLocale).map(([visualType, text]) => (
+  private visualTypeOptions = Object.entries(RuleModelVisualTypesLocale).map(([visualType, text]) => (
     <Option key={visualType} value={visualType}>{text}</Option>
   ))
 
@@ -89,8 +89,8 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     this.props.onStepChange(step, type)
   }
 
-  private setColumnAuth = (viewRole: IViewRoleConverted) => () => {
-    const { roleId, columnAuth } = viewRole
+  private setColumnAuth = (ruleRole: IRuleRoleConverted) => () => {
+    const { roleId, columnAuth } = ruleRole
     const { model } = this.props
     this.setState({
       modalVisible: true,
@@ -99,60 +99,60 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     })
   }
 
-  private rowAuthCheckedChange = (roleId: number, rowAuthConverted: IViewRoleRowAuthConverted) => (e: CheckboxChangeEvent) => {
+  private rowAuthCheckedChange = (roleId: number, rowAuthConverted: IRuleRoleRowAuthConverted) => (e: CheckboxChangeEvent) => {
     const checked = e.target.checked
     const { name, values } = rowAuthConverted
-    const updatedRoleAuth: IViewRoleRowAuth = {
+    const updatedRoleAuth: IRuleRoleRowAuth = {
       name,
       values,
       enable: checked
     }
-    this.viewRoleChange(roleId, updatedRoleAuth)
+    this.ruleRoleChange(roleId, updatedRoleAuth)
   }
 
-  private rowAuthValuesChange = (roleId: number, rowAuthConverted: IViewRoleRowAuthConverted) => (values: Array<string | number | boolean>) => {
+  private rowAuthValuesChange = (roleId: number, rowAuthConverted: IRuleRoleRowAuthConverted) => (values: Array<string | number | boolean>) => {
     const { name, enable } = rowAuthConverted
-    const updatedRoleAuth: IViewRoleRowAuth = {
+    const updatedRoleAuth: IRuleRoleRowAuth = {
       name,
       values,
       enable
     }
-    this.viewRoleChange(roleId, updatedRoleAuth)
+    this.ruleRoleChange(roleId, updatedRoleAuth)
   }
 
-  private viewRoleChange = (roleId: number, updatedRoleAuth: IViewRoleRowAuth) => {
-    const { onViewRoleChange, viewRoles } = this.props
-    let viewRole = viewRoles.find((v) => v.roleId === roleId)
-    if (!viewRole) {
-      viewRole = {
+  private ruleRoleChange = (roleId: number, updatedRoleAuth: IRuleRoleRowAuth) => {
+    const { onRuleRoleChange, ruleRoles } = this.props
+    let ruleRole = ruleRoles.find((v) => v.roleId === roleId)
+    if (!ruleRole) {
+      ruleRole = {
         roleId,
         columnAuth: [],
         rowAuth: [updatedRoleAuth]
       }
     } else {
-      const variableIdx = viewRole.rowAuth.findIndex((auth) => auth.name === updatedRoleAuth.name)
+      const variableIdx = ruleRole.rowAuth.findIndex((auth) => auth.name === updatedRoleAuth.name)
       if (variableIdx < 0) {
-        viewRole.rowAuth.push(updatedRoleAuth)
+        ruleRole.rowAuth.push(updatedRoleAuth)
       } else {
-        viewRole.rowAuth[variableIdx].values = updatedRoleAuth.values
-        viewRole.rowAuth[variableIdx].enable = updatedRoleAuth.enable
+        ruleRole.rowAuth[variableIdx].values = updatedRoleAuth.values
+        ruleRole.rowAuth[variableIdx].enable = updatedRoleAuth.enable
       }
     }
-    onViewRoleChange({ ...viewRole })
+    onRuleRoleChange({ ...ruleRole })
   }
 
-  private getAuthTableColumns = memoizeOne((model: IViewModel, variables: IViewVariable[]) => {
+  private getAuthTableColumns = memoizeOne((model: IRuleModel, variables: IRuleVariable[]) => {
     const columnsChildren = variables
-      .filter((v) => (v.type === ViewVariableTypes.Authorization && !v.fromService))
-      .map<ColumnProps<IViewRoleConverted>>((variable) => ({
+      .filter((v) => (v.type === RuleVariableTypes.Authorization && !v.fromService))
+      .map<ColumnProps<IRuleRoleConverted>>((variable) => ({
         title: `${variable.alias || variable.name}`,
         dataIndex: 'rowAuthConverted',
         width: 250,
-        render: (_, record: IViewRoleConverted) => {
+        render: (_, record: IRuleRoleConverted) => {
           const { name: variableName, valueType } = variable
           const { roleId, rowAuthConverted } = record
           const { values: rowAuthValues, enable } = rowAuthConverted[variableName]
-          const operatorType = (valueType === ViewVariableValueTypes.Boolean ? OperatorTypes.Equal : OperatorTypes.In)
+          const operatorType = (valueType === RuleVariableValueTypes.Boolean ? OperatorTypes.Equal : OperatorTypes.In)
           return (
             <div className={Styles.cellVarValue}>
               <Tooltip title={enable ? '禁用' : '启用'}>
@@ -176,11 +176,11 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
           )
         }
       }))
-    const columns: Array<ColumnProps<IViewRoleConverted>> = [{
+    const columns: Array<ColumnProps<IRuleRoleConverted>> = [{
       title: '角色',
       dataIndex: 'roleName',
       width: 300,
-      render: (roleName: string, record: IViewRoleConverted) => (
+      render: (roleName: string, record: IRuleRoleConverted) => (
         <span>
           {roleName}
           {record.roleDesc && (
@@ -221,19 +221,19 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
     return scroll
   })
 
-  private getAuthDatasource = (roles: any[], varibles: IViewVariable[], viewRoles: IViewRole[]) => {
+  private getAuthDatasource = (roles: any[], varibles: IRuleVariable[], ruleRoles: IRuleRole[]) => {
     if (!Array.isArray(roles)) { return [] }
 
-    const authDatasource = roles.map<IViewRoleConverted>((role) => {
+    const authDatasource = roles.map<IRuleRoleConverted>((role) => {
       const { id: roleId, name: roleName, description: roleDesc } = role
-      const viewRole = viewRoles.find((v) => v.roleId === roleId)
-      const columnAuth = viewRole ? viewRole.columnAuth : []
-      const rowAuthConverted = varibles.reduce<IViewRoleConverted['rowAuthConverted']>((obj, variable) => {
+      const ruleRole = ruleRoles.find((v) => v.roleId === roleId)
+      const columnAuth = ruleRole ? ruleRole.columnAuth : []
+      const rowAuthConverted = varibles.reduce<IRuleRoleConverted['rowAuthConverted']>((obj, variable) => {
         const { name: variableName, type, fromService } = variable
-        if (type === ViewVariableTypes.Query) { return obj }
-        if (type === ViewVariableTypes.Authorization && fromService) { return obj }
+        if (type === RuleVariableTypes.Query) { return obj }
+        if (type === RuleVariableTypes.Authorization && fromService) { return obj }
 
-        const authIdx = viewRole ? viewRole.rowAuth.findIndex((auth) => auth.name === variableName) : -1
+        const authIdx = ruleRole ? ruleRole.rowAuth.findIndex((auth) => auth.name === variableName) : -1
         obj[variableName] = {
           name: variableName,
           values: [],
@@ -241,7 +241,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
           variable
         }
         if (authIdx >= 0) {
-          const { enable, values } = viewRole.rowAuth[authIdx]
+          const { enable, values } = ruleRole.rowAuth[authIdx]
           obj[variableName] = {
             ...obj[variableName],
             enable,
@@ -280,22 +280,22 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   )
 
   private saveModelAuth = (columnAuth: string[]) => {
-    const { onViewRoleChange, viewRoles } = this.props
+    const { onRuleRoleChange, ruleRoles } = this.props
     const { selectedRoleId } = this.state
-    let viewRole = viewRoles.find((v) => v.roleId === selectedRoleId)
-    if (!viewRole) {
-      viewRole = {
+    let ruleRole = ruleRoles.find((v) => v.roleId === selectedRoleId)
+    if (!ruleRole) {
+      ruleRole = {
         roleId: selectedRoleId,
         columnAuth,
         rowAuth: []
       }
     } else {
-      viewRole = {
-        ...viewRole,
+      ruleRole = {
+        ...ruleRole,
         columnAuth
       }
     }
-    onViewRoleChange(viewRole)
+    onRuleRoleChange(ruleRole)
     this.closeModelAuth()
   }
 
@@ -305,7 +305,7 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
   
   private sqlChange = (sql: string) => {
     const { onActionChange } = this.props
-    const action = {sql: sql} as IViewAction
+    const action = {sql: sql} as IRuleAction
 	onActionChange(action)
   }
   
@@ -347,12 +347,12 @@ export class ModelAuth extends React.PureComponent<IModelAuthProps, IModelAuthSt
 
   public render () {
     console.log("--------------------")
-    const { visible, model, variable, viewRoles, sqlColumns, roles, action } = this.props
+    const { visible, model, variable, ruleRoles, sqlColumns, roles, action } = this.props
     const { modalVisible, selectedColumnAuth, selectedRoleId, isAction, editorHeight } = this.state    
     const modelDatasource = Object.entries(model).map(([name, value]) => ({ name, ...value }))
     const authColumns = this.getAuthTableColumns(model, variable)
     const authScroll = this.getAuthTableScroll(authColumns)
-    const authDatasource = this.getAuthDatasource(roles, variable, viewRoles)
+    const authDatasource = this.getAuthDatasource(roles, variable, ruleRoles)
     const styleCls = classnames({
       [Styles.containerHorizontal]: true,
       [Styles.modelAuth]: true

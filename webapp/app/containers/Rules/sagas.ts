@@ -1,7 +1,7 @@
 
 import { call, put, all, takeLatest, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './constants'
-import { ViewActions, ViewActionType } from './actions'
+import { RuleActions, RuleActionType } from './actions'
 import omit from 'lodash/omit'
 
 import { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
@@ -9,132 +9,132 @@ import request, { IDQResponse } from 'utils/request'
 import api from 'utils/api'
 import { errorHandler, getErrorMessage } from 'utils/util'
 
-import { IViewBase, IView, IExecuteSqlResponse, IExecuteSqlParams, IViewVariable } from './types'
+import { IRuleBase, IRule, IExecuteSqlResponse, IExecuteSqlParams, IRuleVariable } from './types'
 import { IDistinctValueReqeustParams } from 'app/components/Filters/types'
 
-export function* getViews (action: ViewActionType) {
-  if (action.type !== ActionTypes.LOAD_VIEWS) { return }
+export function* getRules (action: RuleActionType) {
+  if (action.type !== ActionTypes.LOAD_RULES) { return }
   const { payload } = action
-  const { viewsLoaded, loadViewsFail } = ViewActions
-  let views: IViewBase[]
+  const { rulesLoaded, loadRulesFail } = RuleActions
+  let rules: IRuleBase[]
   try {
-    const asyncData = yield call(request, `${api.view}?projectId=${payload.projectId}`)
-    views = asyncData.payload
-    yield put(viewsLoaded(views))
+    const asyncData = yield call(request, `${api.rule}?projectId=${payload.projectId}`)
+    rules = asyncData.payload
+    yield put(rulesLoaded(rules))
   } catch (err) {
-    yield put(loadViewsFail())
+    yield put(loadRulesFail())
     errorHandler(err)
   } finally {
     if (payload.resolve) {
-      payload.resolve(views)
+      payload.resolve(rules)
     }
   }
 }
 
-export function* getViewsDetail (action: ViewActionType) {
-  if (action.type !== ActionTypes.LOAD_VIEWS_DETAIL) { return }
+export function* getRulesDetail (action: RuleActionType) {
+  if (action.type !== ActionTypes.LOAD_RULES_DETAIL) { return }
   const { payload } = action
-  const { viewsDetailLoaded, loadViewsDetailFail } = ViewActions
-  const { viewIds, resolve, isEditing } = payload
+  const { rulesDetailLoaded, loadRulesDetailFail } = RuleActions
+  const { ruleIds, resolve, isEditing } = payload
   try {
     // @FIXME make it be a single request
-    const asyncData = yield all(viewIds.map((viewId) => (call(request, `${api.view}/${viewId}`))))
-    const views: IView[] = asyncData.map((item) => item.payload)
-    yield put(viewsDetailLoaded(views, isEditing))
+    const asyncData = yield all(ruleIds.map((ruleId) => (call(request, `${api.rule}/${ruleId}`))))
+    const rules: IRule[] = asyncData.map((item) => item.payload)
+    yield put(rulesDetailLoaded(rules, isEditing))
     if (resolve) { resolve() }
   } catch (err) {
-    yield put(loadViewsDetailFail())
+    yield put(loadRulesDetailFail())
     errorHandler(err)
   }
 }
 
-export function* addView (action: ViewActionType) {
-  if (action.type !== ActionTypes.ADD_VIEW) { return }
+export function* addRule (action: RuleActionType) {
+  if (action.type !== ActionTypes.ADD_RULE) { return }
   const { payload } = action
-  const { view, resolve } = payload
-  const { viewAdded, addViewFail } = ViewActions
+  const { rule, resolve } = payload
+  const { ruleAdded, addRuleFail } = RuleActions
   try {
     const asyncData = yield call<AxiosRequestConfig>(request, {
       method: 'post',
-      url: api.view,
-      data: view
+      url: api.rule,
+      data: rule
     })
-    yield put(viewAdded(asyncData.payload))
+    yield put(ruleAdded(asyncData.payload))
     resolve()
   } catch (err) {
-    yield put(addViewFail())
+    yield put(addRuleFail())
     errorHandler(err)
   }
 }
 
-export function* editView (action: ViewActionType) {
-  if (action.type !== ActionTypes.EDIT_VIEW) { return }
+export function* editRule (action: RuleActionType) {
+  if (action.type !== ActionTypes.EDIT_RULE) { return }
   const { payload } = action
-  const { view, resolve } = payload
-  const { viewEdited, editViewFail } = ViewActions
+  const { rule, resolve } = payload
+  const { ruleEdited, editRuleFail } = RuleActions
   try {
     yield call<AxiosRequestConfig>(request, {
       method: 'put',
-      url: `${api.view}/${view.id}`,
-      data: view
+      url: `${api.rule}/${rule.id}`,
+      data: rule
     })
-    yield put(viewEdited(view))
+    yield put(ruleEdited(rule))
     resolve()
   } catch (err) {
-    yield put(editViewFail())
+    yield put(editRuleFail())
     errorHandler(err)
   }
 }
 
-export function* deleteView (action: ViewActionType) {
-  if (action.type !== ActionTypes.DELETE_VIEW) { return }
+export function* deleteRule (action: RuleActionType) {
+  if (action.type !== ActionTypes.DELETE_RULE) { return }
   const { payload } = action
-  const { viewDeleted, deleteViewFail } = ViewActions
+  const { ruleDeleted, deleteRuleFail } = RuleActions
   try {
     yield call<AxiosRequestConfig>(request, {
       method: 'delete',
-      url: `${api.view}/${payload.id}`
+      url: `${api.rule}/${payload.id}`
     })
-    yield put(viewDeleted(payload.id))
+    yield put(ruleDeleted(payload.id))
     payload.resolve(payload.id)
   } catch (err) {
-    yield put(deleteViewFail())
+    yield put(deleteRuleFail())
     errorHandler(err)
   }
 }
 
-export function* copyView (action: ViewActionType) {
-  if (action.type !== ActionTypes.COPY_VIEW) { return }
-  const { view, resolve } = action.payload
-  const { viewCopied, copyViewFail } = ViewActions
+export function* copyRule (action: RuleActionType) {
+  if (action.type !== ActionTypes.COPY_RULE) { return }
+  const { rule, resolve } = action.payload
+  const { ruleCopied, copyRuleFail } = RuleActions
   try {
-    const fromViewResponse = yield call(request, `${api.view}/${view.id}`)
-    const fromView = fromViewResponse.payload
-    const copyView: IView = { ...fromView, name: view.name, description: view.description }
+    const fromRuleResponse = yield call(request, `${api.rule}/${rule.id}`)
+    const fromRule = fromRuleResponse.payload
+    const copyRule: IRule = { ...fromRule, name: rule.name, description: rule.description }
     const asyncData = yield call<AxiosRequestConfig>(request, {
       method: 'post',
-      url: api.view,
-      data: copyView
+      url: api.rule,
+      data: copyRule
     })
-    yield put(viewCopied(fromView.id, asyncData.payload))
+    yield put(ruleCopied(fromRule.id, asyncData.payload))
     resolve()
   } catch (err) {
-    yield put(copyViewFail())
+    yield put(copyRuleFail())
     errorHandler(err)
   }
 }
 
-export function* executeSql (action: ViewActionType) {
+export function* executeSql (action: RuleActionType) {
   if (action.type !== ActionTypes.EXECUTE_SQL) { return }
   const { params } = action.payload
   const { variables, ...rest } = params
-  const omitKeys: Array<keyof IViewVariable> = ['key', 'alias', 'fromService']
+  const omitKeys: Array<keyof IRuleVariable> = ['key', 'alias', 'fromService']
   const variableParam = variables.map((v) => omit(v, omitKeys))
-  const { sqlExecuted, executeSqlFail } = ViewActions
+  const { sqlExecuted, executeSqlFail } = RuleActions
   try {
     const asyncData: IDQResponse<IExecuteSqlResponse> = yield call<AxiosRequestConfig>(request, {
       method: 'post',
-      url: `${api.view}/executesql`,
+      url: `${api.rule}/executesql`,
       data: {
         ...rest,
         variables: variableParam
@@ -149,41 +149,41 @@ export function* executeSql (action: ViewActionType) {
 
 }
 
-/** View sagas for external usages */
-export function* getViewData (action: ViewActionType) {
-  if (action.type !== ActionTypes.LOAD_VIEW_DATA) { return }
+/** Rule sagas for external usages */
+export function* getRuleData (action: RuleActionType) {
+  if (action.type !== ActionTypes.LOAD_RULE_DATA) { return }
   const { id, requestParams, resolve, reject } = action.payload
-  const { viewDataLoaded, loadViewDataFail } = ViewActions
+  const { ruleDataLoaded, loadRuleDataFail } = RuleActions
   try {
     const asyncData = yield call(request, {
       method: 'post',
-      url: `${api.view}/${id}/getdata`,
+      url: `${api.rule}/${id}/getdata`,
       data: requestParams
     })
-    yield put(viewDataLoaded())
+    yield put(ruleDataLoaded())
     const { resultList } = asyncData.payload
     asyncData.payload.resultList = (resultList && resultList.slice(0, 600)) || []
     resolve(asyncData.payload)
   } catch (err) {
     const { response } = err as AxiosError
     const { data } = response as AxiosResponse<IDQResponse<any>>
-    yield put(loadViewDataFail(err))
+    yield put(loadRuleDataFail(err))
     reject(data.header)
   }
 }
 
-export function* getSelectOptions (action: ViewActionType) {
+export function* getSelectOptions (action: RuleActionType) {
   if (action.type !== ActionTypes.LOAD_SELECT_OPTIONS) { return }
   const { payload } = action
-  const { selectOptionsLoaded, loadSelectOptionsFail } = ViewActions
+  const { selectOptionsLoaded, loadSelectOptionsFail } = RuleActions
   try {
     const { controlKey, requestParams, itemId, cancelTokenSource } = payload
     const requestParamsMap: Array<[string, IDistinctValueReqeustParams]> = Object.entries(requestParams)
-    const requests = requestParamsMap.map(([viewId, params]: [string, IDistinctValueReqeustParams]) => {
+    const requests = requestParamsMap.map(([ruleId, params]: [string, IDistinctValueReqeustParams]) => {
       const { columns, filters, variables, cache, expired } = params
       return call(request, {
         method: 'post',
-        url: `${api.bizlogic}/${viewId}/getdistinctvalue`,
+        url: `${api.bizlogic}/${ruleId}/getdistinctvalue`,
         data: {
           columns,
           filters,
@@ -209,14 +209,14 @@ export function* getSelectOptions (action: ViewActionType) {
   }
 }
 
-export function* getViewDistinctValue (action: ViewActionType) {
-  if (action.type !== ActionTypes.LOAD_VIEW_DISTINCT_VALUE) { return }
-  const { viewId, params, resolve } = action.payload
-  const { viewDistinctValueLoaded, loadViewDistinctValueFail } = ViewActions
+export function* getRuleDistinctValue (action: RuleActionType) {
+  if (action.type !== ActionTypes.LOAD_RULE_DISTINCT_VALUE) { return }
+  const { ruleId, params, resolve } = action.payload
+  const { ruleDistinctValueLoaded, loadRuleDistinctValueFail } = RuleActions
   try {
     const result = yield call(request, {
       method: 'post',
-      url: `${api.view}/${viewId}/getdistinctvalue`,
+      url: `${api.rule}/${ruleId}/getdistinctvalue`,
       data: {
         cache: false,
         expired: 0,
@@ -226,20 +226,20 @@ export function* getViewDistinctValue (action: ViewActionType) {
     const list = params.columns.reduce((arr, col) => {
       return arr.concat(result.payload.map((item) => item[col]))
     }, [])
-    yield put(viewDistinctValueLoaded(Array.from(new Set(list))))
+    yield put(ruleDistinctValueLoaded(Array.from(new Set(list))))
     if (resolve) {
       resolve(result.payload)
     }
   } catch (err) {
-    yield put(loadViewDistinctValueFail(err))
+    yield put(loadRuleDistinctValueFail(err))
     errorHandler(err)
   }
 }
 
-export function* getViewDataFromVizItem (action: ViewActionType) {
-  if (action.type !== ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM) { return }
-  const { renderType, itemId, viewId, requestParams, vizType, cancelTokenSource } = action.payload
-  const { viewDataFromVizItemLoaded, loadViewDataFromVizItemFail } = ViewActions
+export function* getRuleDataFromVizItem (action: RuleActionType) {
+  if (action.type !== ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM) { return }
+  const { renderType, itemId, ruleId, requestParams, vizType, cancelTokenSource } = action.payload
+  const { ruleDataFromVizItemLoaded, loadRuleDataFromVizItemFail } = RuleActions
   const {
     filters,
     tempFilters,
@@ -256,7 +256,7 @@ export function* getViewDataFromVizItem (action: ViewActionType) {
   try {
     const asyncData = yield call(request, {
       method: 'post',
-      url: `${api.view}/${viewId}/getdata`,
+      url: `${api.rule}/${ruleId}/getdata`,
       data: {
         ...omit(rest, 'customOrders'),
         filters: filters.concat(tempFilters).concat(linkageFilters).concat(globalFilters),
@@ -268,19 +268,19 @@ export function* getViewDataFromVizItem (action: ViewActionType) {
     })
     const { resultList } = asyncData.payload
     asyncData.payload.resultList = (resultList && resultList.slice(0, 600)) || []
-    yield put(viewDataFromVizItemLoaded(renderType, itemId, requestParams, asyncData.payload, vizType, action.statistic))
+    yield put(ruleDataFromVizItemLoaded(renderType, itemId, requestParams, asyncData.payload, vizType, action.statistic))
   } catch (err) {
-    yield put(loadViewDataFromVizItemFail(itemId, vizType, getErrorMessage(err)))
+    yield put(loadRuleDataFromVizItemFail(itemId, vizType, getErrorMessage(err)))
   }
 }
 /** */
 
-/** View sagas for fetch external authorization variables values */
-export function* getDacChannels (action: ViewActionType) {
+/** Rule sagas for fetch external authorization variables values */
+export function* getDacChannels (action: RuleActionType) {
   if (action.type !== ActionTypes.LOAD_DAC_CHANNELS) { return }
-  const { dacChannelsLoaded, loadDacChannelsFail } = ViewActions
+  const { dacChannelsLoaded, loadDacChannelsFail } = RuleActions
   try {
-    const asyncData = yield call(request, `${api.view}/dac/channels`)
+    const asyncData = yield call(request, `${api.rule}/dac/channels`)
     const channels = asyncData.payload
     yield put(dacChannelsLoaded(channels))
   } catch (err) {
@@ -288,12 +288,12 @@ export function* getDacChannels (action: ViewActionType) {
     errorHandler(err)
   }
 }
-export function* getDacTenants (action: ViewActionType) {
+export function* getDacTenants (action: RuleActionType) {
   if (action.type !== ActionTypes.LOAD_DAC_TENANTS) { return }
-  const { dacTenantsLoaded, loadDacTenantsFail } = ViewActions
+  const { dacTenantsLoaded, loadDacTenantsFail } = RuleActions
   const { channelName } = action.payload
   try {
-    const asyncData = yield call(request, `${api.view}/dac/${channelName}/tenants`)
+    const asyncData = yield call(request, `${api.rule}/dac/${channelName}/tenants`)
     const tenants = asyncData.payload
     yield put(dacTenantsLoaded(tenants))
   } catch (err) {
@@ -301,12 +301,12 @@ export function* getDacTenants (action: ViewActionType) {
     errorHandler(err)
   }
 }
-export function* getDacBizs (action: ViewActionType) {
+export function* getDacBizs (action: RuleActionType) {
   if (action.type !== ActionTypes.LOAD_DAC_BIZS) { return }
-  const { dacBizsLoaded, loadDacBizsFail } = ViewActions
+  const { dacBizsLoaded, loadDacBizsFail } = RuleActions
   const { channelName, tenantId } = action.payload
   try {
-    const asyncData = yield call(request, `${api.view}/dac/${channelName}/tenants/${tenantId}/bizs`)
+    const asyncData = yield call(request, `${api.rule}/dac/${channelName}/tenants/${tenantId}/bizs`)
     const bizs = asyncData.payload
     yield put(dacBizsLoaded(bizs))
   } catch (err) {
@@ -316,20 +316,20 @@ export function* getDacBizs (action: ViewActionType) {
 }
 /** */
 
-export default function* rootViewSaga () {
+export default function* rootRuleSaga () {
   yield all([
-    takeLatest(ActionTypes.LOAD_VIEWS, getViews),
-    takeEvery(ActionTypes.LOAD_VIEWS_DETAIL, getViewsDetail),
-    takeLatest(ActionTypes.ADD_VIEW, addView),
-    takeEvery(ActionTypes.EDIT_VIEW, editView),
-    takeEvery(ActionTypes.DELETE_VIEW, deleteView),
-    takeEvery(ActionTypes.COPY_VIEW, copyView),
+    takeLatest(ActionTypes.LOAD_RULES, getRules),
+    takeEvery(ActionTypes.LOAD_RULES_DETAIL, getRulesDetail),
+    takeLatest(ActionTypes.ADD_RULE, addRule),
+    takeEvery(ActionTypes.EDIT_RULE, editRule),
+    takeEvery(ActionTypes.DELETE_RULE, deleteRule),
+    takeEvery(ActionTypes.COPY_RULE, copyRule),
     takeLatest(ActionTypes.EXECUTE_SQL, executeSql),
 
-    takeEvery(ActionTypes.LOAD_VIEW_DATA, getViewData),
+    takeEvery(ActionTypes.LOAD_RULE_DATA, getRuleData),
     takeEvery(ActionTypes.LOAD_SELECT_OPTIONS, getSelectOptions),
-    takeEvery(ActionTypes.LOAD_VIEW_DISTINCT_VALUE, getViewDistinctValue),
-    takeEvery(ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM, getViewDataFromVizItem),
+    takeEvery(ActionTypes.LOAD_RULE_DISTINCT_VALUE, getRuleDistinctValue),
+    takeEvery(ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM, getRuleDataFromVizItem),
 
     takeEvery(ActionTypes.LOAD_DAC_CHANNELS, getDacChannels),
     takeEvery(ActionTypes.LOAD_DAC_TENANTS, getDacTenants),

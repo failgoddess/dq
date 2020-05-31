@@ -1,42 +1,42 @@
 
 import { SqlTypes } from 'app/globalConstants'
 import { ISourceSimple, ISourceBase, ISchema } from 'containers/Source/types'
-import { ViewModelTypes, ViewModelVisualTypes, ViewVariableTypes, ViewVariableValueTypes } from './constants'
+import { RuleModelTypes, RuleModelVisualTypes, RuleVariableTypes, RuleVariableValueTypes } from './constants'
 import { CancelTokenSource } from 'axios'
 
-export interface IViewBase {
+export interface IRuleBase {
   id: number
   name: string
   description: string
   sourceName: string
 }
 
-type IViewTemp = Omit<IViewBase, 'sourceName'>
+type IRuleTemp = Omit<IRuleBase, 'sourceName'>
 
-export interface IView extends IViewTemp {
+export interface IRule extends IRuleTemp {
   sql: string
   leftSql: string
   leftRowKey: string
   rightSql: string
   rightRowKey: string
   model: string
-  action: IViewAction
+  action: IRuleAction
   variable: string
   config: string
   projectId: number
   source?: ISourceSimple
   sourceId: number
-  roles: IViewRoleRaw[]
+  roles: IRuleRoleRaw[]
   condition: string
 }
 
-type IViewTemp2 = Omit<Omit<Omit<IView, 'model'>, 'variable'>, 'roles'>
+type IRuleTemp2 = Omit<Omit<Omit<IRule, 'model'>, 'variable'>, 'roles'>
 
-export interface IFormedView extends IViewTemp2 {
-  model: IViewModel
-  action: IViewAction
-  variable: IViewVariable[]
-  roles: IViewRole[]
+export interface IFormedRule extends IRuleTemp2 {
+  model: IRuleModel
+  action: IRuleAction
+  variable: IRuleVariable[]
+  roles: IRuleRole[]
 }
 
 export interface ISqlValidation {
@@ -44,8 +44,8 @@ export interface ISqlValidation {
   message: string
 }
 
-export interface IViewLoading {
-  view: boolean
+export interface IRuleLoading {
+  rule: boolean
   table: boolean
   modal: boolean
   execute: boolean
@@ -56,7 +56,7 @@ export interface IExecuteSqlParams {
   sourceId: number
   sql: string
   limit: number
-  variables: IViewVariableBase[]
+  variables: IRuleVariableBase[]
 }
 
 export interface ISqlColumn {
@@ -75,45 +75,45 @@ export interface IExecuteSqlResponse {
   value: IComponentSqlResponse
 }
 
-export interface IViewModelProps {
+export interface IRuleModelProps {
   name: string
   sqlType: SqlTypes,
-  visualType: ViewModelVisualTypes,
-  modelType: ViewModelTypes
+  visualType: RuleModelVisualTypes,
+  modelType: RuleModelTypes
 }
 
-export interface IViewModel {
-  [name: string]: Omit<IViewModelProps, 'name'>
+export interface IRuleModel {
+  [name: string]: Omit<IRuleModelProps, 'name'>
 }
 
-export interface IViewAction {
+export interface IRuleAction {
   type: number,
   sql: string,
   python: string
 }
 
-interface IViewVariableChannel {
+interface IRuleVariableChannel {
   bizId: number
   name: string
   tenantId: number
 }
 
-interface IViewVariableBase {
+interface IRuleVariableBase {
   name: string
-  type: ViewVariableTypes
-  valueType: ViewVariableValueTypes
+  type: RuleVariableTypes
+  valueType: RuleVariableValueTypes
   defaultValues: Array<string | number | boolean>
-  channel?: IViewVariableChannel
+  channel?: IRuleVariableChannel
   udf: boolean
 }
 
-export interface IViewVariable extends IViewVariableBase {
+export interface IRuleVariable extends IRuleVariableBase {
   key: string
   alias: string
   fromService: boolean
 }
 
-export interface IViewCorrelation {
+export interface IRuleCorrelation {
   key: string
   alias: string
   fromService: boolean
@@ -122,52 +122,52 @@ export interface IViewCorrelation {
   condition: string
 }
 
-export interface IViewToolbox {
+export interface IRuleToolbox {
   key: string
   alias: string
   slide: string
 }
 
-export interface IViewRoleRaw {
+export interface IRuleRoleRaw {
   roleId: number
   columnAuth: string
   rowAuth: string
 }
 
-export interface IViewRoleRowAuth {
+export interface IRuleRoleRowAuth {
   name: string
   values: Array<string | number | boolean>
   enable: boolean
 }
 
-export interface IViewRole {
+export interface IRuleRole {
   roleId: number
   /**
-   * view columns name
+   * rule columns name
    * @type {string[]}
-   * @memberof IViewRole
+   * @memberof IRuleRole
    */
   columnAuth: string[]
 
   /**
    * query variable values
    * @type {(Array<string | number>)}
-   * @memberof IViewRole
+   * @memberof IRuleRole
    */
-  rowAuth: IViewRoleRowAuth[]
+  rowAuth: IRuleRoleRowAuth[]
 }
 
-export interface IViewInfo {
-  model: IViewModel
-  action: IViewAction
-  variable: IViewVariable[]
-  roles: IViewRole[]
-  correlation: IViewCorrelation
-  toolbox: IViewToolbox
+export interface IRuleInfo {
+  model: IRuleModel
+  action: IRuleAction
+  variable: IRuleVariable[]
+  roles: IRuleRole[]
+  correlation: IRuleCorrelation
+  toolbox: IRuleToolbox
 }
 
-export interface IFormedViews {
-  [viewId: number]: IFormedView
+export interface IFormedRules {
+  [ruleId: number]: IFormedRule
 }
 
 export type IDacChannel = string
@@ -180,17 +180,17 @@ export interface IDacBiz {
   name: string
 }
 
-export interface IViewState {
-  views: IViewBase[]
-  formedViews: IFormedViews
-  editingView: IView
-  editingViewInfo: IViewInfo
+export interface IRuleState {
+  rules: IRuleBase[]
+  formedRules: IFormedRules
+  editingRule: IRule
+  editingRuleInfo: IRuleInfo
   sources: ISourceBase[]
   schema: ISchema
   sqlValidation: ISqlValidation
   sqlDataSource: IExecuteSqlResponse
   sqlLimit: number
-  loading: IViewLoading
+  loading: IRuleLoading
 
   channels: IDacChannel[]
   tenants: IDacTenant[]

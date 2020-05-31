@@ -1,15 +1,15 @@
 import React from 'react'
 import { Modal, Form, Button, Input } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
-import { IViewBase } from '../types'
+import { IRuleBase } from '../types'
 const FormItem = Form.Item
 
-interface ICopyModalProps extends FormComponentProps<IViewBase> {
+interface ICopyModalProps extends FormComponentProps<IRuleBase> {
   visible: boolean
   loading: boolean
-  fromView: IViewBase
-  onCheckUniqueName: (viewName: string, resolve: () => void, reject: (err: string) => void) => void
-  onCopy: (view: IViewBase) => void
+  fromRule: IRuleBase
+  onCheckUniqueName: (ruleName: string, resolve: () => void, reject: (err: string) => void) => void
+  onCopy: (rule: IRuleBase) => void
   onCancel: () => void
 }
 
@@ -20,11 +20,11 @@ export class CopyModal extends React.PureComponent<ICopyModalProps> {
   }
 
   private save = () => {
-    const { form, fromView, onCopy } = this.props
+    const { form, fromRule, onCopy } = this.props
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (err) { return }
-      const copyView: IViewBase = { ...fieldsValue, id: fromView.id }
-      onCopy(copyView)
+      const copyRule: IRuleBase = { ...fieldsValue, id: fromRule.id }
+      onCopy(copyRule)
     })
   }
 
@@ -42,9 +42,9 @@ export class CopyModal extends React.PureComponent<ICopyModalProps> {
   }
 
   public render () {
-    const { form, visible, loading, fromView, onCancel } = this.props
+    const { form, visible, loading, fromRule, onCancel } = this.props
     const { getFieldDecorator } = form
-    if (!fromView) { return null }
+    if (!fromRule) { return null }
 
     const modalButtons = [(
       <Button
@@ -68,7 +68,7 @@ export class CopyModal extends React.PureComponent<ICopyModalProps> {
 
     return (
       <Modal
-        title="复制 View"
+        title="复制 Rule"
         wrapClassName="ant-modal-small"
         visible={visible}
         footer={modalButtons}
@@ -77,18 +77,18 @@ export class CopyModal extends React.PureComponent<ICopyModalProps> {
       >
         <Form>
           <FormItem label="新名称" {...this.formItemStyle}>
-            {getFieldDecorator<IViewBase>('name', {
+            {getFieldDecorator<IRuleBase>('name', {
               validateFirst: true,
               rules: [
                 { required: true, message: '不能为空' },
                 { validator: this.checkName }
               ],
-              initialValue: `${fromView.name}_copy`
+              initialValue: `${fromRule.name}_copy`
             })(<Input />)}
           </FormItem>
           <FormItem label="描述" {...this.formItemStyle}>
-            {getFieldDecorator<IViewBase>('description', {
-              initialValue: fromView.description
+            {getFieldDecorator<IRuleBase>('description', {
+              initialValue: fromRule.description
             })(<Input />)}
           </FormItem>
         </Form>

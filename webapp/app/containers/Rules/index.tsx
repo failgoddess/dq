@@ -13,8 +13,8 @@ import reducer from './reducer'
 import sagas from './sagas'
 
 import { checkNameUniqueAction } from 'containers/App/actions'
-import { ViewActions, ViewActionType } from './actions'
-import { makeSelectViews, makeSelectLoading } from './selectors'
+import { RuleActions, RuleActionType } from './actions'
+import { makeSelectRules, makeSelectLoading } from './selectors'
 import { makeSelectCurrentProject } from 'containers/Projects/selectors'
 
 import ModulePermission from '../Account/components/checkModulePermission'
@@ -29,60 +29,60 @@ import SearchFilterDropdown from 'components/SearchFilterDropdown'
 import CopyModal from './components/CopyModal'
 
 import { IRouteParams } from 'app/routes'
-import { IViewBase, IView, IViewLoading } from './types'
+import { IRuleBase, IRule, IRuleLoading } from './types'
 import { IProject } from '../Projects'
 
 import utilStyles from 'assets/less/util.less'
 
-interface IViewListStateProps {
-  views: IViewBase[]
+interface IRuleListStateProps {
+  rules: IRuleBase[]
   currentProject: IProject
-  loading: IViewLoading
+  loading: IRuleLoading
 }
 
-interface IViewListDispatchProps {
-  onLoadViews: (projectId: number) => void
-  onDeleteView: (viewId: number, resolve: () => void) => void
-  onCopyView: (view: IViewBase, resolve: () => void) => void
+interface IRuleListDispatchProps {
+  onLoadRules: (projectId: number) => void
+  onDeleteRule: (ruleId: number, resolve: () => void) => void
+  onCopyRule: (rule: IRuleBase, resolve: () => void) => void
   onCheckName: (data, resolve, reject) => void
 }
 
-type IViewListProps = IViewListStateProps & IViewListDispatchProps & RouteComponentProps<{}, IRouteParams>
+type IRuleListProps = IRuleListStateProps & IRuleListDispatchProps & RouteComponentProps<{}, IRouteParams>
 
-interface IViewListStates {
+interface IRuleListStates {
   screenWidth: number
-  tempFilterViewName: string
-  filterViewName: string
+  tempFilterRuleName: string
+  filterRuleName: string
   filterDropdownVisible: boolean
-  tableSorter: SorterResult<IViewBase>
+  tableSorter: SorterResult<IRuleBase>
 
   copyModalVisible: boolean
-  copyFromView: IViewBase
+  copyFromRule: IRuleBase
 }
 
-export class ViewList extends React.PureComponent<IViewListProps, IViewListStates> {
+export class RuleList extends React.PureComponent<IRuleListProps, IRuleListStates> {
 
-  public state: Readonly<IViewListStates> = {
+  public state: Readonly<IRuleListStates> = {
     screenWidth: document.documentElement.clientWidth,
-    tempFilterViewName: '',
-    filterViewName: '',
+    tempFilterRuleName: '',
+    filterRuleName: '',
     filterDropdownVisible: false,
     tableSorter: null,
 
     copyModalVisible: false,
-    copyFromView: null
+    copyFromRule: null
   }
 
   public componentWillMount () {
-    this.loadViews()
+    this.loadRules()
     window.addEventListener('resize', this.setScreenWidth, false)
   }
 
-  private loadViews = () => {
-    const { onLoadViews, params } = this.props
+  private loadRules = () => {
+    const { onLoadRules, params } = this.props
     const { pid: projectId } = params
     if (projectId) {
-      onLoadViews(+projectId)
+      onLoadRules(+projectId)
     }
   }
 
@@ -94,35 +94,35 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     this.setState({ screenWidth: document.documentElement.clientWidth })
   }
 
-  private getFilterViews = memoizeOne((viewName: string, views: IViewBase[]) => {
-    if (!Array.isArray(views) || !views.length) { return [] }
-    const regex = new RegExp(viewName, 'gi')
-    const filterViews = views.filter((v) => v.name.match(regex) || v.description.match(regex))
-    return filterViews
+  private getFilterRules = memoizeOne((ruleName: string, rules: IRuleBase[]) => {
+    if (!Array.isArray(rules) || !rules.length) { return [] }
+    const regex = new RegExp(ruleName, 'gi')
+    const filterRules = rules.filter((v) => v.name.match(regex) || v.description.match(regex))
+    return filterRules
   })
 
-  private static getViewPermission = memoizeOne((project: IProject) => ({
+  private static getRulePermission = memoizeOne((project: IProject) => ({
     rulePermission: initializePermission(project, 'rulePermission'),
-    AdminButton: ModulePermission<ButtonProps>(project, 'view', true)(Button),
-    EditButton: ModulePermission<ButtonProps>(project, 'view', false)(Button)
+    AdminButton: ModulePermission<ButtonProps>(project, 'rule', true)(Button),
+    EditButton: ModulePermission<ButtonProps>(project, 'rule', false)(Button)
   }))
 
   private getTableColumns = (
-    { rulePermission, AdminButton, EditButton }: ReturnType<typeof ViewList.getViewPermission>
+    { rulePermission, AdminButton, EditButton }: ReturnType<typeof RuleList.getRulePermission>
   ) => {
-    const { views } = this.props
-    const { tempFilterViewName, filterViewName, filterDropdownVisible, tableSorter } = this.state
-    const sourceNames = views.map(({ sourceName }) => sourceName)
+    const { rules } = this.props
+    const { tempFilterRuleName, filterRuleName, filterDropdownVisible, tableSorter } = this.state
+    const sourceNames = rules.map(({ sourceName }) => sourceName)
 
-    const columns: Array<ColumnProps<IViewBase>> = [{
+    const columns: Array<ColumnProps<IRuleBase>> = [{
       title: '名称',
       dataIndex: 'name',
       filterDropdown: (
         <SearchFilterDropdown
           placeholder="名称"
-          value={tempFilterViewName}
-          onChange={this.filterViewNameChange}
-          onSearch={this.searchView}
+          value={tempFilterRuleName}
+          onChange={this.filterRuleNameChange}
+          onSearch={this.searchRule}
         />
       ),
       filterDropdownVisible,
@@ -142,8 +142,8 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
         .map((name) => ({ text: name, value: name }))
     }]
 
-    if (filterViewName) {
-      const regex = new RegExp(`(${filterViewName})`, 'gi')
+    if (filterRuleName) {
+      const regex = new RegExp(`(${filterRuleName})`, 'gi')
       columns[0].render = (text: string) => (
         <span
           dangerouslySetInnerHTML={{
@@ -161,15 +161,15 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
         render: (_, record) => (
           <span className="ant-table-action-column">
             <Tooltip title="复制">
-              <EditButton icon="copy" shape="circle" type="ghost" onClick={this.copyView(record)} />
+              <EditButton icon="copy" shape="circle" type="ghost" onClick={this.copyRule(record)} />
             </Tooltip>
             <Tooltip title="修改">
-              <EditButton icon="edit" shape="circle" type="ghost" onClick={this.editView(record.id)} />
+              <EditButton icon="edit" shape="circle" type="ghost" onClick={this.editRule(record.id)} />
             </Tooltip>
             <Popconfirm
               title="确定删除？"
               placement="bottom"
-              onConfirm={this.deleteView(record.id)}
+              onConfirm={this.deleteRule(record.id)}
             >
               <Tooltip title="删除">
                 <AdminButton icon="delete" shape="circle" type="ghost" />
@@ -183,20 +183,20 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     return columns
   }
 
-  private tableChange = (_1, _2, sorter: SorterResult<IViewBase>) => {
+  private tableChange = (_1, _2, sorter: SorterResult<IRuleBase>) => {
     this.setState({ tableSorter: sorter })
   }
 
-  private filterViewNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private filterRuleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      tempFilterViewName: e.target.value,
-      filterViewName: ''
+      tempFilterRuleName: e.target.value,
+      filterRuleName: ''
     })
   }
 
-  private searchView = (value: string) => {
+  private searchRule = (value: string) => {
     this.setState({
-      filterViewName: value,
+      filterRuleName: value,
       filterDropdownVisible: false
     })
     window.event.preventDefault()
@@ -207,25 +207,25 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     showSizeChanger: true
   }
 
-  // private addView = () => {
+  // private addRule = () => {
   //  const { router, params } = this.props
-  //  router.push(`/project/${params.pid}/view`)
+  //  router.push(`/project/${params.pid}/rule`)
   // }
 
-  private copyView = (fromView: IViewBase) => () => {
+  private copyRule = (fromRule: IRuleBase) => () => {
     this.setState({
       copyModalVisible: true,
-      copyFromView: fromView
+      copyFromRule: fromRule
     })
   }
 
-  private copy = (view: IViewBase) => {
-    const { onCopyView } = this.props
-    onCopyView(view, () => {
+  private copy = (rule: IRuleBase) => {
+    const { onCopyRule } = this.props
+    onCopyRule(rule, () => {
       this.setState({
         copyModalVisible: false
       })
-      message.info('View 复制成功')
+      message.info('Rule 复制成功')
     })
   }
 
@@ -233,21 +233,21 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     this.setState({ copyModalVisible: false })
   }
 
-  private editView = (viewId: number) => () => {
+  private editRule = (ruleId: number) => () => {
     const { router, params } = this.props
-    router.push(`/project/${params.pid}/view/${viewId}`)
+    router.push(`/project/${params.pid}/rule/${ruleId}`)
   }
 
-  private deleteView = (viewId: number) => () => {
-    const { onDeleteView } = this.props
-    onDeleteView(viewId, () => {
-      this.loadViews()
+  private deleteRule = (ruleId: number) => () => {
+    const { onDeleteRule } = this.props
+    onDeleteRule(ruleId, () => {
+      this.loadRules()
     })
   }
 
-  private checkViewUniqueName = (viewName: string, resolve: () => void, reject: (err: string) => void) => {
+  private checkRuleUniqueName = (ruleName: string, resolve: () => void, reject: (err: string) => void) => {
     const { currentProject, onCheckName } = this.props
-    onCheckName({ name: viewName, projectId: currentProject.id }, resolve, reject)
+    onCheckName({ name: ruleName, projectId: currentProject.id }, resolve, reject)
   }
   
   private getRuleMenus = () => {
@@ -255,7 +255,7 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
     const menu = (
     	<Menu>
 		<Menu.Item key='difference' style={{ fontSize: '16px' }}>
-			<Link to={`/project/${params.pid}/view`}>
+			<Link to={`/project/${params.pid}/rule`}>
 				<i className={`iconfont ${'sortascending'}`}/> 差异检查
         	</Link>
       	</Menu.Item>
@@ -271,22 +271,22 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
   }
 
   public render () {
-    const { currentProject, views, loading } = this.props
-    const { screenWidth, filterViewName } = this.state
-    const { rulePermission, AdminButton, EditButton } = ViewList.getViewPermission(currentProject)
+    const { currentProject, rules, loading } = this.props
+    const { screenWidth, filterRuleName } = this.state
+    const { rulePermission, AdminButton, EditButton } = RuleList.getRulePermission(currentProject)
     const tableColumns = this.getTableColumns({ rulePermission, AdminButton, EditButton })
     const tablePagination: PaginationConfig = {
       ...this.basePagination,
       simple: screenWidth <= 768
     }
-    const filterViews = this.getFilterViews(filterViewName, views)
+    const filterRules = this.getFilterRules(filterRuleName, rules)
     const ruleMenus = this.getRuleMenus()
-    const { copyModalVisible, copyFromView } = this.state
+    const { copyModalVisible, copyFromRule } = this.state
 
     return (
       <>
         <Container>
-          <Helmet title="View" />
+          <Helmet title="Rule" />
           <Container.Title>
             <Row>
               <Col span={24}>
@@ -319,8 +319,8 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
                     <Table
                       bordered
                       rowKey="id"
-                      loading={loading.view}
-                      dataSource={filterViews}
+                      loading={loading.rule}
+                      dataSource={filterRules}
                       columns={tableColumns}
                       pagination={tablePagination}
                       onChange={this.tableChange}
@@ -334,8 +334,8 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
         <CopyModal
           visible={copyModalVisible}
           loading={loading.copy}
-          fromView={copyFromView}
-          onCheckUniqueName={this.checkViewUniqueName}
+          fromRule={copyFromRule}
+          onCheckUniqueName={this.checkRuleUniqueName}
           onCopy={this.copy}
           onCancel={this.cancelCopy}
         />
@@ -345,25 +345,25 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
 
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ViewActionType>) => ({
-  onLoadViews: (projectId) => dispatch(ViewActions.loadViews(projectId)),
-  onDeleteView: (viewId, resolve) => dispatch(ViewActions.deleteView(viewId, resolve)),
-  onCopyView: (view, resolve) => dispatch(ViewActions.copyView(view, resolve)),
-  onCheckName: (data, resolve, reject) => dispatch(checkNameUniqueAction('view', data, resolve, reject))
+const mapDispatchToProps = (dispatch: Dispatch<RuleActionType>) => ({
+  onLoadRules: (projectId) => dispatch(RuleActions.loadRules(projectId)),
+  onDeleteRule: (ruleId, resolve) => dispatch(RuleActions.deleteRule(ruleId, resolve)),
+  onCopyRule: (rule, resolve) => dispatch(RuleActions.copyRule(rule, resolve)),
+  onCheckName: (data, resolve, reject) => dispatch(checkNameUniqueAction('rule', data, resolve, reject))
 })
 
 const mapStateToProps = createStructuredSelector({
-  views: makeSelectViews(),
+  rules: makeSelectRules(),
   currentProject: makeSelectCurrentProject(),
   loading: makeSelectLoading()
 })
 
-const withConnect = connect<IViewListStateProps, IViewListDispatchProps, RouteComponentProps<{}, IRouteParams>>(mapStateToProps, mapDispatchToProps)
-const withReducer = injectReducer({ key: 'view', reducer })
-const withSaga = injectSaga({ key: 'view', saga: sagas })
+const withConnect = connect<IRuleListStateProps, IRuleListDispatchProps, RouteComponentProps<{}, IRouteParams>>(mapStateToProps, mapDispatchToProps)
+const withReducer = injectReducer({ key: 'rule', reducer })
+const withSaga = injectSaga({ key: 'rule', saga: sagas })
 
 export default compose(
   withReducer,
   withSaga,
   withConnect
-)(ViewList)
+)(RuleList)

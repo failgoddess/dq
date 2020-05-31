@@ -9,17 +9,17 @@ const { TreeNode } = Tree
 import { SelectProps } from 'antd/lib/select'
 
 import { ISource, IColumn, ISchema } from 'containers/Source/types'
-import { IView } from '../types'
+import { IRule } from '../types'
 import { SQL_DATE_TYPES, SQL_NUMBER_TYPES, SQL_STRING_TYPES } from 'app/globalConstants'
 
 import utilStyles from 'assets/less/util.less'
-import Styles from 'containers/View/View.less'
+import Styles from 'containers/Rules/Rule.less'
 
 interface ISourceTableProps {
-  view: IView
+  rule: IRule
   sources: ISource[]
   schema: ISchema
-  onViewChange: (propName: keyof(IView), value: string | number) => void
+  onRuleChange: (propName: keyof(IRule), value: string | number) => void
   onSourceSelect: (sourceId: number) => void
   onDatabaseSelect: (sourceId: number, databaseName: string) => void
   onTableSelect: (sourceId: number, databaseName: string, tableName: string) => void
@@ -39,17 +39,17 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
     autoExpandTable: true
   }
 
-  private inputChange = (propName: keyof IView) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onViewChange(propName, e.target.value)
+  private inputChange = (propName: keyof IRule) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.onRuleChange(propName, e.target.value)
   }
 
   private selectSource = (sourceId: number) => {
-    const { onViewChange, onSourceSelect } = this.props
+    const { onRuleChange, onSourceSelect } = this.props
     this.setState({
       expandedNodeKeys: [],
       autoExpandTable: true
     })
-    onViewChange('sourceId', sourceId)
+    onRuleChange('sourceId', sourceId)
     onSourceSelect(sourceId)
   }
 
@@ -154,8 +154,8 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
       return
     }
 
-    const { schema, view, onDatabaseSelect, onTableSelect } = this.props
-    const { sourceId } = view
+    const { schema, rule, onDatabaseSelect, onTableSelect } = this.props
+    const { sourceId } = rule
     const { mapTables, mapColumns } = schema
 
     const [nodeType, dbName, tableName] = dataRef
@@ -197,7 +197,7 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
 
   private filterKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filterKeyword = e.target.value
-    const { schema, view } = this.props
+    const { schema, rule } = this.props
     const { mapTables, mapColumns } = schema
     const expandedNodeKeys = new Set<string>()
     if (filterKeyword) {
@@ -206,7 +206,7 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
       Object.values(mapTables).forEach((tablesInfo) => {
         if (!tablesInfo) { return }
         const { tables, dbName, sourceId } = tablesInfo
-        if (sourceId !== view.sourceId) { return }
+        if (sourceId !== rule.sourceId) { return }
         const shouldExpand = regex.test(dbName) ||
           tables.some(({ name: tableName }) => regex.test(tableName))
         if (shouldExpand) {
@@ -217,7 +217,7 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
       Object.values(mapColumns).forEach((columnsInfo) => {
         if (!columnsInfo) { return }
         const { columns, tableName, dbName, sourceId } = columnsInfo
-        if (sourceId !== view.sourceId) { return }
+        if (sourceId !== rule.sourceId) { return }
         const shouldExpand = regex.test(tableName) ||
           columns.some(({ name: columnName }) => regex.test(columnName))
         if (shouldExpand) {
@@ -234,18 +234,18 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
   }
 
   public render () {
-    const { view, sources, schema, onDatabaseSelect } = this.props
+    const { rule, sources, schema, onDatabaseSelect } = this.props
     const { filterKeyword, expandedNodeKeys } = this.state
-    const { name: viewName, description: viewDesc, sourceId } = view
+    const { name: ruleName, description: ruleDesc, sourceId } = rule
 
     return (
       <div className={Styles.sourceTable}>
         <Row gutter={16}>
           <Col span={24}>
-            <Input placeholder="名称" value={viewName} onChange={this.inputChange('name')} />
+            <Input placeholder="名称" value={ruleName} onChange={this.inputChange('name')} />
           </Col>
           <Col span={24}>
-            <Input placeholder="描述" value={viewDesc} onChange={this.inputChange('description')} />
+            <Input placeholder="描述" value={ruleDesc} onChange={this.inputChange('description')} />
           </Col>
           <Col span={24}>
             <Select
@@ -271,7 +271,7 @@ export class SourceTable extends React.Component<ISourceTableProps, ISourceTable
         <div className={Styles.tree}>
           <Tree
             showIcon
-            key={view.sourceId}
+            key={rule.sourceId}
             loadData={this.loadTreeData}
             onSelect={this.treeNodeSelect}
             onExpand={this.treeNodeExpand}

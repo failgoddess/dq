@@ -41,6 +41,9 @@ export const ViewActions = {
     }
   },
   loadViews (projectId: number, resolve?: (views: IViewBase[]) => void) {
+    console.log("------------------126---")
+    console.log(projectId)
+    console.log(resolve)
     return {
       type: ActionTypes.LOAD_VIEWS,
       payload: {

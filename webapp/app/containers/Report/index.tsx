@@ -99,6 +99,8 @@ export class Report extends React.Component<IReportProps, IReportStates> {
             permission = projectPermission[attr]
           } else if (pathname.indexOf('views') > 0 && pathname.replace('views', 'view').indexOf(pStr) > 0) {
             permission = projectPermission[attr]
+          } else if (pathname.indexOf('rules') > 0 && pathname.replace('rules', 'rule').indexOf(pStr) > 0) {
+            permission = projectPermission[attr]
           }
         }
       }
@@ -173,7 +175,7 @@ export function mapDispatchToProps (dispatch) {
     onPageLoad: () => {
       const sidebarSource = [
         { icon: (<i className="iconfont icon-datasource24" />), route: ['sources'], permission: 'source' },
-        { icon: (<i className="iconfont icon-custom-business" />), route: ['rules', 'rule'], permission: 'rule' },
+        { icon: (<i className="iconfont .icon-cube2" />), route: ['rules', 'rule'], permission: 'rule' },
         { icon: (<i className="iconfont icon-custom-business" />), route: ['views', 'view'], permission: 'view' }
       ]
       console.log("---------113-----")

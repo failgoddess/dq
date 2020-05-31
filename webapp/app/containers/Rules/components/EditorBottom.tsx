@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Row, Col, Button, InputNumber, Tooltip } from 'antd'
 
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
 export interface IEditorBottomProps {
   sqlLimit: number
@@ -23,7 +23,7 @@ export const EditorBottom = (props: IEditorBottomProps) => {
   const { sqlLimit, loading, nextDisabled, onSetSqlLimit, onExecuteSql, onStepChange } = props
   return (
     <Row className={Styles.bottom} type="flex" align="middle" justify="start">
-    <Col span={12} className={Styles.previewInput}>
+    <Col span={12} className={Styles.preruleInput}>
       <span>展示前</span>
       <InputNumber value={sqlLimit} onChange={onSetSqlLimit} />
       <span>条数据</span>

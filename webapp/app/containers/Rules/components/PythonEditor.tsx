@@ -1,7 +1,7 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
 interface IPythonEditorProps {
   hints: {

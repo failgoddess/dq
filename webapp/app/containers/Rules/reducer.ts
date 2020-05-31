@@ -1,11 +1,11 @@
 
 import produce from 'immer'
 import pick from 'lodash/pick'
-import { IViewState, IView, IFormedViews, IViewBase } from './types'
-import { getFormedView, getValidModel } from './util'
+import { IRuleState, IRule, IFormedRules, IRuleBase } from './types'
+import { getFormedRule, getValidModel } from './util'
 
 import { ActionTypes, DEFAULT_SQL_LIMIT } from './constants'
-import { ViewActionType } from './actions'
+import { RuleActionType } from './actions'
 
 import { ActionTypes as SourceActionTypes } from 'containers/Source/constants'
 import { SourceActionType } from 'containers/Source/actions'
@@ -16,7 +16,7 @@ import { LOAD_DASHBOARD_DETAIL_SUCCESS } from 'containers/Dashboard/constants'
 import { ActionTypes as DisplayActionTypes } from 'containers/Display/constants'
 import { LOCATION_CHANGE } from 'react-router-redux'
 
-const emptyView: IView = {
+const emptyRule: IRule = {
   id: null,
   name: '',
   sql: '',
@@ -34,11 +34,11 @@ const emptyView: IView = {
   toolbox: null
 }
 
-const initialState: IViewState = {
-  views: [],
-  formedViews: {},
-  editingView: emptyView,
-  editingViewInfo: {
+const initialState: IRuleState = {
+  rules: [],
+  formedRules: {},
+  editingRule: emptyRule,
+  editingRuleInfo: {
     model: {},
     action: {
     	type:'',
@@ -80,7 +80,7 @@ const initialState: IViewState = {
   },
   sqlLimit: DEFAULT_SQL_LIMIT,
   loading: {
-    view: false,
+    rule: false,
     table: false,
     modal: false,
     execute: false,
@@ -92,32 +92,32 @@ const initialState: IViewState = {
   cancelTokenSources: []
 }
 
-const viewReducer = (state = initialState, action: ViewActionType | SourceActionType): IViewState => (
+const ruleReducer = (state = initialState, action: RuleActionType | SourceActionType): IRuleState => (
   produce(state, (draft) => {
     switch (action.type) {
-      case ActionTypes.LOAD_VIEWS:
-      case ActionTypes.DELETE_VIEW:
-        draft.loading.view = true
+      case ActionTypes.LOAD_RULES:
+      case ActionTypes.DELETE_RULE:
+        draft.loading.rule = true
         break
-      case ActionTypes.LOAD_VIEWS_FAILURE:
-      case ActionTypes.DELETE_VIEW_FAILURE:
-        draft.loading.view = false
+      case ActionTypes.LOAD_RULES_FAILURE:
+      case ActionTypes.DELETE_RULE_FAILURE:
+        draft.loading.rule = false
         break
-      case ActionTypes.LOAD_VIEWS_SUCCESS:
-        draft.views = action.payload.views
-        draft.formedViews = {}
-        draft.loading.view = false
+      case ActionTypes.LOAD_RULES_SUCCESS:
+        draft.rules = action.payload.rules
+        draft.formedRules = {}
+        draft.loading.rule = false
         break
-      case ActionTypes.LOAD_VIEWS_DETAIL_SUCCESS:
-        const detailedViews = action.payload.views
+      case ActionTypes.LOAD_RULES_DETAIL_SUCCESS:
+        const detailedRules = action.payload.rules
         if (action.payload.isEditing) {
-          draft.editingView = detailedViews[0]
-          draft.editingViewInfo = pick(getFormedView(detailedViews[0]), ['model', 'variable', 'roles','correlation','toolbox','action'])
+          draft.editingRule = detailedRules[0]
+          draft.editingRuleInfo = pick(getFormedRule(detailedRules[0]), ['model', 'variable', 'roles','correlation','toolbox','action'])
         }
-        draft.formedViews = detailedViews.reduce((acc, view) => {
-          const { id, model, variable, roles, correlation, toolbox, action } = getFormedView(view)
+        draft.formedRules = detailedRules.reduce((acc, rule) => {
+          const { id, model, variable, roles, correlation, toolbox, action } = getFormedRule(rule)
           acc[id] = {
-            ...view,
+            ...rule,
             action,
             model,
             variable,
@@ -126,7 +126,7 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
             toolbox
           }
           return acc
-        }, draft.formedViews)
+        }, draft.formedRules)
         break
       case SourceActionTypes.LOAD_SOURCES_SUCCESS:
         draft.sources = action.payload.sources
@@ -154,9 +154,9 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
         break
       case ActionTypes.EXECUTE_SQL_SUCCESS:
         const sqlResponse = action.payload.result
-        const validModel = getValidModel(draft.editingViewInfo.model, sqlResponse.payload.columns)
+        const validModel = getValidModel(draft.editingRuleInfo.model, sqlResponse.payload.columns)
         draft.sqlDataSource = sqlResponse.payload
-        draft.editingViewInfo.model = validModel
+        draft.editingRuleInfo.model = validModel
         draft.loading.execute = false
         draft.sqlValidation = {
           code: sqlResponse.header.code,
@@ -176,33 +176,33 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
           message: action.payload.err.msg
         }
         break
-      case ActionTypes.UPDATE_EDITING_VIEW:
-        draft.editingView = action.payload.view
+      case ActionTypes.UPDATE_EDITING_RULE:
+        draft.editingRule = action.payload.rule
         break
-      case ActionTypes.UPDATE_EDITING_VIEW_INFO:
-        draft.editingViewInfo = action.payload.viewInfo
+      case ActionTypes.UPDATE_EDITING_RULE_INFO:
+        draft.editingRuleInfo = action.payload.ruleInfo
         break
       case ActionTypes.SET_SQL_LIMIT:
         draft.sqlLimit = action.payload.limit
         break
-      case ActionTypes.EDIT_VIEW_SUCCESS:
-        draft.editingView = emptyView
-        draft.editingViewInfo = { model: {}, variable: [], roles: [], action: {} }
-        draft.formedViews[action.payload.result.id] = getFormedView(action.payload.result)
+      case ActionTypes.EDIT_RULE_SUCCESS:
+        draft.editingRule = emptyRule
+        draft.editingRuleInfo = { model: {}, variable: [], roles: [], action: {} }
+        draft.formedRules[action.payload.result.id] = getFormedRule(action.payload.result)
         break
 
-      case ActionTypes.COPY_VIEW:
+      case ActionTypes.COPY_RULE:
         draft.loading.copy = true
         break
-      case ActionTypes.COPY_VIEW_SUCCESS:
-        const fromViewId = action.payload.fromViewId
-        const copiedViewKeys: Array<keyof IViewBase> = ['id', 'name', 'description']
-        const copiedView: IViewBase = pick(action.payload.result, copiedViewKeys)
-        copiedView.sourceName = action.payload.result.source.name
-        draft.views.splice(draft.views.findIndex(({ id }) => id === fromViewId) + 1, 0, copiedView)
+      case ActionTypes.COPY_RULE_SUCCESS:
+        const fromRuleId = action.payload.fromRuleId
+        const copiedRuleKeys: Array<keyof IRuleBase> = ['id', 'name', 'description']
+        const copiedRule: IRuleBase = pick(action.payload.result, copiedRuleKeys)
+        copiedRule.sourceName = action.payload.result.source.name
+        draft.rules.splice(draft.rules.findIndex(({ id }) => id === fromRuleId) + 1, 0, copiedRule)
         draft.loading.copy = false
         break
-      case ActionTypes.COPY_VIEW_FAILURE:
+      case ActionTypes.COPY_RULE_FAILURE:
         draft.loading.copy = false
         break
 
@@ -221,37 +221,37 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
       case ActionTypes.LOAD_DAC_BIZS_FAILURE:
         draft.bizs = []
         break
-      case ActionTypes.RESET_VIEW_STATE:
+      case ActionTypes.RESET_RULE_STATE:
         return initialState
         break
       case LOAD_WIDGET_DETAIL_SUCCESS:
-        const widgetView = action.payload.view
+        const widgetRule = action.payload.rule
         console.log("------------")
-        draft.formedViews[widgetView.id] = {
-          ...widgetView,
-          model: JSON.parse(widgetView.model || '{}'),
-          action: JSON.parse(widgetView.action || '{}'),
-          variable: JSON.parse(widgetView.variable || '[]')
+        draft.formedRules[widgetRule.id] = {
+          ...widgetRule,
+          model: JSON.parse(widgetRule.model || '{}'),
+          action: JSON.parse(widgetRule.action || '{}'),
+          variable: JSON.parse(widgetRule.variable || '[]')
         }
         break
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
       case DisplayActionTypes.LOAD_DISPLAY_DETAIL_SUCCESS:
-        const updatedViews: IFormedViews = (action.payload.views || []).reduce((obj, view) => {
+        const updatedRules: IFormedRules = (action.payload.rules || []).reduce((obj, rule) => {
           console.log("---------------")
-          obj[view.id] = {
-            ...view,
-            model: JSON.parse(view.model || '{}'),
-            action: JSON.parse(widgetView.action || '{}'),
-            variable: JSON.parse(view.variable || '[]')
+          obj[rule.id] = {
+            ...rule,
+            model: JSON.parse(rule.model || '{}'),
+            action: JSON.parse(widgetRule.action || '{}'),
+            variable: JSON.parse(rule.variable || '[]')
           }
           return obj
         }, {})
-        draft.formedViews = {
-          ...draft.formedViews,
-          ...updatedViews
+        draft.formedRules = {
+          ...draft.formedRules,
+          ...updatedRules
         }
         break
-      case ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM:
+      case ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM:
       case ActionTypes.LOAD_SELECT_OPTIONS:
         draft.cancelTokenSources.push(action.payload.cancelTokenSource)
         break
@@ -269,4 +269,4 @@ const viewReducer = (state = initialState, action: ViewActionType | SourceAction
   })
 )
 
-export default viewReducer
+export default ruleReducer

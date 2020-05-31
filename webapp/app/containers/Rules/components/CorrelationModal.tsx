@@ -8,33 +8,33 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import ConditionValuesControl, { ConditionValueTypes } from 'components/ConditionValuesControl'
 import {
-  IViewCorrelation,
+  IRuleCorrelation,
   IDacChannel, IDacTenant, IDacBiz
-} from 'containers/View/types'
-import { ViewCorrelationValueTypes } from 'containers/View/constants'
+} from 'containers/Rule/types'
+import { RuleCorrelationValueTypes } from 'containers/Rules/constants'
 import { isBlank } from 'utils/util'
 
 export interface ICorrelationModalProps {
   visible?: boolean
-  correlation: IViewCorrelation
+  correlation: IRuleCorrelation
 
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
 
   onCancel?: () => void
-  onSave?: (correlation: IViewCorrelation) => void
+  onSave?: (correlation: IRuleCorrelation) => void
   
   onLoadDacTenants: (channelName: string) => void
   onLoadDacBizs: (channelName: string, tenantId: number) => void
 }
 
 interface ICorrelationModalStates {
-  expression: ViewCorrelationValueTypes
-  condition: ViewCorrelationValueTypes
+  expression: RuleCorrelationValueTypes
+  condition: RuleCorrelationValueTypes
 }
 
-const defaultCorrelation: IViewCorrelation = {
+const defaultCorrelation: IRuleCorrelation = {
   key: '',
   name: '',
   alias: '',
@@ -53,8 +53,8 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
   }
 
   public state: Readonly<ICorrelationModalStates> = {
-    expression: ViewCorrelationValueTypes.String,
-    condition: ViewCorrelationValueTypes.String
+    expression: RuleCorrelationValueTypes.String,
+    condition: RuleCorrelationValueTypes.String
   }
 
   public componentDidUpdate (prevProps: ICorrelationModalProps & FormComponentProps) {
@@ -86,7 +86,7 @@ export class CorrelationModal extends React.Component<ICorrelationModalProps & F
     const { form,onSave } = this.props
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
-        const correlation = fieldsValue as IViewCorrelation
+        const correlation = fieldsValue as IRuleCorrelation
         correlation["expression"] = this.state.expression
         if(!isBlank(correlation["expression"])){
             correlation["expressionPair"] = this.strToPair(correlation["expression"])

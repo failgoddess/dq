@@ -1,23 +1,23 @@
 import React from 'react'
 import { List, Icon, Tooltip, Popconfirm, Tag, Divider, Radio } from 'antd'
 
-import { IViewToolbox } from 'containers/View/types'
-import { ViewVariableTypes } from '../constants'
+import { IRuleToolbox } from 'containers/Rules/types'
+import { RuleVariableTypes } from '../constants'
 import { SearchOutlined } from '@ant-design/icons';
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 import { FormComponentProps } from 'antd/lib/form/Form'
-import { ViewToolboxValueTypes } from 'containers/View/constants'
+import { RuleToolboxValueTypes } from 'containers/Rules/constants'
 
 export interface IToolboxModalProps {
-  toolbox: IViewToolbox
-  onChange?: (toolbox: IViewToolbox) => void
+  toolbox: IRuleToolbox
+  onChange?: (toolbox: IRuleToolbox) => void
 }
 
 interface IToolboxModalStates {
-  slide: ViewToolboxValueTypes
+  slide: RuleToolboxValueTypes
 }
 
-const defaultToolbox: IViewToolbox = {
+const defaultToolbox: IRuleToolbox = {
   key: '',
   name: '',
   alias: '',
@@ -26,7 +26,7 @@ const defaultToolbox: IViewToolbox = {
 
 export class ToolboxModal extends React.Component<IToolboxModalProps,IToolboxModalStates> {
   public state: Readonly<IToolboxModalStates> = {
-    slide: ViewToolboxValueTypes.String
+    slide: RuleToolboxValueTypes.String
   }
 
   public componentDidUpdate (prevProps: IToolboxModalProps) {

@@ -6,33 +6,33 @@ import memoizeOne from 'memoize-one'
 import { Table, Input, Button, Icon } from 'antd'
 import { ColumnProps, TableProps } from 'antd/lib/table'
 import { PaginationConfig } from 'antd/lib/pagination'
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
-import { IExecuteSqlResponse, ISqlColumn, IViewCorrelation } from '../types'
-import { DEFAULT_SQL_PREVIEW_PAGE_SIZE, SQL_PREVIEW_PAGE_SIZE_OPTIONS } from '../constants'
+import { IExecuteSqlResponse, ISqlColumn, IRuleCorrelation } from '../types'
+import { DEFAULT_SQL_PRERULE_PAGE_SIZE, SQL_PRERULE_PAGE_SIZE_OPTIONS } from '../constants'
 import { getTextWidth } from 'utils/util'
 import evaluate from 'simple-evaluate';
 // import sqlparser 
-export interface ISqlPreviewProps {
+export interface ISqlPreruleProps {
   loading: boolean
   response: IExecuteSqlResponse
   height?: number
   size: TableProps<any>['size']
-  updatedCorrelation: IViewCorrelation
+  updatedCorrelation: IRuleCorrelation
 }
 
-interface ISqlPreviewStates {
+interface ISqlPreruleStates {
   tableBodyHeight: number
 }
 
-export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPreviewStates> {
+export class SqlPrerule extends React.PureComponent<ISqlPreruleProps, ISqlPreruleStates> {
 
   private static readonly TableCellPaddingWidth = 8
   private static readonly TableCellMaxWidth = 300
 
   private static ExcludeElems = ['.ant-table-thead', '.ant-pagination.ant-table-pagination']
 
-  private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation,sortedInfo) => {
+  private prepareListTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IRuleCorrelation,sortedInfo) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
@@ -60,7 +60,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	
 	var tableColumns = columns.map<ColumnProps<any>>((col) => {
 	    var colName = "left."+col.name
-  		const leftWidth = SqlPreview.computeColumnWidth(resultList, colName)
+  		const leftWidth = SqlPrerule.computeColumnWidth(resultList, colName)
   		return {
     		title: colName,
     		dataIndex: colName,
@@ -74,7 +74,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	
 	tableColumns = tableColumns.concat(rightColumns.map<ColumnProps<any>>((col) => {
 		var colName = "right."+col.name
-  		const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+  		const rightWidth = SqlPrerule.computeColumnWidth(resultList, colName)
   		return {
     		title: colName,
     		dataIndex: colName,
@@ -90,7 +90,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 	if(typeof(correlation) != "undefined"){
 		var expressionArr = []
 		for(var colName in correlation['expressionPair']){
-			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+			const rightWidth = SqlPrerule.computeColumnWidth(resultList, colName)
 			expressionArr.unshift({
 				title: colName,
 				dataIndex: colName,
@@ -107,7 +107,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     return { tableColumns, rowKey, resultList }
   })
   
-  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IViewCorrelation,sortedInfo) => {
+  private prepareCombineTable = memoizeOne((columns: ISqlColumn[], leftResultList: any[], rightColumns: ISqlColumn[], rightResultList: any[],totalCount, correlation: IRuleCorrelation,sortedInfo) => {
     const rowKey = `rowKey_${new Date().getTime()}`
     var resultList: any[] = []
     for(var i=0;i<totalCount;i++){
@@ -136,9 +136,9 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     
     var tableColumns = columns.map<ColumnProps<any>>((col) => {
 		var leftColName = "left."+col.name
-     	const leftWidth = SqlPreview.computeColumnWidth(resultList, leftColName)
+     	const leftWidth = SqlPrerule.computeColumnWidth(resultList, leftColName)
      	var rightColName = "right."+col.name
-     	const rightWidth = SqlPreview.computeColumnWidth(resultList, rightColName)
+     	const rightWidth = SqlPrerule.computeColumnWidth(resultList, rightColName)
      	return {
       		title: col.name,
       		width: leftWidth+rightWidth,
@@ -168,7 +168,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
  	if(typeof(correlation) != "undefined"){
  		var expressionArr = []
 		for(var colName in correlation['expressionPair']){
-			const rightWidth = SqlPreview.computeColumnWidth(resultList, colName)
+			const rightWidth = SqlPrerule.computeColumnWidth(resultList, colName)
 			expressionArr.unshift({
 				title: colName,
 				dataIndex: colName,
@@ -192,8 +192,8 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     const contentMaxWidth = textList.reduce((maxWidth, text) =>
       Math.max(maxWidth, getTextWidth(text, '700', '14px')), -Infinity)
     const titleWidth = getTextWidth(columnName, '500', '14px')
-    let maxWidth = Math.max(contentMaxWidth, titleWidth) + (2 * SqlPreview.TableCellPaddingWidth) + 2
-    maxWidth = Math.min(maxWidth, SqlPreview.TableCellMaxWidth)
+    let maxWidth = Math.max(contentMaxWidth, titleWidth) + (2 * SqlPrerule.TableCellPaddingWidth) + 2
+    maxWidth = Math.min(maxWidth, SqlPrerule.TableCellMaxWidth)
     return maxWidth
   }
   
@@ -218,7 +218,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   }
 
   private table = React.createRef<Table<any>>()
-  public state: Readonly<ISqlPreviewStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '',pageSize: DEFAULT_SQL_PREVIEW_PAGE_SIZE,currentPage: 1,sortedInfo: null }
+  public state: Readonly<ISqlPreruleStates> = { tableBodyHeight: 0, searchText: '', searchedColumn: '',pageSize: DEFAULT_SQL_PRERULE_PAGE_SIZE,currentPage: 1,sortedInfo: null }
 
   public componentDidMount () {
     const tableBodyHeight = this.computeTableBody()
@@ -235,7 +235,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
   private computeTableBody = () => {
     const tableDom = findDOMNode(this.table.current) as Element
     if (!tableDom) { return 0 }
-    const excludeElemsHeight = SqlPreview.ExcludeElems.reduce((acc, exp) => {
+    const excludeElemsHeight = SqlPrerule.ExcludeElems.reduce((acc, exp) => {
       const elem = tableDom.querySelector(exp)
       if (!elem) { return acc }
       const style = window.getComputedStyle(elem)
@@ -342,7 +342,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
     const paginationConfig: PaginationConfig = {
     	pageSize: pageSize,
-    	pageSizeOptions: SQL_PREVIEW_PAGE_SIZE_OPTIONS.map((size) => size.toString()),
+    	pageSizeOptions: SQL_PRERULE_PAGE_SIZE_OPTIONS.map((size) => size.toString()),
 //        locale: { items_per_page: "" },
     	showQuickJumper: true,
     	showSizeChanger: true,
@@ -376,7 +376,7 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
     return (
       <Table
         ref={this.table}
-        className={Styles.sqlPreview}
+        className={Styles.sqlPrerule}
         bordered
         size={size}
         pagination={paginationConfig}
@@ -392,4 +392,4 @@ export class SqlPreview extends React.PureComponent<ISqlPreviewProps, ISqlPrevie
 
 }
 
-export default SqlPreview
+export default SqlPrerule

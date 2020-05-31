@@ -4,7 +4,7 @@ import { ActionTypes } from './constants'
 import { returnType } from 'utils/redux'
 import { IDQResponse } from 'utils/request'
 import {
-  IViewBase, IView, IExecuteSqlParams, IExecuteSqlResponse, IViewInfo,
+  IRuleBase, IRule, IExecuteSqlParams, IExecuteSqlResponse, IRuleInfo,
   IDacChannel, IDacTenant, IDacBiz
 } from './types'
 import { IDataRequestParams } from 'containers/Dashboard/Grid'
@@ -12,150 +12,153 @@ import { RenderType } from 'containers/Widget/components/Widget'
 import { IDistinctValueReqeustParams } from 'app/components/Filters/types'
 const CancelToken = axios.CancelToken
 
-export const ViewActions = {
-  viewsLoaded (views: IViewBase[]) {
+export const RuleActions = {
+  rulesLoaded (rules: IRuleBase[]) {
     return {
-      type: ActionTypes.LOAD_VIEWS_SUCCESS,
+      type: ActionTypes.LOAD_RULES_SUCCESS,
       payload: {
-        views
+        rules
       }
     }
   },
-  loadViews (projectId: number, resolve?: (views: IViewBase[]) => void) {
+  loadRules (projectId: number, resolve?: (rules: IRuleBase[]) => void) {
+    console.log("------------------125---")
+    console.log(projectId)
+    console.log(resolve)
     return {
-      type: ActionTypes.LOAD_VIEWS,
+      type: ActionTypes.LOAD_RULES,
       payload: {
         projectId,
         resolve
       }
     }
   },
-  loadViewsFail () {
+  loadRulesFail () {
     return {
-      type: ActionTypes.LOAD_VIEWS_FAILURE,
+      type: ActionTypes.LOAD_RULES_FAILURE,
       payload: {}
     }
   },
 
-  viewsDetailLoaded (views: IView[], isEditing: boolean) {
+  rulesDetailLoaded (rules: IRule[], isEditing: boolean) {
     return {
-      type: ActionTypes.LOAD_VIEWS_DETAIL_SUCCESS,
+      type: ActionTypes.LOAD_RULES_DETAIL_SUCCESS,
       payload: {
-        views,
+        rules,
         isEditing
       }
     }
   },
-  loadViewsDetail (viewIds: number[], resolve?: () => void, isEditing: boolean = false) {
+  loadRulesDetail (ruleIds: number[], resolve?: () => void, isEditing: boolean = false) {
     return {
-      type: ActionTypes.LOAD_VIEWS_DETAIL,
+      type: ActionTypes.LOAD_RULES_DETAIL,
       payload: {
-        viewIds,
+        ruleIds,
         isEditing,
         resolve
       }
     }
   },
-  loadViewsDetailFail () {
+  loadRulesDetailFail () {
     return {
-      type: ActionTypes.LOAD_VIEWS_DETAIL_FAILURE,
+      type: ActionTypes.LOAD_RULES_DETAIL_FAILURE,
       payload: {}
     }
   },
 
-  addView (view: IView, resolve: () => void) {
+  addRule (rule: IRule, resolve: () => void) {
     return {
-      type: ActionTypes.ADD_VIEW,
+      type: ActionTypes.ADD_RULE,
       payload: {
-        view,
+        rule,
         resolve
       }
     }
   },
-  viewAdded (result: IView) {
+  ruleAdded (result: IRule) {
     return {
-      type: ActionTypes.ADD_VIEW_SUCCESS,
+      type: ActionTypes.ADD_RULE_SUCCESS,
       payload: {
         result
       }
     }
   },
-  addViewFail () {
+  addRuleFail () {
     return {
-      type: ActionTypes.ADD_VIEW_FAILURE,
+      type: ActionTypes.ADD_RULE_FAILURE,
       payload: {}
     }
   },
 
-  editView (view: IView, resolve: () => void) {
+  editRule (rule: IRule, resolve: () => void) {
     return {
-      type: ActionTypes.EDIT_VIEW,
+      type: ActionTypes.EDIT_RULE,
       payload: {
-        view,
+        rule,
         resolve
       }
     }
   },
-  viewEdited (result: IView) {
+  ruleEdited (result: IRule) {
     return {
-      type: ActionTypes.EDIT_VIEW_SUCCESS,
+      type: ActionTypes.EDIT_RULE_SUCCESS,
       payload: {
         result
       }
     }
   },
-  editViewFail () {
+  editRuleFail () {
     return {
-      type: ActionTypes.EDIT_VIEW_FAILURE,
+      type: ActionTypes.EDIT_RULE_FAILURE,
       payload: {}
     }
   },
 
-  deleteView (id: number, resolve: (id: number) => void) {
+  deleteRule (id: number, resolve: (id: number) => void) {
     return {
-      type: ActionTypes.DELETE_VIEW,
+      type: ActionTypes.DELETE_RULE,
       payload: {
         id,
         resolve
       }
     }
   },
-  viewDeleted (id: number) {
+  ruleDeleted (id: number) {
     return {
-      type: ActionTypes.DELETE_VIEW_SUCCESS,
+      type: ActionTypes.DELETE_RULE_SUCCESS,
       payload: {
         id
       }
     }
   },
-  deleteViewFail () {
+  deleteRuleFail () {
     return {
-      type: ActionTypes.DELETE_VIEW_FAILURE,
+      type: ActionTypes.DELETE_RULE_FAILURE,
       payload: {}
     }
   },
 
-  copyView (view: IViewBase, resolve: () => void) {
+  copyRule (rule: IRuleBase, resolve: () => void) {
     return {
-      type: ActionTypes.COPY_VIEW,
+      type: ActionTypes.COPY_RULE,
       payload: {
-        view,
+        rule,
         resolve
       }
     }
   },
-  viewCopied (fromViewId: number, result: IView) {
+  ruleCopied (fromRuleId: number, result: IRule) {
     return {
-      type: ActionTypes.COPY_VIEW_SUCCESS,
+      type: ActionTypes.COPY_RULE_SUCCESS,
       payload: {
-        fromViewId,
+        fromRuleId,
         result
       }
     }
   },
-  copyViewFail () {
+  copyRuleFail () {
     return {
-      type: ActionTypes.COPY_VIEW_FAILURE,
+      type: ActionTypes.COPY_RULE_FAILURE,
       payload: {}
     }
   },
@@ -185,19 +188,19 @@ export const ViewActions = {
     }
   },
 
-  updateEditingView (view: IView) {
+  updateEditingRule (rule: IRule) {
     return {
-      type: ActionTypes.UPDATE_EDITING_VIEW,
+      type: ActionTypes.UPDATE_EDITING_RULE,
       payload: {
-        view
+        rule
       }
     }
   },
-  updateEditingViewInfo (viewInfo: IViewInfo) {
+  updateEditingRuleInfo (ruleInfo: IRuleInfo) {
     return {
-      type: ActionTypes.UPDATE_EDITING_VIEW_INFO,
+      type: ActionTypes.UPDATE_EDITING_RULE_INFO,
       payload: {
-        viewInfo
+        ruleInfo
       }
     }
   },
@@ -211,9 +214,9 @@ export const ViewActions = {
     }
   },
 
-  resetViewState () {
+  resetRuleState () {
     return {
-      type: ActionTypes.RESET_VIEW_STATE,
+      type: ActionTypes.RESET_RULE_STATE,
       payload: {}
     }
   },
@@ -289,7 +292,7 @@ export const ViewActions = {
   /** */
 
   /** Actions for external usages */
-  loadSelectOptions (controlKey: string, requestParams: { [viewId: string]: IDistinctValueReqeustParams }, itemId?: number) {
+  loadSelectOptions (controlKey: string, requestParams: { [ruleId: string]: IDistinctValueReqeustParams }, itemId?: number) {
     return {
       type: ActionTypes.LOAD_SELECT_OPTIONS,
       payload: {
@@ -319,14 +322,14 @@ export const ViewActions = {
     }
   },
 
-  loadViewData (
+  loadRuleData (
     id: number,
     requestParams: IDataRequestParams,
     resolve: (data: any[]) => void,
     reject: (error) => void
   ) {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA,
+      type: ActionTypes.LOAD_RULE_DATA,
       payload: {
         id,
         requestParams,
@@ -335,61 +338,61 @@ export const ViewActions = {
       }
     }
   },
-  viewDataLoaded () {
+  ruleDataLoaded () {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA_SUCCESS
+      type: ActionTypes.LOAD_RULE_DATA_SUCCESS
     }
   },
-  loadViewDataFail (err) {
+  loadRuleDataFail (err) {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA_FAILURE,
+      type: ActionTypes.LOAD_RULE_DATA_FAILURE,
       payload: {
         err
       }
     }
   },
 
-  loadViewDistinctValue (viewId: number, params: Partial<IDistinctValueReqeustParams>, resolve?: any) {
+  loadRuleDistinctValue (ruleId: number, params: Partial<IDistinctValueReqeustParams>, resolve?: any) {
     return {
-      type: ActionTypes.LOAD_VIEW_DISTINCT_VALUE,
+      type: ActionTypes.LOAD_RULE_DISTINCT_VALUE,
       payload: {
-        viewId,
+        ruleId,
         params,
         resolve
       }
     }
   },
-  viewDistinctValueLoaded (data: any[]) {
+  ruleDistinctValueLoaded (data: any[]) {
     return {
-      type: ActionTypes.LOAD_VIEW_DISTINCT_VALUE_SUCCESS,
+      type: ActionTypes.LOAD_RULE_DISTINCT_VALUE_SUCCESS,
       payload: {
         data
       }
     }
   },
-  loadViewDistinctValueFail (err) {
+  loadRuleDistinctValueFail (err) {
     return {
-      type: ActionTypes.LOAD_VIEW_DISTINCT_VALUE_FAILURE,
+      type: ActionTypes.LOAD_RULE_DISTINCT_VALUE_FAILURE,
       payload: {
         err
       }
     }
   },
 
-  loadViewDataFromVizItem (
+  loadRuleDataFromVizItem (
     renderType: RenderType,
     itemId: number,
-    viewId: number,
+    ruleId: number,
     requestParams: IDataRequestParams,
     vizType: 'dashboard' | 'display',
     statistic
   ) {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM,
+      type: ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM,
       payload: {
         renderType,
         itemId,
-        viewId,
+        ruleId,
         requestParams,
         vizType,
         cancelTokenSource: CancelToken.source()
@@ -397,7 +400,7 @@ export const ViewActions = {
       statistic
     }
   },
-  viewDataFromVizItemLoaded (
+  ruleDataFromVizItemLoaded (
     renderType: RenderType,
     itemId: number,
     requestParams: IDataRequestParams,
@@ -406,7 +409,7 @@ export const ViewActions = {
     statistic
   ) {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM_SUCCESS,
+      type: ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM_SUCCESS,
       payload: {
         renderType,
         itemId,
@@ -417,9 +420,9 @@ export const ViewActions = {
       statistic
     }
   },
-  loadViewDataFromVizItemFail (itemId: number, vizType: 'dashboard' | 'display', errorMessage: string) {
+  loadRuleDataFromVizItemFail (itemId: number, vizType: 'dashboard' | 'display', errorMessage: string) {
     return {
-      type: ActionTypes.LOAD_VIEW_DATA_FROM_VIZ_ITEM_FAILURE,
+      type: ActionTypes.LOAD_RULE_DATA_FROM_VIZ_ITEM_FAILURE,
       payload: {
         itemId,
         vizType,
@@ -429,7 +432,7 @@ export const ViewActions = {
   }
   /** */
 }
-const mockAction = returnType(ViewActions)
-export type ViewActionType = typeof mockAction
+const mockAction = returnType(RuleActions)
+export type RuleActionType = typeof mockAction
 
-export default ViewActions
+export default RuleActions

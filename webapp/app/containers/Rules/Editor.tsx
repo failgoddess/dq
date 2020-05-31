@@ -17,11 +17,11 @@ import sagasProject from 'containers/Projects/sagas'
 
 import { IRouteParams } from 'app/routes'
 import { hideNavigator } from '../App/actions'
-import { ViewActions, ViewActionType } from './actions'
+import { RuleActions, RuleActionType } from './actions'
 import { SourceActions, SourceActionType } from 'containers/Source/actions'
 import {
-  makeSelectEditingView,
-  makeSelectEditingViewInfo,
+  makeSelectEditingRule,
+  makeSelectEditingRuleInfo,
   makeSelectSources,
   makeSelectSchema,
   makeSelectSqlDataSource,
@@ -41,11 +41,11 @@ import { loadProjectRoles } from 'containers/Organizations/actions'
 import { makeSelectProjectRoles } from 'containers/Projects/selectors'
 
 import {
-  IView, IViewModel, IViewRoleRaw, IViewRole, IViewVariable, IViewInfo,
-  IExecuteSqlParams, IExecuteSqlResponse, IViewLoading, ISqlValidation,
+  IRule, IRuleModel, IRuleRoleRaw, IRuleRole, IRuleVariable, IRuleInfo,
+  IExecuteSqlParams, IExecuteSqlResponse, IRuleLoading, ISqlValidation,
   IDacChannel, IDacTenant, IDacBiz } from './types'
 import { ISource, ISchema } from '../Source/types'
-import { ViewVariableTypes } from './constants'
+import { RuleVariableTypes } from './constants'
 
 import { message, notification, Tooltip } from 'antd'
 import EditorSteps from './components/EditorSteps'
@@ -53,48 +53,48 @@ import EditorContainer from './components/EditorContainer'
 import ModelAuth from './components/ModelAuth'
 import SourceTable from './components/SourceTable'
 import SqlEditor from './components/SqlEditor'
-import SqlPreview from './components/SqlPreview'
+import SqlPrerule from './components/SqlPrerule'
 import EditorBottom from './components/EditorBottom'
-import ViewVariableList from './components/ViewVariableList'
+import RuleVariableList from './components/RuleVariableList'
 import VariableModal from './components/VariableModal'
 import CorrelationModal from './components/CorrelationModal'
 import ToolboxModal from './components/ToolboxModal'
 import SpacebarModal from './components/SpacebarModal'
 
-import Styles from './View.less'
+import Styles from './Rule.less'
 
-interface IViewEditorStateProps {
-  editingView: IView
-  editingViewInfo: IViewInfo
+interface IRuleEditorStateProps {
+  editingRule: IRule
+  editingRuleInfo: IRuleInfo
   sources: ISource[]
   schema: ISchema
   sqlDataSource: IExecuteSqlResponse
   sqlLimit: number
   sqlValidation: ISqlValidation
-  loading: IViewLoading
+  loading: IRuleLoading
   projectRoles: any[]
 
   channels: IDacChannel[]
   tenants: IDacTenant[]
   bizs: IDacBiz[]
   
-  correlation: IViewCorrelation
-  toolbox: IViewToolbox
-  action: IViewAction
+  correlation: IRuleCorrelation
+  toolbox: IRuleToolbox
+  action: IRuleAction
 }
 
-interface IViewEditorDispatchProps {
+interface IRuleEditorDispatchProps {
   onHideNavigator: () => void
-  onLoadViewDetail: (viewId: number) => void
+  onLoadRuleDetail: (ruleId: number) => void
   onLoadSources: (projectId: number) => void
   onLoadSourceDatabases: (sourceId: number) => void
   onLoadDatabaseTables: (sourceId: number, databaseName: string) => void
   onLoadTableColumns: (sourceId: number, databaseName: string, tableName: string) => void
   onExecuteSql: (params: IExecuteSqlParams) => void
-  onAddView: (view: IView, resolve: () => void) => void
-  onEditView: (view: IView, resolve: () => void) => void
-  onUpdateEditingView: (view: IView) => void
-  onUpdateEditingViewInfo: (viewInfo: IViewInfo) => void
+  onAddRule: (rule: IRule, resolve: () => void) => void
+  onEditRule: (rule: IRule, resolve: () => void) => void
+  onUpdateEditingRule: (rule: IRule) => void
+  onUpdateEditingRuleInfo: (ruleInfo: IRuleInfo) => void
   onSetSqlLimit: (limit: number) => void
 
   onLoadDacChannels: () => void,
@@ -105,9 +105,9 @@ interface IViewEditorDispatchProps {
   onLoadProjectRoles: (projectId: number) => void
 }
 
-type IViewEditorProps = IViewEditorStateProps & IViewEditorDispatchProps & RouteComponentProps<{}, IRouteParams>
+type IRuleEditorProps = IRuleEditorStateProps & IRuleEditorDispatchProps & RouteComponentProps<{}, IRouteParams>
 
-interface IViewEditorStates {
+interface IRuleEditorStates {
   containerHeight: number
   sqlValidationCode: number
   init: boolean
@@ -116,9 +116,9 @@ interface IViewEditorStates {
 }
 
 
-export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorStates> {
+export class RuleEditor extends React.Component<IRuleEditorProps, IRuleEditorStates> {
 
-  public state: Readonly<IViewEditorStates> = {
+  public state: Readonly<IRuleEditorStates> = {
     containerHeight: 0,
     currentStep: 0,
     sqlValidationCode: null,
@@ -126,25 +126,25 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     lastSuccessExecutedSql: null
   }
 
-  public constructor (props: IViewEditorProps) {
+  public constructor (props: IRuleEditorProps) {
     super(props)
-    const { onLoadSources, onLoadViewDetail, onLoadProjectRoles, onLoadDacChannels, params } = this.props
-    const { viewId, pid: projectId } = params
+    const { onLoadSources, onLoadRuleDetail, onLoadProjectRoles, onLoadDacChannels, params } = this.props
+    const { ruleId, pid: projectId } = params
     if (projectId) {
       onLoadSources(+projectId)
       onLoadProjectRoles(+projectId)
     }
-    if (viewId) {
-      onLoadViewDetail(+viewId)
+    if (ruleId) {
+      onLoadRuleDetail(+ruleId)
     }
     onLoadDacChannels()
   }
 
   public static getDerivedStateFromProps:
-    React.GetDerivedStateFromProps<IViewEditorProps, IViewEditorStates>
+    React.GetDerivedStateFromProps<IRuleEditorProps, IRuleEditorStates>
   = (props, state) => {
-    const { params, editingView, sqlValidation } = props
-    const { viewId } = params
+    const { params, editingRule, sqlValidation } = props
+    const { ruleId } = params
     const { init, sqlValidationCode } = state
     let lastSuccessExecutedSql = state.lastSuccessExecutedSql
     if (sqlValidationCode !== sqlValidation.code && sqlValidation.code) {
@@ -169,13 +169,13 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
           duration: null
         })
       if (sqlValidation.code === 200) {
-        lastSuccessExecutedSql = editingView.leftSql
+        lastSuccessExecutedSql = editingRule.leftSql
       }
     }
-    if (editingView && editingView.id === +viewId) {
+    if (editingRule && editingRule.id === +ruleId) {
       if (init) {
-        props.onLoadSourceDatabases(editingView.sourceId)
-        lastSuccessExecutedSql = editingView.leftSql
+        props.onLoadSourceDatabases(editingRule.sourceId)
+        lastSuccessExecutedSql = editingRule.leftSql
         return {
           init: false,
           sqlValidationCode: sqlValidation.code,
@@ -196,13 +196,13 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 
   private executeSql = () => {
-    ViewEditor.ExecuteSql(this.props)
+    RuleEditor.ExecuteSql(this.props)
   }
 
-  private static ExecuteSql = (props: IViewEditorProps) => {
-    const { onExecuteSql, editingView, editingViewInfo, sqlLimit } = props
-    const { sourceId, leftSql, rightSql } = editingView
-    const { variable,correlation } = editingViewInfo
+  private static ExecuteSql = (props: IRuleEditorProps) => {
+    const { onExecuteSql, editingRule, editingRuleInfo, sqlLimit } = props
+    const { sourceId, leftSql, rightSql } = editingRule
+    const { variable,correlation } = editingRuleInfo
     const { condition } = correlation
     const updatedParams: IExecuteSqlParams = {
       sourceId,
@@ -218,11 +218,11 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   private stepChange = (step: number,type: number) => {
     const { currentStep } = this.state
     if (currentStep + step < 0) {
-      this.goToViewList()
+      this.goToRuleList()
       return
     }
-    const { editingView } = this.props
-    const { name, sourceId, leftSql, rightSql } = editingView
+    const { editingRule } = this.props
+    const { name, sourceId, leftSql, rightSql } = editingRule
     const errorMessages = ['名称不能为空', '请选择数据源', 'sql不能同时为空']
     const sql = leftSql || rightSql
     const fieldsValue = [name, sourceId, sql]
@@ -235,33 +235,33 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
     if (hasError) { return }
     this.setState({ currentStep: currentStep + step,type: type }, () => {
       if (this.state.currentStep > 1) {
-        this.saveView()
+        this.saveRule()
       }
     })
   }
   
-  private saveView = () => {
-    const { onAddView, onEditView, editingView, editingViewInfo, projectRoles, params } = this.props
+  private saveRule = () => {
+    const { onAddRule, onEditRule, editingRule, editingRuleInfo, projectRoles, params } = this.props
     const { pid: projectId } = params
-    const { model, variable, roles, correlation, toolbox ,action} = editingViewInfo
+    const { model, variable, roles, correlation, toolbox ,action} = editingRuleInfo
     const { type } = this.state
-    const { id: viewId } = editingView
+    const { id: ruleId } = editingRule
     const validRoles = roles.filter(({ roleId }) => projectRoles && projectRoles.findIndex(({ id }) => id === roleId) >= 0)
     action['type'] = type
-    const updatedView: IView = {
-      ...editingView,
+    const updatedRule: IRule = {
+      ...editingRule,
       projectId: +projectId,
       model: JSON.stringify(model),
       action: JSON.stringify(action),
       variable: JSON.stringify(variable),
       correlation: JSON.stringify(correlation),
       toolbox: JSON.stringify(toolbox),
-      roles: validRoles.map<IViewRoleRaw>(({ roleId, columnAuth, rowAuth }) => {
+      roles: validRoles.map<IRuleRoleRaw>(({ roleId, columnAuth, rowAuth }) => {
         const validColumnAuth = columnAuth.filter((c) => !!model[c])
         const validRowAuth = rowAuth.filter((r) => {
           const v = variable.find((v) => v.name === r.name)
           if (!v) { return false }
-          return (v.type === ViewVariableTypes.Authorization && !v.fromService)
+          return (v.type === RuleVariableTypes.Authorization && !v.fromService)
         })
         return {
           roleId,
@@ -270,85 +270,85 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
         }
       })
     }
-    viewId ? onEditView(updatedView, this.goToViewList) : onAddView(updatedView, this.goToViewList)
+    ruleId ? onEditRule(updatedRule, this.goToRuleList) : onAddRule(updatedRule, this.goToRuleList)
   }
 
-  private goToViewList = () => {
+  private goToRuleList = () => {
     const { router, params } = this.props
     const { pid: projectId } = params
-    router.push(`/project/${projectId}/views`)
+    router.push(`/project/${projectId}/rules`)
   }
 
-  private viewChange = (leftPropName: keyof IView, leftSql: string | number,rightPropName: keyof IView, rightSql: string | number) => {
-    const { editingView, onUpdateEditingView } = this.props
+  private ruleChange = (leftPropName: keyof IRule, leftSql: string | number,rightPropName: keyof IRule, rightSql: string | number) => {
+    const { editingRule, onUpdateEditingRule } = this.props
     if(leftSql==null){
-    	leftSql = editingView.leftSql
+    	leftSql = editingRule.leftSql
     }
     if(rightSql==null){
-    	rightSql = editingView.rightSql
+    	rightSql = editingRule.rightSql
     }
-    const updatedView = {
-      ...editingView,
+    const updatedRule = {
+      ...editingRule,
       [leftPropName]: leftSql,
       [rightPropName]: rightSql
     }
-    onUpdateEditingView(updatedView)
+    onUpdateEditingRule(updatedRule)
   }
 
   private sqlGroupChange = (leftSql: string,rightSql: string) => {
-    this.viewChange('leftSql', leftSql,'rightSql', rightSql)
+    this.ruleChange('leftSql', leftSql,'rightSql', rightSql)
   }
 
-  private actionChange = (partialModel: IViewAction) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const { action } = editingViewInfo
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
+  private actionChange = (partialModel: IRuleAction) => {
+    const { editingRuleInfo, onUpdateEditingRuleInfo } = this.props
+    const { action } = editingRuleInfo
+    const updatedRuleInfo: IRuleInfo = {
+      ...editingRuleInfo,
       action: { ...action, ...partialModel }
     }
-    onUpdateEditingViewInfo(updatedViewInfo)
+    onUpdateEditingRuleInfo(updatedRuleInfo)
   }
 
-  private variableChange = (updatedVariable: IViewVariable[]) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
+  private variableChange = (updatedVariable: IRuleVariable[]) => {
+    const { editingRuleInfo, onUpdateEditingRuleInfo } = this.props
+    const updatedRuleInfo: IRuleInfo = {
+      ...editingRuleInfo,
       variable: updatedVariable
     }
-    onUpdateEditingViewInfo(updatedViewInfo)
+    onUpdateEditingRuleInfo(updatedRuleInfo)
   }
   
-  private correlationChange = (updatedCorrelation: IViewCorrelation) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
+  private correlationChange = (updatedCorrelation: IRuleCorrelation) => {
+    const { editingRuleInfo, onUpdateEditingRuleInfo } = this.props
+    const updatedRuleInfo: IRuleInfo = {
+      ...editingRuleInfo,
       correlation: updatedCorrelation
     }
-    onUpdateEditingViewInfo(updatedViewInfo)
+    onUpdateEditingRuleInfo(updatedRuleInfo)
   }
   
-  private toolboxChange = (updatedToolbox: IViewToolbox) => {
-  	const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const updatedViewInfo: IViewInfo = {
-      ...editingViewInfo,
+  private toolboxChange = (updatedToolbox: IRuleToolbox) => {
+  	const { editingRuleInfo, onUpdateEditingRuleInfo } = this.props
+    const updatedRuleInfo: IRuleInfo = {
+      ...editingRuleInfo,
       toolbox: updatedToolbox
     }
-    onUpdateEditingViewInfo(updatedViewInfo)
+    onUpdateEditingRuleInfo(updatedRuleInfo)
   }
 
-  private viewRoleChange = (viewRole: IViewRole) => {
-    const { editingViewInfo, onUpdateEditingViewInfo } = this.props
-    const { roles } = editingViewInfo
-    const updatedRoles = roles.filter((role) => role.roleId !== viewRole.roleId)
-    updatedRoles.push(viewRole)
-    const updatedViewInfo = {
-      ...editingViewInfo,
+  private ruleRoleChange = (ruleRole: IRuleRole) => {
+    const { editingRuleInfo, onUpdateEditingRuleInfo } = this.props
+    const { roles } = editingRuleInfo
+    const updatedRoles = roles.filter((role) => role.roleId !== ruleRole.roleId)
+    updatedRoles.push(ruleRole)
+    const updatedRuleInfo = {
+      ...editingRuleInfo,
       roles: updatedRoles
     }
-    onUpdateEditingViewInfo(updatedViewInfo)
+    onUpdateEditingRuleInfo(updatedRuleInfo)
   }
 
-  private getSqlHints = memoizeOne((sourceId: number, schema: ISchema, variables: IViewVariable[]) => {
+  private getSqlHints = memoizeOne((sourceId: number, schema: ISchema, variables: IRuleVariable[]) => {
     if (!sourceId) { return {} }
 
     const variableHints = variables.reduce((acc, v) => {
@@ -387,20 +387,20 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
       sources, schema,
       sqlDataSource, sqlLimit, loading, projectRoles,
       channels, tenants, bizs,
-      editingView, editingViewInfo,
+      editingRule, editingRuleInfo,
       onLoadSourceDatabases, onLoadDatabaseTables, onLoadTableColumns, onSetSqlLimit,
       onLoadDacTenants, onLoadDacBizs } = this.props
     const { currentStep, lastSuccessExecutedSql } = this.state
-    const { model, variable, roles: viewRoles, correlation, toolbox, action } = editingViewInfo
-    const sqlHints = this.getSqlHints(editingView.sourceId, schema, variable)
+    const { model, variable, roles: ruleRoles, correlation, toolbox, action } = editingRuleInfo
+    const sqlHints = this.getSqlHints(editingRule.sourceId, schema, variable)
     const containerVisible = !currentStep
     const modelAuthVisible = !!currentStep
     
-    const nextDisabled = (editingView.leftSql !== lastSuccessExecutedSql)
+    const nextDisabled = (editingRule.leftSql !== lastSuccessExecutedSql)
     return (
       <>
-        <Helmet title="View" />
-        <div className={Styles.viewEditor}>
+        <Helmet title="Rule" />
+        <div className={Styles.ruleEditor}>
           <div className={Styles.header}>
             <div className={Styles.steps}>
               <EditorSteps current={currentStep} />
@@ -415,20 +415,20 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             onToolboxChange={this.toolboxChange}
           >
             <SourceTable
-              view={editingView}
+              rule={editingRule}
               sources={sources}
               schema={schema}
-              onViewChange={this.viewChange}
+              onRuleChange={this.ruleChange}
               onSourceSelect={onLoadSourceDatabases}
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor leftSql={editingView.leftSql} rightSql={editingView.rightSql} hints={sqlHints} onSqlGroupChange={this.sqlGroupChange} />
+            <SqlEditor leftSql={editingRule.leftSql} rightSql={editingRule.rightSql} hints={sqlHints} onSqlGroupChange={this.sqlGroupChange} />
             <SpacebarModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <CorrelationModal correlation={correlation} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <ToolboxModal toolbox={toolbox} channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
             <VariableModal channels={channels} tenants={tenants} bizs={bizs} onLoadDacTenants={onLoadDacTenants} onLoadDacBizs={onLoadDacBizs} />
-            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} toolbox={toolbox} />
+            <SqlPrerule size="small" loading={loading.execute} response={sqlDataSource} correlation={correlation} toolbox={toolbox} />
             <EditorBottom
               sqlLimit={sqlLimit}
               loading={loading.execute}
@@ -445,9 +445,9 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             	variable={variable}
             	sqlColumns={sqlDataSource.columns}
             	roles={projectRoles}
-            	viewRoles={viewRoles}
+            	ruleRoles={ruleRoles}
             	onActionChange={this.actionChange}
-            	onViewRoleChange={this.viewRoleChange}	
+            	onRuleRoleChange={this.ruleRoleChange}	
             	onStepChange={this.stepChange}
           	>
           		<SqlEditor sql={action.sql} currentStep={ currentStep } hints={sqlHints}  />
@@ -458,31 +458,31 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<ViewActionType | SourceActionType | any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<RuleActionType | SourceActionType | any>) => ({
   onHideNavigator: () => dispatch(hideNavigator()),
-  onLoadViewDetail: (viewId: number) => dispatch(ViewActions.loadViewsDetail([viewId], null, true)),
+  onLoadRuleDetail: (ruleId: number) => dispatch(RuleActions.loadRulesDetail([ruleId], null, true)),
   onLoadSources: (projectId) => dispatch(SourceActions.loadSources(projectId)),
   onLoadSourceDatabases: (sourceId) => dispatch(SourceActions.loadSourceDatabases(sourceId)),
   onLoadDatabaseTables: (sourceId, databaseName) => dispatch(SourceActions.loadDatabaseTables(sourceId, databaseName)),
   onLoadTableColumns: (sourceId, databaseName, tableName) => dispatch(SourceActions.loadTableColumns(sourceId, databaseName, tableName)),
-  onExecuteSql: (params) => dispatch(ViewActions.executeSql(params)),
-  onAddView: (view, resolve) => dispatch(ViewActions.addView(view, resolve)),
-  onEditView: (view, resolve) => dispatch(ViewActions.editView(view, resolve)),
-  onUpdateEditingView: (view) => dispatch(ViewActions.updateEditingView(view)),
-  onUpdateEditingViewInfo: (viewInfo: IViewInfo) => dispatch(ViewActions.updateEditingViewInfo(viewInfo)),
-  onSetSqlLimit: (limit: number) => dispatch(ViewActions.setSqlLimit(limit)),
+  onExecuteSql: (params) => dispatch(RuleActions.executeSql(params)),
+  onAddRule: (rule, resolve) => dispatch(RuleActions.addRule(rule, resolve)),
+  onEditRule: (rule, resolve) => dispatch(RuleActions.editRule(rule, resolve)),
+  onUpdateEditingRule: (rule) => dispatch(RuleActions.updateEditingRule(rule)),
+  onUpdateEditingRuleInfo: (ruleInfo: IRuleInfo) => dispatch(RuleActions.updateEditingRuleInfo(ruleInfo)),
+  onSetSqlLimit: (limit: number) => dispatch(RuleActions.setSqlLimit(limit)),
 
-  onLoadDacChannels: () => dispatch(ViewActions.loadDacChannels()),
-  onLoadDacTenants: (channelName) => dispatch(ViewActions.loadDacTenants(channelName)),
-  onLoadDacBizs: (channelName, tenantId) => dispatch(ViewActions.loadDacBizs(channelName, tenantId)),
+  onLoadDacChannels: () => dispatch(RuleActions.loadDacChannels()),
+  onLoadDacTenants: (channelName) => dispatch(RuleActions.loadDacTenants(channelName)),
+  onLoadDacBizs: (channelName, tenantId) => dispatch(RuleActions.loadDacBizs(channelName, tenantId)),
 
-  onResetState: () => dispatch(ViewActions.resetViewState()),
+  onResetState: () => dispatch(RuleActions.resetRuleState()),
   onLoadProjectRoles: (projectId) => dispatch(loadProjectRoles(projectId))
 })
 
 const mapStateToProps = createStructuredSelector({
-  editingView: makeSelectEditingView(),
-  editingViewInfo: makeSelectEditingViewInfo(),
+  editingRule: makeSelectEditingRule(),
+  editingRuleInfo: makeSelectEditingRuleInfo(),
   sources: makeSelectSources(),
   schema: makeSelectSchema(),
   sqlDataSource: makeSelectSqlDataSource(),
@@ -500,8 +500,8 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps)
-const withReducer = injectReducer({ key: 'view', reducer })
-const withSaga = injectSaga({ key: 'view', saga: sagas })
+const withReducer = injectReducer({ key: 'rule', reducer })
+const withSaga = injectSaga({ key: 'rule', saga: sagas })
 const withReducerSource = injectReducer({ key: 'source', reducer: reducerSource })
 const withSagaSource = injectSaga({ key: 'source', saga: sagasSource })
 const withReducerProject = injectReducer({ key: 'project', reducer: reducerProject })
@@ -515,4 +515,4 @@ export default compose(
   withReducerProject,
   withSagaProject,
   withConnect
-)(ViewEditor)
+)(RuleEditor)

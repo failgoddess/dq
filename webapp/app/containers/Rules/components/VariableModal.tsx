@@ -7,15 +7,15 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import { FormComponentProps } from 'antd/lib/form/Form'
 import ConditionValuesControl, { ConditionValueTypes } from 'components/ConditionValuesControl'
 import {
-  IViewVariable,
+  IRuleVariable,
   IDacChannel, IDacTenant, IDacBiz
-} from 'containers/View/types'
+} from 'containers/Rules/types'
 import OperatorTypes from 'utils/operatorTypes'
-import { ViewVariableTypes, ViewVariableTypesLocale, ViewVariableValueTypes, ViewVariableValueTypesLocale } from 'containers/View/constants'
+import { RuleVariableTypes, RuleVariableTypesLocale, RuleVariableValueTypes, RuleVariableValueTypesLocale } from 'containers/Rules/constants'
 
 export interface IVariableModalProps {
   visible?: boolean
-  variable?: IViewVariable
+  variable?: IRuleVariable
 
   channels: IDacChannel[]
   tenants: IDacTenant[]
@@ -23,7 +23,7 @@ export interface IVariableModalProps {
 
   nameValidator?: (key: string, name: string, callback: (msg?: string) => void) => void
   onCancel?: () => void
-  onSave?: (variable: IViewVariable) => void
+  onSave?: (variable: IRuleVariable) => void
 
   onLoadDacTenants: (channelName: string) => void
   onLoadDacBizs: (channelName: string, tenantId: number) => void
@@ -31,19 +31,19 @@ export interface IVariableModalProps {
 
 interface IVariableModalStates {
   operatorType: OperatorTypes
-  selectedType: ViewVariableTypes
-  selectedValueType: ViewVariableValueTypes
+  selectedType: RuleVariableTypes
+  selectedValueType: RuleVariableValueTypes
   defaultValues: ConditionValueTypes[]
   isUdf: boolean
   isFromService: boolean
 }
 
-const defaultVarible: IViewVariable = {
+const defaultVarible: IRuleVariable = {
   key: '',
   name: '',
   alias: '',
-  type: ViewVariableTypes.Query,
-  valueType: ViewVariableValueTypes.String,
+  type: RuleVariableTypes.Query,
+  valueType: RuleVariableValueTypes.String,
   defaultValues: [],
   udf: false,
   fromService: false
@@ -56,18 +56,18 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
     wrapperCol: { span: 18 }
   }
 
-  private viewVariableTypeOptions = Object.entries(ViewVariableTypesLocale).map(([variableType, text]) => (
+  private ruleVariableTypeOptions = Object.entries(RuleVariableTypesLocale).map(([variableType, text]) => (
     <Option key={variableType} value={variableType}>{text}</Option>
   ))
 
-  private viewVariableValueTypeOptions = Object.entries(ViewVariableValueTypesLocale).map(([valueType, text]) => (
+  private ruleVariableValueTypeOptions = Object.entries(RuleVariableValueTypesLocale).map(([valueType, text]) => (
     <Option key={valueType} value={valueType}>{text}</Option>
   ))
 
   public state: Readonly<IVariableModalStates> = {
     operatorType: OperatorTypes.In,
-    selectedType: ViewVariableTypes.Query,
-    selectedValueType: ViewVariableValueTypes.String,
+    selectedType: RuleVariableTypes.Query,
+    selectedValueType: RuleVariableValueTypes.String,
     defaultValues: [],
     isUdf: false,
     isFromService: false
@@ -95,18 +95,18 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
     }
   }
 
-  private typeChange = (selectedType: ViewVariableTypes) => {
+  private typeChange = (selectedType: RuleVariableTypes) => {
     this.setState(({ isUdf, isFromService }) => ({
       selectedType,
-      isUdf: selectedType === ViewVariableTypes.Authorization ? false : isUdf,
-      isFromService: selectedType === ViewVariableTypes.Query ? false : isFromService
+      isUdf: selectedType === RuleVariableTypes.Authorization ? false : isUdf,
+      isFromService: selectedType === RuleVariableTypes.Query ? false : isFromService
     }))
   }
 
-  private valueTypeChange = (selectedValueType: ViewVariableValueTypes) => {
+  private valueTypeChange = (selectedValueType: RuleVariableValueTypes) => {
     this.setState({
       selectedValueType,
-      operatorType: selectedValueType === ViewVariableValueTypes.Boolean ? OperatorTypes.Equal : OperatorTypes.In,
+      operatorType: selectedValueType === RuleVariableValueTypes.Boolean ? OperatorTypes.Equal : OperatorTypes.In,
       defaultValues: []
     })
   }
@@ -160,11 +160,11 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
     const { form, variable, onSave } = this.props
     form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
-        const updatedVariable = fieldsValue as IViewVariable
+        const updatedVariable = fieldsValue as IRuleVariable
         if (variable) {
           updatedVariable.key = variable.key
         }
-        if (updatedVariable.type === ViewVariableTypes.Query) {
+        if (updatedVariable.type === RuleVariableTypes.Query) {
           updatedVariable.defaultValues = this.state.defaultValues
         }
         // return
@@ -213,7 +213,7 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
       >
         <Form>
           <FormItem label="名称" {...this.formItemStyle}>
-            {getFieldDecorator<IViewVariable>('name', {
+            {getFieldDecorator<IRuleVariable>('name', {
               rules: [{
                 required: true,
                 validator: this.validateVariableName
@@ -221,30 +221,30 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
             })(<Input />)}
           </FormItem>
           <FormItem label="别名" {...this.formItemStyle}>
-            {getFieldDecorator<IViewVariable>('alias')(<Input />)}
+            {getFieldDecorator<IRuleVariable>('alias')(<Input />)}
           </FormItem>
           <FormItem label="类型" {...this.formItemStyle}>
-            {getFieldDecorator<IViewVariable>('type', {
+            {getFieldDecorator<IRuleVariable>('type', {
               rules: [{
                 required: true,
                 message: '请选择类型'
               }]
-            })(<Select onChange={this.typeChange}>{this.viewVariableTypeOptions}</Select>)}
+            })(<Select onChange={this.typeChange}>{this.ruleVariableTypeOptions}</Select>)}
           </FormItem>
           <FormItem label="值类型" {...this.formItemStyle}>
-            {getFieldDecorator<IViewVariable>('valueType', {
+            {getFieldDecorator<IRuleVariable>('valueType', {
               rules: [{
                 required: true,
                 message: '请选择值类型'
               }]
-            })(<Select onChange={this.valueTypeChange}>{this.viewVariableValueTypeOptions}</Select>)}
+            })(<Select onChange={this.valueTypeChange}>{this.ruleVariableValueTypeOptions}</Select>)}
           </FormItem>
-          {selectedType === ViewVariableTypes.Query && selectedValueType !== ViewVariableValueTypes.SqlExpression && (
+          {selectedType === RuleVariableTypes.Query && selectedValueType !== RuleVariableValueTypes.SqlExpression && (
             <>
               <FormItem>
                 <Row>
                   <Col span={this.formItemStyle.wrapperCol.span} offset={this.formItemStyle.labelCol.span}>
-                    {getFieldDecorator<IViewVariable>('udf', {
+                    {getFieldDecorator<IRuleVariable>('udf', {
                       valuePropName: 'checked',
                       initialValue: isUdf
                     })(
@@ -263,16 +263,16 @@ export class VariableModal extends React.Component<IVariableModalProps & FormCom
               </FormItem>}
             </>
           )}
-          {selectedType === ViewVariableTypes.Query && (isUdf || selectedValueType === ViewVariableValueTypes.SqlExpression) && (
+          {selectedType === RuleVariableTypes.Query && (isUdf || selectedValueType === RuleVariableValueTypes.SqlExpression) && (
             <FormItem label="表达式" {...this.formItemStyle}>
               <TextArea placeholder="请输入表达式" value={defaultValues[0] as string} onChange={this.singleDefaultValuesChange} rows={3} />
             </FormItem>
           )}
-          {selectedType === ViewVariableTypes.Authorization && channels.length > 0 && (
+          {selectedType === RuleVariableTypes.Authorization && channels.length > 0 && (
             <FormItem>
               <Row>
                 <Col span={this.formItemStyle.wrapperCol.span} offset={this.formItemStyle.labelCol.span}>
-                  {getFieldDecorator<IViewVariable>('fromService', {
+                  {getFieldDecorator<IRuleVariable>('fromService', {
                     valuePropName: 'checked'
                   })(
                     <Checkbox onChange={this.fromServiceChange}>通过外部服务取值变量</Checkbox>)}

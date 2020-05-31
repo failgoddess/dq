@@ -1,93 +1,93 @@
 
 import { createSelector } from 'reselect'
-import { IViewState } from './types'
+import { IRuleState } from './types'
 
-const selectView = (state) => state.get('view')
+const selectRule = (state) => state.get('rule')
 
-const makeSelectViews = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.views
+const makeSelectRules = () => createSelector(
+  selectRule,
+  (ruleState: IRuleState) => ruleState.rules
 )
 
-const makeSelectEditingView = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.editingView
+const makeSelectEditingRule = () => createSelector(
+  selectRule,
+  (ruleState: IRuleState) => ruleState.editingRule
 )
 
-const makeSelectEditingViewInfo = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.editingViewInfo
+const makeSelectEditingRuleInfo = () => createSelector(
+  selectRule,
+  (ruleState: IRuleState) => ruleState.editingRuleInfo
 )
 
-const makeSelectFormedViews = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.formedViews
+const makeSelectFormedRules = () => createSelector(
+  selectRule,
+  (ruleState: IRuleState) => ruleState.formedRules
 )
 
 const makeSelectSources = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.sources
+  selectRule,
+  (ruleState: IRuleState) => ruleState.sources
 )
 
 const makeSelectSchema = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.schema
+  selectRule,
+  (ruleState: IRuleState) => ruleState.schema
 )
 
 const makeSelectSqlValidation = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.sqlValidation
+  selectRule,
+  (ruleState: IRuleState) => ruleState.sqlValidation
 )
 
 const makeSelectSqlDataSource = () => createSelector(
-	selectView,
-	(viewState: IViewState) => viewState.sqlDataSource
+	selectRule,
+	(ruleState: IRuleState) => ruleState.sqlDataSource
 )
 
 const makeSelectSqlLimit = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.sqlLimit
+  selectRule,
+  (ruleState: IRuleState) => ruleState.sqlLimit
 )
 
 const makeSelectLoading = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.loading
+  selectRule,
+  (ruleState: IRuleState) => ruleState.loading
 )
 
 const makeSelectChannels = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.channels
+  selectRule,
+  (ruleState: IRuleState) => ruleState.channels
 )
 const makeSelectTenants = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.tenants
+  selectRule,
+  (ruleState: IRuleState) => ruleState.tenants
 )
 const makeSelectBizs = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.bizs
+  selectRule,
+  (ruleState: IRuleState) => ruleState.bizs
 )
 
 const makeSelectCorrelation = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.correlation
+  selectRule,
+  (ruleState: IRuleState) => ruleState.correlation
 )
 
 const makeSelectToolbox = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.toolbox
+  selectRule,
+  (ruleState: IRuleState) => ruleState.toolbox
 )
 
 const makeSelectAction = () => createSelector(
-  selectView,
-  (viewState: IViewState) => viewState.action
+  selectRule,
+  (ruleState: IRuleState) => ruleState.action
 )
 
 export {
-  selectView,
-  makeSelectViews,
-  makeSelectEditingView,
-  makeSelectEditingViewInfo,
-  makeSelectFormedViews,
+  selectRule,
+  makeSelectRules,
+  makeSelectEditingRule,
+  makeSelectEditingRuleInfo,
+  makeSelectFormedRules,
   makeSelectSources,
   makeSelectSchema,
   makeSelectSqlValidation,

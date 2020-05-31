@@ -1,16 +1,16 @@
 import React from 'react'
 import { List, Icon, Tooltip, Popconfirm, Tag } from 'antd'
 
-import { IViewVariable } from 'containers/View/types'
-import { ViewVariableTypes } from '../constants'
+import { IRuleVariable } from 'containers/Rules/types'
+import { RuleVariableTypes } from '../constants'
 
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
 export interface ISpacebarModalProps {
   className?: string
   addCorrelation?: () => void
   onDelete?: (key: string) => void
-  onEdit?: (variable: IViewVariable) => void
+  onEdit?: (variable: IRuleVariable) => void
 }
 export class SpacebarModal extends React.Component<ISpacebarModalProps> {
 

@@ -1,22 +1,22 @@
 import React from 'react'
 import { List, Icon, Tooltip, Popconfirm, Tag } from 'antd'
 
-import { IViewVariable } from 'containers/View/types'
-import { ViewVariableTypes } from '../constants'
+import { IRuleVariable } from 'containers/Rules/types'
+import { RuleVariableTypes } from '../constants'
 
-import Styles from '../View.less'
+import Styles from '../Rule.less'
 
 export interface ISqlButtonProps {
-  variables: IViewVariable[]
+  variables: IRuleVariable[]
   className?: string
   onAdd?: () => void
   onDelete?: (key: string) => void
-  onEdit?: (variable: IViewVariable) => void
+  onEdit?: (variable: IRuleVariable) => void
 }
 
 export class SqlButton extends React.Component<ISqlButtonProps> {
 
-  private editItem = (variable: IViewVariable) => () => {
+  private editItem = (variable: IRuleVariable) => () => {
     this.props.onEdit({ ...variable })
   }
 
@@ -24,7 +24,7 @@ export class SqlButton extends React.Component<ISqlButtonProps> {
     this.props.onDelete(key)
   }
 
-  private renderItem = (item: IViewVariable) => {
+  private renderItem = (item: IRuleVariable) => {
     const icons = [
       (
         <Tooltip key="edit" title="修改">
@@ -46,8 +46,8 @@ export class SqlButton extends React.Component<ISqlButtonProps> {
     ]
     const { name, alias, type } = item
     const text = alias ? `${name}[${alias}]` : `${name}`
-    const color = type === ViewVariableTypes.Query ? 'green' : 'volcano'
-    const category = type === ViewVariableTypes.Query ? 'QUERY' : 'AUTH'
+    const color = type === RuleVariableTypes.Query ? 'green' : 'volcano'
+    const category = type === RuleVariableTypes.Query ? 'QUERY' : 'AUTH'
 
     return (
       <List.Item actions={icons}>
@@ -64,7 +64,7 @@ export class SqlButton extends React.Component<ISqlButtonProps> {
       <List
         className={className}
         size="small"
-        header={<div className={Styles.viewVariableHeader}><h4>变量</h4><Icon type="plus" onClick={onAdd} title="添加" /></div>}
+        header={<div className={Styles.ruleVariableHeader}><h4>变量</h4><Icon type="plus" onClick={onAdd} title="添加" /></div>}
         locale={{ emptyText: '暂无变量' }}
         dataSource={variables}
         renderItem={this.renderItem}
