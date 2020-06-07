@@ -1,9 +1,9 @@
 # DQ
 
-    演示地址：http://myclusterbox.com:8899/  用户名/密码使用个人邮箱注册激活就可用
+    演示地址：http://myclusterbox.com:8899/  用户名/密码使用个人邮箱注册激活就可用   
 
-## 项目新增发布权限，还得想想页面元素怎么控制到只读  
-    
+## 项目新增发布权限，还得想想页面元素怎么控制到只读      
+
 ## Difference Check
 ![image](https://github.com/ljc520313/dq/raw/master/doc/images/differenceCheck.png)
 
@@ -21,6 +21,7 @@
 	1、升级通知等
     2、通知方式支持邮件、叮叮、微信
     3、提供主动触发规则执行，例如接口触发
+    4、提供项目列表，也提供加入组织方法、申请权限方法（向所有管理员发送申请）
 
 
 ## 场景
