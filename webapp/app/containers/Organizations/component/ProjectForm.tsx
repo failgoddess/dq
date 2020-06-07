@@ -169,15 +169,19 @@ export class ProjectsForm extends React.PureComponent<IProjectsFormProps, {}> {
                 <FormItem label="可见" {...commonFormItemStyle}>
                   {getFieldDecorator('visibility', {
                     // hidden: this.props.type !== 'edit',
-                    initialValue: 'true'
+                    initialValue: '1'
                   })(
                     <Select>
-                      <Option key="visibility" value="true">
-                        公开
-                      </Option>
-                      <Option key="hidden" value="false">
-                        授权
-                      </Option>
+                        <Option key="publish" value="2">
+                          发布
+                        </Option>
+                      	
+                        <Option key="visibility" value="1">
+                          公开
+                        </Option>
+                        <Option key="hidden" value="0">
+                          授权
+                        </Option>
                     </Select>
                   )}
                 </FormItem>

@@ -153,6 +153,8 @@ export class ViewList extends React.PureComponent<IViewListProps, IViewListState
       )
     }
 
+    console.log("=======================")
+    console.log(viewPermission)
     if (viewPermission) {
       columns.push({
         title: '操作',

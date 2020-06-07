@@ -33,5 +33,5 @@ public class ProjectUpdate {
 
     private String description;
 
-    private Boolean visibility = true;
+    private int visibility = 1;
 }

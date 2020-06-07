@@ -39,5 +39,5 @@ public class ProjectCreat {
 
     private String pic;
 
-    private boolean visibility;
+    private int visibility;
 }

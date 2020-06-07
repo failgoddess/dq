@@ -41,7 +41,7 @@ public class Project {
 
     private Integer starNum = 0;
 
-    private Boolean visibility = true;
+    private int visibility = 1;
 
     private Boolean isTransfer = false;
 

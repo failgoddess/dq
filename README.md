@@ -2,7 +2,7 @@
 
     演示地址：http://myclusterbox.com:8899/  用户名/密码使用个人邮箱注册激活就可用
 
-## 想想权限这块，项目权限增加公开、组内、私有    
+## 项目新增发布权限，还得想想页面元素怎么控制到只读  
     
 ## Difference Check
 ![image](https://github.com/ljc520313/dq/raw/master/doc/images/differenceCheck.png)

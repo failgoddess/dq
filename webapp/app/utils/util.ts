@@ -57,6 +57,8 @@ export function safeAddition (num1, num2) {
  * @param error 异常内容: Error
  */
 export function errorHandler (error) {
+  console.log("---------------------------")
+  console.log(error)
   if (error.response) {
     switch (error.response.status) {
       case 403:

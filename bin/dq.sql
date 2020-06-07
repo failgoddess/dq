@@ -258,7 +258,7 @@ CREATE TABLE `project`
     `pic`            varchar(255)          DEFAULT NULL,
     `org_id`         bigint(20)   NOT NULL,
     `user_id`        bigint(20)   NOT NULL,
-    `visibility`     tinyint(1)            DEFAULT '1',
+    `visibility`     tinyint(2)            DEFAULT '1' comment '0:授权,1:公开,2:发布',
     `star_num`       int(11)               DEFAULT '0',
     `is_transfer`    tinyint(1)   NOT NULL DEFAULT '0',
     `initial_org_id` bigint(20)   NOT NULL,

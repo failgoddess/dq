@@ -284,23 +284,10 @@ public class UserServiceImpl implements UserService {
             UserLoginResult userLoginResult = new UserLoginResult();
             BeanUtils.copyProperties(user, userLoginResult);
             
-            
-            /**
-             * 因看板与报告，还没开发；任何已注册用户 看不到任何效果，现决定把所有用户都设为项目的拥有者，来保证用户可以看到效果；后续，当完善看板与报告后，这块逻辑会去掉，那时项目的拥有者需要申请
-             */
-            relUserOrganizationMapper.insertOrganizationTemp(user.getId());
-            relProjectAdminMapper.insertAdminTemp(user.getId());
-            
-            
             return resultMap.success(tokenUtils.generateToken(user)).payload(userLoginResult);
         } else {
             return resultMap.fail().message("The activate toke is invalid");
         }
-    }
-    
-    @Deprecated
-    private void setDefault(){
-    	
     }
 
 //    /**

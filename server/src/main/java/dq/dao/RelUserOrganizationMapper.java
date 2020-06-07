@@ -71,9 +71,4 @@ public interface RelUserOrganizationMapper {
     int insertBatch(@Param("set") Set<RelUserOrganization> set);
 
     int deleteBatch(@Param("set") Set<Long> set);
-    
-    @Deprecated
-    @Insert("insert into rel_user_organization(org_id,user_id,role) select org_id,#{userId} as user_id,0 as role from rel_user_organization where user_id != #{userId} and org_id not in (select org_id from rel_user_organization where user_id = #{userId}) group by org_id")
-    void insertOrganizationTemp(@Param("userId") Long userId);
-
 }

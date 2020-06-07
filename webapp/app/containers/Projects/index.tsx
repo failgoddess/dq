@@ -94,7 +94,7 @@ export interface IProject {
   description?: string
   pic?: string
   orgId?: number
-  visibility?: boolean
+  visibility?: number
   starNum?: number
 }
 
@@ -213,7 +213,6 @@ export class Projects extends React.PureComponent<IProjectsProps, IProjectsState
     this.ProjectForm.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({ modalLoading: true })
-        values.visibility = values.visibility === 'true' ? true : false
         if (this.state.formType === 'add') {
           this.props.onAddProject({
             ...values,

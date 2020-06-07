@@ -154,6 +154,8 @@ export class ProjectsForm extends React.PureComponent<IProjectsFormProps, IProje
     } else if (this.state.mode === 'admin') {
       mode = <ProjectAdmin/>
     } else {
+      console.log("---------------------------")
+      console.log(this.props)
       const { currentProject: {name, id, description, visibility, createBy}} = this.props
       const currentState = this.props.form.getFieldsValue()
       const disabled = name !== currentState.name || description !== currentState.description || `${visibility}` !== currentState.visibility
@@ -190,10 +192,14 @@ export class ProjectsForm extends React.PureComponent<IProjectsFormProps, IProje
                       initialValue: 'true'
                     })(
                       <Select>
-                        <Option key="visibility" value="true">
+                        <Option key="publish" value="2">
+                          发布
+                        </Option>
+                      	
+                        <Option key="visibility" value="1">
                           公开
                         </Option>
-                        <Option key="hidden" value="false">
+                        <Option key="hidden" value="0">
                           授权
                         </Option>
                       </Select>

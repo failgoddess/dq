@@ -66,6 +66,30 @@ public class ProjectPermission {
         permission.setSharePermission(false);
         return permission;
     }
+    
+    public static ProjectPermission readPermission() {
+        ProjectPermission permission = new ProjectPermission();
+        permission.setVizPermission((short) 1);
+        permission.setWidgetPermission((short) 1);
+        permission.setViewPermission((short) 1);
+        permission.setSourcePermission((short) 1);
+        permission.setSchedulePermission((short) 1);
+        permission.setDownloadPermission(true);
+        permission.setSharePermission(true);
+        return permission;
+    }
+    
+    public static ProjectPermission editPermission() {
+        ProjectPermission permission = new ProjectPermission();
+        permission.setVizPermission((short) 2);
+        permission.setWidgetPermission((short) 2);
+        permission.setViewPermission((short) 2);
+        permission.setSourcePermission((short) 2);
+        permission.setSchedulePermission((short) 2);
+        permission.setDownloadPermission(true);
+        permission.setSharePermission(true);
+        return permission;
+    }
 
     public static ProjectPermission adminPermission() {
         ProjectPermission permission = new ProjectPermission(UserPermissionEnum.DELETE.getPermission());

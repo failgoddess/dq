@@ -557,33 +557,37 @@ public class ProjectServiceImpl implements ProjectService {
             log.info("project (:{}) is not found", id);
             throw new NotFoundException("project is not found");
         }
+        
+        // 2：是公开，所有用户可见   1：表示是组织用户可见， 0：表示组织内授权用户可见
+        if(2!=projectDetail.getVisibility()){
+        	boolean isCreater = projectDetail.getUserId().equals(user.getId()) && !projectDetail.getIsTransfer();
 
-        boolean isCreater = projectDetail.getUserId().equals(user.getId()) && !projectDetail.getIsTransfer();
+            RelUserOrganization rel = relUserOrganizationMapper.getRel(user.getId(), projectDetail.getOrgId());
+            RelProjectAdmin relProjectAdmin = relProjectAdminMapper.getByProjectAndUser(id, user.getId());
 
-        RelUserOrganization rel = relUserOrganizationMapper.getRel(user.getId(), projectDetail.getOrgId());
-        RelProjectAdmin relProjectAdmin = relProjectAdminMapper.getByProjectAndUser(id, user.getId());
+            if (modify) {
+                //项目的创建人 和 当前项目对应组织的owner可以修改
+                if (!isCreater && null == relProjectAdmin && (null == rel || rel.getRole() != UserOrgRoleEnum.OWNER.getRole())) {
+                    log.info("user(:{}) have not permission to modify project (:{})", user.getId(), id);
+                    throw new UnAuthorizedExecption();
+                }
+            } else {
+                if (null == rel) {
+                    log.info("user(:{}) have not permission to get project (:{})", user.getId(), id);
+                    throw new UnAuthorizedExecption();
+                }
 
-        if (modify) {
-            //项目的创建人 和 当前项目对应组织的owner可以修改
-            if (!isCreater && null == relProjectAdmin && (null == rel || rel.getRole() != UserOrgRoleEnum.OWNER.getRole())) {
-                log.info("user(:{}) have not permission to modify project (:{})", user.getId(), id);
-                throw new UnAuthorizedExecption();
-            }
-        } else {
-            if (null == rel) {
-                log.info("user(:{}) have not permission to get project (:{})", user.getId(), id);
-                throw new UnAuthorizedExecption();
-            }
+                //project 所在org 对普通成员project不可见
+                if (!isCreater
+                        && rel.getRole() != UserOrgRoleEnum.OWNER.getRole()
+                        && null == relProjectAdmin
+                        && projectDetail.getOrganization().getMemberPermission() < (short) 1
+                        && projectDetail.getVisibility()==0) {
+//                        && !projectDetail.getVisibility()) {
 
-            //project 所在org 对普通成员project不可见
-            if (!isCreater
-                    && rel.getRole() != UserOrgRoleEnum.OWNER.getRole()
-                    && null == relProjectAdmin
-                    && projectDetail.getOrganization().getMemberPermission() < (short) 1
-                    && !projectDetail.getVisibility()) {
-
-                log.info("user(:{}) have not permission to get project (:{})", user.getId(), id);
-                throw new UnAuthorizedExecption();
+                    log.info("user(:{}) have not permission to get project (:{})", user.getId(), id);
+                    throw new UnAuthorizedExecption();
+                }
             }
         }
 
@@ -724,8 +728,10 @@ public class ProjectServiceImpl implements ProjectService {
             UserMaxProjectPermission permission = relRoleProjectMapper.getMaxPermission(projectDetail.getId(), user.getId());
             if (null != permission && null != permission.getProjectId()) {
                 return permission;
-            } else if (projectDetail.getVisibility() && projectDetail.getOrganization().getMemberPermission() > (short) 0) {
+            } else if (projectDetail.getVisibility()==1 && projectDetail.getOrganization().getMemberPermission() > (short) 0) {
                 return ProjectPermission.previewPermission();
+            } else if(projectDetail.getVisibility()==2){
+            	return ProjectPermission.readPermission();
             } else {
                 return new ProjectPermission((short) 0);
             }
