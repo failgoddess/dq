@@ -88,7 +88,7 @@
     "invariant": "2.2.4",
     "ip": "1.1.5",
     "jest": "^25.2.4",
-    "lodash": "4.17.13",
+    "lodash": "4.17.19",
     "memoize-one": "^5.1.1",
     "minimist": "^1.2.5",
     "moment": "^2.24.0",
